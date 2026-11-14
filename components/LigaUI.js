@@ -1,4 +1,4 @@
-import { TEMPORADA, DE_PRUEBA } from "@/lib/liga";
+import { TEMPORADA, DE_PRUEBA, porId } from "@/lib/liga";
 
 export const fmtFecha = (iso) =>
   new Date(iso).toLocaleDateString("es-BO", { day: "2-digit", month: "2-digit", year: "numeric", timeZone: "America/La_Paz" });
@@ -52,12 +52,18 @@ export function FilaPartido({ m, id }) {
   return (
     <tr className="border-t border-neutral-800">
       <td className="p-3 text-neutral-500">{fmtFecha(m.fecha)}</td>
-      <td className={`p-3 ${m.local.id === id ? "font-bold" : ""}`}>{m.local.nombre}</td>
+      <td className={`p-3 ${m.local.id === id ? "font-bold" : ""}`}>{linkEq(m.local)}</td>
       <td className="p-3 font-bold text-green-400">{m.goles.local}-{m.goles.visitante}</td>
-      <td className={`p-3 ${m.visitante.id === id ? "font-bold" : ""}`}>{m.visitante.nombre}</td>
+      <td className={`p-3 ${m.visitante.id === id ? "font-bold" : ""}`}>{linkEq(m.visitante)}</td>
       <td className="p-3"><span className={`rounded px-2 py-0.5 text-xs font-bold ${col[r]}`}>{r}</span></td>
     </tr>
   );
+}
+
+function linkEq(t) {
+  const e = porId(t.id);
+  if (!e || !e.slug) return t.nombre;
+  return <a href={`/equipo/${e.slug}`} className="hover:text-green-400">{t.nombre}</a>;
 }
 
 function resultado2(m, id) {

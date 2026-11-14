@@ -33,6 +33,12 @@ export default async function Equipo({ params }) {
     ["Goles", `${s.gfTotal}:${s.gcTotal}`],
     ["Dif.", s.gfTotal - s.gcTotal > 0 ? `+${s.gfTotal - s.gcTotal}` : s.gfTotal - s.gcTotal],
   ];
+  const resumen = (lista) => {
+    const r = lista.map((m) => resultado(m, e.id));
+    return `${r.filter((x) => x === "G").length} ganó · ${r.filter((x) => x === "E").length} empató · ${r.filter((x) => x === "P").length} perdió`;
+  };
+  const deLocal = ult.filter((m) => m.local.id === e.id);
+  const deVisita = ult.filter((m) => m.visitante.id === e.id);
   const medias = [
     ["Goles a favor por partido", s.gf],
     ["Goles en contra por partido", s.gc],
@@ -94,6 +100,16 @@ export default async function Equipo({ params }) {
           <table className="w-full min-w-[520px] text-left text-sm">
             <tbody>{ult.map((m) => <FilaPartido key={m.id} m={m} id={e.id} />)}</tbody>
           </table>
+        </div>
+        <div className="mt-4 divide-y divide-neutral-800 rounded-2xl border border-neutral-800 bg-neutral-900 px-4">
+          <div className="flex justify-between py-3 text-sm">
+            <span className="text-neutral-400">De local ({deLocal.length} partidos)</span>
+            <span className="font-semibold">{resumen(deLocal)}</span>
+          </div>
+          <div className="flex justify-between py-3 text-sm">
+            <span className="text-neutral-400">De visita ({deVisita.length} partidos)</span>
+            <span className="font-semibold">{resumen(deVisita)}</span>
+          </div>
         </div>
         <p className="mt-3 text-xs text-neutral-500">Próximos partidos: se activan cuando conectemos la temporada actual.</p>
       </section>
