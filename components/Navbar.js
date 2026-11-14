@@ -1,18 +1,19 @@
 import WhatsAppButton from "@/components/WhatsAppButton";
 
 const links = [
-  ["Inicio", "#inicio"],
-  ["Pronósticos", "#pronosticos"],
-  ["Resultados", "#resultados"],
-  ["Calculadora", "#calculadora"],
-  ["Cómo cargar", "#cargar"],
+  ["Inicio", "/#inicio"],
+  ["Equipos", "/equipos"],
+  ["Pronósticos", "/#pronosticos"],
+  ["Resultados", "/#resultados"],
+  ["Calculadora", "/#calculadora"],
+  ["Cómo cargar", "/#cargar"],
 ];
 
 export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-neutral-800 bg-neutral-950/90 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
-        <a href="#inicio" className="text-xl font-extrabold">
+        <a href="/#inicio" className="text-xl font-extrabold">
           Min<span className="text-green-500">90</span>
         </a>
         <nav className="hidden gap-5 text-sm text-neutral-300 sm:flex">

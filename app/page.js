@@ -2,8 +2,9 @@ import Navbar from "@/components/Navbar";
 import Pronosticos from "@/components/Pronosticos";
 import Calculadora from "@/components/Calculadora";
 import Promo from "@/components/Promo";
+import { tablaSimple as tabla, rutaPartido } from "@/lib/liga";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { EJEMPLO, estrella, pronosticos, historial, tabla, faq } from "@/app/data/pronosticos";
+import { EJEMPLO, estrella, pronosticos, historial, faq } from "@/app/data/pronosticos";
 
 const pasos = [
   { n: "1", t: "Escríbeme", d: "Toca el botón y salúdame por WhatsApp." },
@@ -48,7 +49,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Pronosticos estrella={estrella} lista={pronosticos} />
+      <Pronosticos estrella={{ ...estrella, href: rutaPartido(estrella.partido) }} lista={pronosticos.map((p) => ({ ...p, href: rutaPartido(p.partido) }))} />
 
       <Promo />
 
@@ -76,7 +77,8 @@ export default function Home() {
       </section>
 
       <section id="tabla" className="mx-auto max-w-5xl px-5 py-10">
-        <h2 className="mb-4 text-2xl font-bold">Tabla de posiciones</h2>
+        <h2 className="mb-1 text-2xl font-bold">Tabla de posiciones</h2>
+        <p className="mb-4 text-xs text-yellow-400">Temporada 2024 de prueba</p>
         <div className="overflow-x-auto rounded-2xl border border-neutral-800">
           <table className="w-full text-left text-sm">
             <thead className="bg-neutral-900 text-neutral-400">
@@ -88,7 +90,7 @@ export default function Home() {
               )}
               {tabla.map((t) => (
                 <tr key={t.pos} className="border-t border-neutral-800">
-                  <td className="p-3">{t.pos}</td><td className="p-3 font-semibold">{t.equipo}</td><td className="p-3">{t.pj}</td><td className="p-3">{t.dg}</td><td className="p-3 font-bold text-green-400">{t.pts}</td>
+                  <td className="p-3">{t.pos}</td><td className="p-3 font-semibold"><a href={`/equipo/${t.slug}`} className="hover:text-green-400">{t.equipo}</a></td><td className="p-3">{t.pj}</td><td className="p-3">{t.dg}</td><td className="p-3 font-bold text-green-400">{t.pts}</td>
                 </tr>
               ))}
             </tbody>

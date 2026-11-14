@@ -21,7 +21,10 @@ export default function PickCard({ p, grande = false }) {
         <div><p className="text-neutral-500">Confianza</p><p className="text-yellow-400">{estrellas}</p></div>
       </div>
       <p className="mt-3 text-sm text-neutral-300">{p.analisis}</p>
-      <ShareButton texto={`Pronóstico Min90: ${p.partido} - ${p.pick} (cuota ${p.cuota})`} />
+      <div className="flex flex-wrap items-center gap-3">
+        <ShareButton texto={`Pronóstico Min90: ${p.partido} - ${p.pick} (cuota ${p.cuota})`} />
+        {p.href && (<a href={p.href} className="mt-3 text-xs font-semibold text-green-400 underline">Ver estadísticas →</a>)}
+      </div>
     </article>
   );
 }
