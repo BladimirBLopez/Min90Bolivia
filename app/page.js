@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Pronosticos from "@/components/Pronosticos";
 import Calculadora from "@/components/Calculadora";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { estrella, pronosticos, historial, tabla, faq } from "@/app/data/pronosticos";
+import { EJEMPLO, estrella, pronosticos, historial, tabla, faq } from "@/app/data/pronosticos";
 
 const pasos = [
   { n: "1", t: "Escríbeme", d: "Toca el botón y salúdame por WhatsApp." },
@@ -24,6 +24,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-neutral-950 text-white">
       <Navbar />
+      {EJEMPLO && <div className="bg-yellow-500 p-2 text-center text-xs font-bold text-black">DATOS DE EJEMPLO: solo para ver el diseño</div>}
 
       <section id="inicio" className="mx-auto max-w-5xl px-5 pb-12 pt-14 text-center">
         <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-green-400">Fútbol boliviano</p>
