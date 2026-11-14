@@ -1,3 +1,4 @@
+import Link from "next/link";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
 const links = [
@@ -13,9 +14,9 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-neutral-800 bg-neutral-950/90 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
-        <a href="/#inicio" className="text-xl font-extrabold">
+        <Link href="/#inicio" className="text-xl font-extrabold">
           Min<span className="text-green-500">90</span>
-        </a>
+        </Link>
         <nav className="hidden gap-5 text-sm text-neutral-300 sm:flex">
           {links.map(([t, h]) => (
             <a key={h} href={h} className="hover:text-green-400">{t}</a>

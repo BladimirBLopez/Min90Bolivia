@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -37,7 +38,7 @@ export default async function Partido({ params }) {
       <Navbar />
       <AvisoPrueba />
       <section className="mx-auto max-w-3xl px-5 pb-4 pt-10 text-center">
-        <a href="/" className="text-xs text-green-400">← Volver a pronósticos</a>
+        <Link href="/" className="text-xs text-green-400">← Volver a pronósticos</Link>
         <p className="mt-4 text-xs uppercase tracking-widest text-green-400">Primera División de Bolivia</p>
         <div className="mt-4 flex items-center justify-center gap-4">
           <a href={`/equipo/${a.slug}`} className="flex flex-col items-center"><Escudo e={a} size={64} /><span className="mt-1 text-sm font-semibold">{a.nombre}</span></a>
