@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
-import PickCard from "@/components/PickCard";
+import Pronosticos from "@/components/Pronosticos";
+import Calculadora from "@/components/Calculadora";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { estrella, pronosticos, historial, tabla, faq } from "@/app/data/pronosticos";
 
@@ -45,15 +46,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="pronosticos" className="mx-auto max-w-5xl px-5 py-10">
-        <h2 className="mb-1 text-2xl font-bold">Pronóstico estrella del día</h2>
-        <p className="mb-4 text-sm text-neutral-400">Nuestra mejor opción de la jornada.</p>
-        <PickCard p={estrella} grande />
-        <h2 className="mb-4 mt-10 text-2xl font-bold">Pronósticos de la jornada</h2>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {pronosticos.map((p, i) => <PickCard key={i} p={p} />)}
-        </div>
-      </section>
+      <Pronosticos estrella={estrella} lista={pronosticos} />
 
       <section id="resultados" className="mx-auto max-w-5xl px-5 py-10">
         <h2 className="mb-1 text-2xl font-bold">Transparencia total</h2>
@@ -98,6 +91,8 @@ export default function Home() {
           </table>
         </div>
       </section>
+
+      <Calculadora />
 
       <section id="cargar" className="mx-auto max-w-5xl px-5 py-10">
         <h2 className="mb-4 text-2xl font-bold">Cómo cargar</h2>

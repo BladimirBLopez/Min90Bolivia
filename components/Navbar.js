@@ -4,6 +4,7 @@ const links = [
   ["Inicio", "#inicio"],
   ["Pronósticos", "#pronosticos"],
   ["Resultados", "#resultados"],
+  ["Calculadora", "#calculadora"],
   ["Cómo cargar", "#cargar"],
 ];
 

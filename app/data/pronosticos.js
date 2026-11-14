@@ -15,9 +15,9 @@ export const estrella = {
 
 // estado: "Pendiente" | "Acertado" | "Fallado"
 export const pronosticos = [
-  { liga: "División Profesional", partido: "Bolívar vs The Strongest", fecha: "Por confirmar", pick: "Por confirmar", cuota: "—", confianza: 2, analisis: "Análisis por confirmar.", estado: "Pendiente" },
-  { liga: "División Profesional", partido: "Always Ready vs Blooming", fecha: "Por confirmar", pick: "Por confirmar", cuota: "—", confianza: 2, analisis: "Análisis por confirmar.", estado: "Pendiente" },
-  { liga: "División Profesional", partido: "Oriente Petrolero vs Wilstermann", fecha: "Por confirmar", pick: "Por confirmar", cuota: "—", confianza: 1, analisis: "Análisis por confirmar.", estado: "Pendiente" },
+  { liga: "División Profesional", partido: "Bolívar vs The Strongest", fecha: "Por confirmar", pick: "Por confirmar", cuota: "—", confianza: 2, analisis: "Análisis por confirmar.", estado: "Pendiente", mercado: "1X2", dia: "hoy" },
+  { liga: "División Profesional", partido: "Always Ready vs Blooming", fecha: "Por confirmar", pick: "Por confirmar", cuota: "—", confianza: 2, analisis: "Análisis por confirmar.", estado: "Pendiente", mercado: "1X2", dia: "hoy" },
+  { liga: "División Profesional", partido: "Oriente Petrolero vs Wilstermann", fecha: "Por confirmar", pick: "Por confirmar", cuota: "—", confianza: 1, analisis: "Análisis por confirmar.", estado: "Pendiente", mercado: "1X2", dia: "hoy" },
 ];
 
 // Historial: { fecha, partido, pick, resultado, estado }
