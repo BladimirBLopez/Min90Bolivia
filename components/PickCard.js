@@ -1,3 +1,4 @@
+import ShareButton from "@/components/ShareButton";
 const colores = {
   Pendiente: "bg-yellow-500/15 text-yellow-400",
   Acertado: "bg-green-500/15 text-green-400",
@@ -20,6 +21,7 @@ export default function PickCard({ p, grande = false }) {
         <div><p className="text-neutral-500">Confianza</p><p className="text-yellow-400">{estrellas}</p></div>
       </div>
       <p className="mt-3 text-sm text-neutral-300">{p.analisis}</p>
+      <ShareButton texto={`Pronóstico Min90: ${p.partido} - ${p.pick} (cuota ${p.cuota})`} />
     </article>
   );
 }
