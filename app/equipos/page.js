@@ -1,29 +1,34 @@
 import Navbar from "@/components/Navbar";
-import { Escudo, AvisoPrueba } from "@/components/LigaUI";
-import { tabla, porId, TEMPORADA } from "@/lib/liga";
+import { Escudo } from "@/components/LigaUI";
+import { tabla2026, partidos2026 } from "@/lib/liga2026";
+import { info2024 } from "@/lib/stats2024";
 
 export const metadata = {
-  title: "Equipos de la Primera División de Bolivia | Min90 Bolivia",
-  description: "Todos los equipos de la Primera División de Bolivia: posición, forma y estadísticas.",
+  title: "Equipos de la Primera División de Bolivia 2026 | Min90 Bolivia",
+  description: "Los 16 equipos de la Primera División de Bolivia 2026: posición, puntos y estadísticas de cada uno.",
 };
 
 export default function Equipos() {
+  const tabla = tabla2026();
+  const ultRonda = Math.max(0, ...partidos2026.filter((m) => m.estado === "FT").map((m) => m.ronda));
   return (
     <main className="min-h-screen bg-neutral-950 text-white">
       <Navbar />
-      <AvisoPrueba />
+      <div className="bg-neutral-800 p-2 text-center text-xs text-neutral-300">
+        Temporada 2026 · datos hasta la ronda {ultRonda}
+      </div>
       <section className="mx-auto max-w-5xl px-5 py-10">
         <h1 className="text-3xl font-extrabold">Equipos de la Primera División</h1>
-        <p className="mb-6 mt-1 text-sm text-neutral-400">Orden según la tabla {TEMPORADA}.</p>
+        <p className="mb-6 mt-1 text-sm text-neutral-400">Orden según la tabla 2026.</p>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {tabla.map((t) => {
-            const e = porId(t.id);
-            if (!e) return null;
+            const i = info2024(t.nombre);
+            const ciudad = i && i.equipo ? i.equipo.ciudad : null;
             return (
-              <a key={e.id} href={`/equipo/${e.slug}`} className="rounded-2xl border border-neutral-800 bg-neutral-900 p-4 text-center hover:border-green-500">
-                <div className="flex justify-center"><Escudo e={e} size={56} /></div>
-                <p className="mt-2 font-semibold">{e.nombre}</p>
-                <p className="text-xs text-neutral-500">{e.ciudad}</p>
+              <a key={t.id} href={`/equipo/${t.slug}`} className="rounded-2xl border border-neutral-800 bg-neutral-900 p-4 text-center hover:border-green-500">
+                <div className="flex justify-center"><Escudo e={t} size={56} /></div>
+                <p className="mt-2 font-semibold">{t.nombre}</p>
+                {ciudad ? <p className="text-xs text-neutral-500">{ciudad}</p> : null}
                 <p className="mt-1 text-xs text-green-400">#{t.pos} · {t.pts} pts</p>
               </a>
             );
