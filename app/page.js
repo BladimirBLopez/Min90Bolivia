@@ -1,48 +1,106 @@
+import Navbar from "@/components/Navbar";
+import PickCard from "@/components/PickCard";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { pronosticos } from "@/app/data/pronosticos";
+import { estrella, pronosticos, historial, tabla, faq } from "@/app/data/pronosticos";
 
 const pasos = [
   { n: "1", t: "Escríbeme", d: "Toca el botón y salúdame por WhatsApp." },
   { n: "2", t: "Haz tu pago", d: "Te paso los datos para pagar." },
   { n: "3", t: "Recibe tu carga", d: "Te cargo y listo para jugar." },
 ];
+const porque = [
+  "Pronósticos todos los días",
+  "Historial público de aciertos y fallos",
+  "Atención directa por WhatsApp",
+  "Carga rápida",
+];
 
 export default function Home() {
+  const acertados = historial.filter((h) => h.estado === "Acertado").length;
+  const total = historial.length;
+  const pct = total ? Math.round((acertados / total) * 100) + "%" : "—";
+
   return (
     <main className="min-h-screen bg-neutral-950 text-white">
-      <section className="mx-auto max-w-3xl px-5 pb-12 pt-16 text-center">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-green-400">
-          Fútbol boliviano
-        </p>
+      <Navbar />
+
+      <section id="inicio" className="mx-auto max-w-5xl px-5 pb-12 pt-14 text-center">
+        <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-green-400">Fútbol boliviano</p>
         <h1 className="text-4xl font-extrabold leading-tight sm:text-5xl">
-          Min<span className="text-green-500">90</span> Bolivia
+          Pronósticos del fútbol boliviano, todos los días
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-neutral-300">
-          Pronósticos del fútbol boliviano todos los días. Escríbeme y te
-          ayudo a cargar tu cuenta rápido.
+          Análisis de la División Profesional y más. Y si quieres jugar, te cargo por WhatsApp en minutos.
         </p>
-        <WhatsAppButton className="mt-8 text-lg" />
-      </section>
-
-      <section className="mx-auto max-w-3xl px-5 py-10">
-        <h2 className="mb-6 text-2xl font-bold">Pronósticos de hoy</h2>
-        <div className="space-y-3">
-          {pronosticos.map((p, i) => (
-            <article key={i} className="rounded-2xl border border-neutral-800 bg-neutral-900 p-4">
-              <p className="text-xs uppercase tracking-wide text-green-400">{p.liga}</p>
-              <h3 className="mt-1 text-lg font-semibold">{p.partido}</h3>
-              <div className="mt-3 grid grid-cols-3 gap-2 text-sm">
-                <div><p className="text-neutral-500">Hora</p><p>{p.hora}</p></div>
-                <div><p className="text-neutral-500">Pronóstico</p><p className="font-semibold text-green-400">{p.pick}</p></div>
-                <div><p className="text-neutral-500">Cuota</p><p>{p.cuota}</p></div>
-              </div>
-            </article>
-          ))}
+        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <a href="#pronosticos" className="rounded-full border border-green-500 px-6 py-3 font-bold text-green-400 hover:bg-green-500/10">
+            Ver pronósticos de hoy
+          </a>
+          <WhatsAppButton>Escríbeme por WhatsApp</WhatsAppButton>
+        </div>
+        <div className="mx-auto mt-10 grid max-w-md grid-cols-3 gap-3 text-center">
+          <div className="rounded-xl bg-neutral-900 p-3"><p className="text-2xl font-bold text-green-400">{acertados}</p><p className="text-xs text-neutral-400">Acertados</p></div>
+          <div className="rounded-xl bg-neutral-900 p-3"><p className="text-2xl font-bold">{total}</p><p className="text-xs text-neutral-400">Registrados</p></div>
+          <div className="rounded-xl bg-neutral-900 p-3"><p className="text-2xl font-bold text-green-400">{pct}</p><p className="text-xs text-neutral-400">Efectividad</p></div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-5 py-10">
-        <h2 className="mb-6 text-2xl font-bold">Cómo cargar</h2>
+      <section id="pronosticos" className="mx-auto max-w-5xl px-5 py-10">
+        <h2 className="mb-1 text-2xl font-bold">Pronóstico estrella del día</h2>
+        <p className="mb-4 text-sm text-neutral-400">Nuestra mejor opción de la jornada.</p>
+        <PickCard p={estrella} grande />
+        <h2 className="mb-4 mt-10 text-2xl font-bold">Pronósticos de la jornada</h2>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {pronosticos.map((p, i) => <PickCard key={i} p={p} />)}
+        </div>
+      </section>
+
+      <section id="resultados" className="mx-auto max-w-5xl px-5 py-10">
+        <h2 className="mb-1 text-2xl font-bold">Transparencia total</h2>
+        <p className="mb-4 text-sm text-neutral-400">Aquí queda registrado cada pronóstico y si acertó o no. Sin borrar los fallos.</p>
+        <div className="overflow-x-auto rounded-2xl border border-neutral-800">
+          <table className="w-full min-w-[560px] text-left text-sm">
+            <thead className="bg-neutral-900 text-neutral-400">
+              <tr><th className="p-3">Fecha</th><th className="p-3">Partido</th><th className="p-3">Pronóstico</th><th className="p-3">Resultado</th><th className="p-3">Estado</th></tr>
+            </thead>
+            <tbody>
+              {historial.length === 0 && (
+                <tr><td colSpan={5} className="p-4 text-center text-neutral-500">Aún sin registros. Aquí aparecerán los resultados.</td></tr>
+              )}
+              {historial.map((h, i) => (
+                <tr key={i} className="border-t border-neutral-800">
+                  <td className="p-3">{h.fecha}</td><td className="p-3">{h.partido}</td><td className="p-3">{h.pick}</td><td className="p-3">{h.resultado}</td>
+                  <td className={`p-3 font-semibold ${h.estado === "Acertado" ? "text-green-400" : "text-red-400"}`}>{h.estado}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="tabla" className="mx-auto max-w-5xl px-5 py-10">
+        <h2 className="mb-4 text-2xl font-bold">Tabla de posiciones</h2>
+        <div className="overflow-x-auto rounded-2xl border border-neutral-800">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-neutral-900 text-neutral-400">
+              <tr><th className="p-3">#</th><th className="p-3">Equipo</th><th className="p-3">PJ</th><th className="p-3">DG</th><th className="p-3">Pts</th></tr>
+            </thead>
+            <tbody>
+              {tabla.length === 0 && (
+                <tr><td colSpan={5} className="p-4 text-center text-neutral-500">Próximamente.</td></tr>
+              )}
+              {tabla.map((t) => (
+                <tr key={t.pos} className="border-t border-neutral-800">
+                  <td className="p-3">{t.pos}</td><td className="p-3 font-semibold">{t.equipo}</td><td className="p-3">{t.pj}</td><td className="p-3">{t.dg}</td><td className="p-3 font-bold text-green-400">{t.pts}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="cargar" className="mx-auto max-w-5xl px-5 py-10">
+        <h2 className="mb-4 text-2xl font-bold">Cómo cargar</h2>
         <div className="grid gap-3 sm:grid-cols-3">
           {pasos.map((s) => (
             <div key={s.n} className="rounded-2xl border border-neutral-800 bg-neutral-900 p-4">
@@ -52,20 +110,34 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <div className="mt-8 text-center">
-          <WhatsAppButton>Quiero cargar ahora</WhatsAppButton>
+        <h2 className="mb-4 mt-10 text-2xl font-bold">Por qué Min90</h2>
+        <ul className="grid gap-2 sm:grid-cols-2">
+          {porque.map((x) => (
+            <li key={x} className="rounded-xl bg-neutral-900 p-3 text-sm"><span className="mr-2 text-green-400">✔</span>{x}</li>
+          ))}
+        </ul>
+        <div className="mt-8 text-center"><WhatsAppButton>Quiero cargar ahora</WhatsAppButton></div>
+      </section>
+
+      <section id="faq" className="mx-auto max-w-5xl px-5 py-10">
+        <h2 className="mb-4 text-2xl font-bold">Preguntas frecuentes</h2>
+        <div className="space-y-2">
+          {faq.map((f) => (
+            <details key={f.q} className="rounded-xl border border-neutral-800 bg-neutral-900 p-4">
+              <summary className="cursor-pointer font-semibold">{f.q}</summary>
+              <p className="mt-2 text-sm text-neutral-300">{f.a}</p>
+            </details>
+          ))}
         </div>
       </section>
 
-      <footer className="mx-auto max-w-3xl px-5 pb-28 pt-10 text-center text-xs text-neutral-500">
-        <p>Solo mayores de 18 años. Juega con responsabilidad.</p>
+      <footer className="mx-auto max-w-5xl px-5 pb-28 pt-10 text-center text-xs text-neutral-500">
+        <p>Solo +18. Juega con responsabilidad.</p>
         <p className="mt-1">Los pronósticos son opiniones y no garantizan resultados.</p>
         <p className="mt-3">© Min90 Bolivia</p>
       </footer>
 
-      <WhatsAppButton className="fixed bottom-4 right-4 z-50 shadow-lg shadow-black/50">
-        WhatsApp
-      </WhatsAppButton>
+      <WhatsAppButton className="fixed bottom-4 right-4 z-50 shadow-lg shadow-black/50">WhatsApp</WhatsAppButton>
     </main>
   );
 }
