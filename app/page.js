@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Pronosticos from "@/components/Pronosticos";
 import Calculadora from "@/components/Calculadora";
+import Promo from "@/components/Promo";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { EJEMPLO, estrella, pronosticos, historial, tabla, faq } from "@/app/data/pronosticos";
 
@@ -48,6 +49,8 @@ export default function Home() {
       </section>
 
       <Pronosticos estrella={estrella} lista={pronosticos} />
+
+      <Promo />
 
       <section id="resultados" className="mx-auto max-w-5xl px-5 py-10">
         <h2 className="mb-1 text-2xl font-bold">Transparencia total</h2>
