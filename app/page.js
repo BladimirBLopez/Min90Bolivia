@@ -2,7 +2,9 @@ import Navbar from "@/components/Navbar";
 import Pronosticos from "@/components/Pronosticos";
 import Calculadora from "@/components/Calculadora";
 import Promo from "@/components/Promo";
-import { tablaSimple as tabla, rutaPartido } from "@/lib/liga";
+import { rutaPartido } from "@/lib/liga";
+import ProximosPartidos from "@/components/ProximosPartidos";
+import TablaInicio from "@/components/TablaInicio";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { EJEMPLO, estrella, pronosticos, historial, faq } from "@/app/data/pronosticos";
 
@@ -42,12 +44,16 @@ export default function Home() {
           </a>
           <WhatsAppButton>Escríbeme por WhatsApp</WhatsAppButton>
         </div>
-        <div className="mx-auto mt-10 grid max-w-md grid-cols-3 gap-3 text-center">
+        {!EJEMPLO && (
+          <div className="mx-auto mt-10 grid max-w-md grid-cols-3 gap-3 text-center">
           <div className="rounded-xl bg-neutral-900 p-3"><p className="text-2xl font-bold text-green-400">{acertados}</p><p className="text-xs text-neutral-400">Acertados</p></div>
           <div className="rounded-xl bg-neutral-900 p-3"><p className="text-2xl font-bold">{total}</p><p className="text-xs text-neutral-400">Registrados</p></div>
           <div className="rounded-xl bg-neutral-900 p-3"><p className="text-2xl font-bold text-green-400">{pct}</p><p className="text-xs text-neutral-400">Efectividad</p></div>
         </div>
+        )}
       </section>
+
+      <ProximosPartidos />
 
       <Pronosticos estrella={{ ...estrella, href: rutaPartido(estrella.partido) }} lista={pronosticos.map((p) => ({ ...p, href: rutaPartido(p.partido) }))} />
 
@@ -76,27 +82,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="tabla" className="mx-auto max-w-5xl px-5 py-10">
-        <h2 className="mb-1 text-2xl font-bold">Tabla de posiciones</h2>
-        <p className="mb-4 text-xs text-yellow-400">Temporada 2024 de prueba</p>
-        <div className="overflow-x-auto rounded-2xl border border-neutral-800">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-neutral-900 text-neutral-400">
-              <tr><th className="p-3">#</th><th className="p-3">Equipo</th><th className="p-3">PJ</th><th className="p-3">DG</th><th className="p-3">Pts</th></tr>
-            </thead>
-            <tbody>
-              {tabla.length === 0 && (
-                <tr><td colSpan={5} className="p-4 text-center text-neutral-500">Próximamente.</td></tr>
-              )}
-              {tabla.map((t) => (
-                <tr key={t.pos} className="border-t border-neutral-800">
-                  <td className="p-3">{t.pos}</td><td className="p-3 font-semibold"><a href={`/equipo/${t.slug}`} className="hover:text-green-400">{t.equipo}</a></td><td className="p-3">{t.pj}</td><td className="p-3">{t.dg}</td><td className="p-3 font-bold text-green-400">{t.pts}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+      <TablaInicio />
 
       <Calculadora />
 

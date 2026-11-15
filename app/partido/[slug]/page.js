@@ -145,7 +145,7 @@ export default async function Partido({ params }) {
             <p className="text-sm text-neutral-300">Cuota {pick.cuota} · Confianza {"★".repeat(pick.confianza)}{"☆".repeat(3 - pick.confianza)}</p>
             <p className="mt-3 text-sm text-neutral-300">{pick.analisis}</p>
             <div className="mt-4 flex flex-wrap items-center gap-3">
-              <WhatsAppButton>Quiero cargar</WhatsAppButton>
+              <WhatsAppButton texto={`Hola, quiero cargar y jugar ${a.nombre} vs ${b.nombre}. Vi el partido en Min90 Bolivia`}>Quiero cargar</WhatsAppButton>
               <ShareButton texto={`Pronóstico Min90: ${pick.partido} - ${pick.pick} (cuota ${pick.cuota})`} />
             </div>
           </div>
@@ -240,7 +240,7 @@ export default async function Partido({ params }) {
         <div className="rounded-2xl border border-green-700 bg-neutral-900 p-5 text-center">
           <p className="text-lg font-bold">¿Quieres jugar {a.nombre} vs {b.nombre}?</p>
           <p className="mt-1 text-sm text-neutral-400">Escríbeme por WhatsApp y te cargo saldo.</p>
-          <div className="mt-4 flex justify-center"><WhatsAppButton>Quiero cargar</WhatsAppButton></div>
+          <div className="mt-4 flex justify-center"><WhatsAppButton texto={`Hola, quiero cargar y jugar ${a.nombre} vs ${b.nombre}. Vi el partido en Min90 Bolivia`}>Quiero cargar</WhatsAppButton></div>
         </div>
       </section>
 
