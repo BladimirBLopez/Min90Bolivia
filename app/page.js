@@ -24,7 +24,7 @@ export default function Home() {
   const pct = total ? Math.round((acertados / total) * 100) + "%" : "—";
 
   return (
-    <main className="min-h-screen bg-neutral-950 text-white">
+    <main className="min-h-screen bg-slate-950 text-white">
       <Navbar />
       {EJEMPLO && <div className="bg-yellow-500 p-2 text-center text-xs font-bold text-black">DATOS DE EJEMPLO: solo para ver el diseño</div>}
 
@@ -33,7 +33,7 @@ export default function Home() {
         <h1 className="text-4xl font-extrabold leading-tight sm:text-5xl">
           Pronósticos del fútbol boliviano, todos los días
         </h1>
-        <p className="mx-auto mt-4 max-w-xl text-neutral-300">
+        <p className="mx-auto mt-4 max-w-xl text-slate-300">
           Análisis de la División Profesional y más. Y si quieres jugar, te cargo por WhatsApp en minutos.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -44,9 +44,9 @@ export default function Home() {
         </div>
         {!EJEMPLO && (
           <div className="mx-auto mt-10 grid max-w-md grid-cols-3 gap-3 text-center">
-          <div className="rounded-xl bg-neutral-900 p-3"><p className="text-2xl font-bold text-green-400">{acertados}</p><p className="text-xs text-neutral-400">Acertados</p></div>
-          <div className="rounded-xl bg-neutral-900 p-3"><p className="text-2xl font-bold">{total}</p><p className="text-xs text-neutral-400">Registrados</p></div>
-          <div className="rounded-xl bg-neutral-900 p-3"><p className="text-2xl font-bold text-green-400">{pct}</p><p className="text-xs text-neutral-400">Efectividad</p></div>
+          <div className="rounded-xl bg-slate-900 p-3"><p className="text-2xl font-bold text-green-400">{acertados}</p><p className="text-xs text-slate-400">Acertados</p></div>
+          <div className="rounded-xl bg-slate-900 p-3"><p className="text-2xl font-bold">{total}</p><p className="text-xs text-slate-400">Registrados</p></div>
+          <div className="rounded-xl bg-slate-900 p-3"><p className="text-2xl font-bold text-green-400">{pct}</p><p className="text-xs text-slate-400">Efectividad</p></div>
         </div>
         )}
       </section>
@@ -58,18 +58,18 @@ export default function Home() {
 
       <section id="resultados" className="mx-auto max-w-5xl px-5 py-10">
         <h2 className="mb-1 text-2xl font-bold">Transparencia total</h2>
-        <p className="mb-4 text-sm text-neutral-400">Aquí queda registrado cada pronóstico y si acertó o no. Sin borrar los fallos.</p>
-        <div className="overflow-x-auto rounded-2xl border border-neutral-800">
+        <p className="mb-4 text-sm text-slate-400">Aquí queda registrado cada pronóstico y si acertó o no. Sin borrar los fallos.</p>
+        <div className="overflow-x-auto rounded-2xl border border-slate-800">
           <table className="w-full min-w-[560px] text-left text-sm">
-            <thead className="bg-neutral-900 text-neutral-400">
+            <thead className="bg-slate-900 text-slate-400">
               <tr><th className="p-3">Fecha</th><th className="p-3">Partido</th><th className="p-3">Pronóstico</th><th className="p-3">Resultado</th><th className="p-3">Estado</th></tr>
             </thead>
             <tbody>
               {historial.length === 0 && (
-                <tr><td colSpan={5} className="p-4 text-center text-neutral-500">Aún sin registros. Aquí aparecerán los resultados.</td></tr>
+                <tr><td colSpan={5} className="p-4 text-center text-slate-500">Aún sin registros. Aquí aparecerán los resultados.</td></tr>
               )}
               {historial.map((h, i) => (
-                <tr key={i} className="border-t border-neutral-800">
+                <tr key={i} className="border-t border-slate-800">
                   <td className="p-3">{h.fecha}</td><td className="p-3">{h.partido}</td><td className="p-3">{h.pick}</td><td className="p-3">{h.resultado}</td>
                   <td className={`p-3 font-semibold ${h.estado === "Acertado" ? "text-green-400" : "text-red-400"}`}>{h.estado}</td>
                 </tr>
@@ -87,17 +87,17 @@ export default function Home() {
         <h2 className="mb-4 text-2xl font-bold">Cómo cargar</h2>
         <div className="grid gap-3 sm:grid-cols-3">
           {pasos.map((s) => (
-            <div key={s.n} className="rounded-2xl border border-neutral-800 bg-neutral-900 p-4">
+            <div key={s.n} className="rounded-2xl border border-slate-800 bg-slate-900 p-4">
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-green-500 font-bold text-black">{s.n}</span>
               <h3 className="mt-3 font-semibold">{s.t}</h3>
-              <p className="mt-1 text-sm text-neutral-400">{s.d}</p>
+              <p className="mt-1 text-sm text-slate-400">{s.d}</p>
             </div>
           ))}
         </div>
         <h2 className="mb-4 mt-10 text-2xl font-bold">Por qué Min90</h2>
         <ul className="grid gap-2 sm:grid-cols-2">
           {porque.map((x) => (
-            <li key={x} className="rounded-xl bg-neutral-900 p-3 text-sm"><span className="mr-2 text-green-400">✔</span>{x}</li>
+            <li key={x} className="rounded-xl bg-slate-900 p-3 text-sm"><span className="mr-2 text-green-400">✔</span>{x}</li>
           ))}
         </ul>
         <div className="mt-8 text-center"><WhatsAppButton>Quiero cargar ahora</WhatsAppButton></div>
@@ -107,15 +107,15 @@ export default function Home() {
         <h2 className="mb-4 text-2xl font-bold">Preguntas frecuentes</h2>
         <div className="space-y-2">
           {faq.map((f) => (
-            <details key={f.q} className="rounded-xl border border-neutral-800 bg-neutral-900 p-4">
+            <details key={f.q} className="rounded-xl border border-slate-800 bg-slate-900 p-4">
               <summary className="cursor-pointer font-semibold">{f.q}</summary>
-              <p className="mt-2 text-sm text-neutral-300">{f.a}</p>
+              <p className="mt-2 text-sm text-slate-300">{f.a}</p>
             </details>
           ))}
         </div>
       </section>
 
-      <footer className="mx-auto max-w-5xl px-5 pb-28 pt-10 text-center text-xs text-neutral-500">
+      <footer className="mx-auto max-w-5xl px-5 pb-28 pt-10 text-center text-xs text-slate-500">
         <p>Solo +18. Juega con responsabilidad.</p>
         <p className="mt-1">Los pronósticos son opiniones y no garantizan resultados.</p>
         <p className="mt-3">© Min90 Bolivia</p>

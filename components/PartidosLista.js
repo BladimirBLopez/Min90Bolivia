@@ -29,16 +29,16 @@ function Tarjeta({ m }) {
     ? `Hola, quiero cargar y jugar "${m.pick.pick}" en ${m.local.nombre} vs ${m.visitante.nombre}. Vi el pronóstico en Min90 Bolivia`
     : `Hola, quiero cargar y jugar ${m.local.nombre} vs ${m.visitante.nombre}. Vi el partido en Min90 Bolivia`;
   return (
-    <article className="rounded-2xl border border-white/10 bg-gradient-to-b from-neutral-900 to-neutral-950 p-4">
-      <p className="text-xs text-neutral-400">
+    <article className="rounded-2xl border border-white/10 bg-gradient-to-b from-slate-900 to-slate-950 p-4">
+      <p className="text-xs text-slate-400">
         {fmt(m.fecha)}{m.hora ? ` · ${m.hora}` : ""} · Ronda {m.ronda}
-        {m.estadio ? <span className="block text-neutral-600">{m.estadio}</span> : null}
+        {m.estadio ? <span className="block text-slate-600">{m.estadio}</span> : null}
       </p>
       <div className="mt-3 flex items-center justify-between gap-2 text-center">
         <div className="flex flex-1 flex-col items-center"><Escudito t={m.local} /><span className="mt-1 text-sm font-semibold">{m.local.nombre}</span></div>
         {m.terminado
           ? <span className="text-xl font-black text-green-400">{m.goles.local} - {m.goles.visitante}</span>
-          : <span className="text-sm font-bold text-neutral-500">vs</span>}
+          : <span className="text-sm font-bold text-slate-500">vs</span>}
         <div className="flex flex-1 flex-col items-center"><Escudito t={m.visitante} /><span className="mt-1 text-sm font-semibold">{m.visitante.nombre}</span></div>
       </div>
       {m.pick ? (
@@ -49,7 +49,7 @@ function Tarjeta({ m }) {
           </div>
           <p className="mt-1 text-lg font-extrabold">{m.pick.pick}</p>
           <p className="text-xs text-yellow-400">{"★".repeat(c)}{"☆".repeat(3 - c)}</p>
-          {m.pick.analisis ? <p className="mt-1 text-sm text-neutral-300">{m.pick.analisis}</p> : null}
+          {m.pick.analisis ? <p className="mt-1 text-sm text-slate-300">{m.pick.analisis}</p> : null}
         </div>
       ) : (
         <div className="mt-3 flex flex-wrap justify-center gap-2">
@@ -86,7 +86,7 @@ export default function PartidosLista({ pendientes, terminados }) {
       <div className="mb-4 flex gap-2 overflow-x-auto pb-1">
         {tabs.map(([k, t]) => (
           <button key={k} onClick={() => cambiar(k)}
-            className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold ${tab === k ? "bg-green-500 text-black" : "bg-neutral-900 text-neutral-300"}`}>
+            className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold ${tab === k ? "bg-green-500 text-black" : "bg-slate-900 text-slate-300"}`}>
             {t}
           </button>
         ))}
@@ -95,7 +95,7 @@ export default function PartidosLista({ pendientes, terminados }) {
         {lista.slice(0, n).map((m) => <Tarjeta key={m.id} m={m} />)}
       </div>
       {lista.length === 0 && (
-        <div className="rounded-xl bg-neutral-900 p-4 text-center text-sm text-neutral-400">
+        <div className="rounded-xl bg-slate-900 p-4 text-center text-sm text-slate-400">
           No hay partidos en esta categoría.
           <button onClick={() => cambiar("proximos")} className="ml-2 font-semibold text-green-400 underline">Ver próximos</button>
         </div>
@@ -105,7 +105,7 @@ export default function PartidosLista({ pendientes, terminados }) {
           <button onClick={() => setN(n + 8)} className="rounded-full border border-green-500 px-5 py-2 text-sm font-bold text-green-400 hover:bg-green-500/10">Ver más partidos</button>
         </div>
       )}
-      <p className="mt-4 text-xs text-neutral-500">Las tendencias son el promedio de ambos equipos en 2026 y no garantizan resultados. Solo +18.</p>
+      <p className="mt-4 text-xs text-slate-500">Las tendencias son el promedio de ambos equipos en 2026 y no garantizan resultados. Solo +18.</p>
     </>
   );
 }

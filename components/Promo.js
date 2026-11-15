@@ -5,16 +5,16 @@ import { EJEMPLO } from "@/app/data/pronosticos";
 export default function Promo() {
   return (
     <section id="promos" className="mx-auto max-w-5xl px-5 py-10">
-      <div className="rounded-3xl border border-green-500/40 bg-gradient-to-br from-green-950/60 to-neutral-900 p-6">
+      <div className="rounded-3xl border border-green-500/40 bg-gradient-to-br from-green-950/60 to-slate-900 p-6">
         <h2 className="text-2xl font-bold">Promos y canal de WhatsApp</h2>
-        <p className="mt-1 text-sm text-neutral-300">
+        <p className="mt-1 text-sm text-slate-300">
           Recibe el pronóstico del día antes de los partidos y las promos para quienes cargan conmigo.
         </p>
         <div className="mt-5 grid gap-3 sm:grid-cols-3">
           {promos.map((p) => (
-            <div key={p.t} className="rounded-2xl bg-neutral-950/70 p-4">
+            <div key={p.t} className="rounded-2xl bg-slate-950/70 p-4">
               <h3 className="font-semibold text-green-400">{p.t}</h3>
-              <p className="mt-1 text-sm text-neutral-300">{p.d}</p>
+              <p className="mt-1 text-sm text-slate-300">{p.d}</p>
             </div>
           ))}
         </div>
