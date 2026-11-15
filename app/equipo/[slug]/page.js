@@ -304,6 +304,28 @@ export default async function Equipo({ params }) {
         </div>
       </section>
 
+      {(() => {
+        const miPos = (tabla.find((x) => x.id === e.id) || {}).pos || 0;
+        const otros = tabla
+          .filter((x) => x.id !== e.id)
+          .sort((a, b) => Math.abs(a.pos - miPos) - Math.abs(b.pos - miPos) || a.pos - b.pos);
+        return (
+          <section className="mx-auto max-w-3xl px-5 py-5">
+            <h2 className="mb-1 text-lg font-extrabold tracking-tight">Otros equipos</h2>
+            <p className="mb-3 text-xs text-slate-500">Primera División 2026, de los más cercanos a {e.nombre} en la tabla a los más lejanos.</p>
+            <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
+              {otros.map((o) => (
+                <a key={o.id} href={`/equipo/${o.slug}`} className="flex flex-col items-center rounded-2xl border border-slate-800 bg-slate-900 p-3 text-center hover:border-green-500">
+                  <Escudo e={o} size={40} />
+                  <span className="mt-2 text-xs font-semibold leading-tight">{o.nombre}</span>
+                  <span className="mt-1 text-[11px] text-green-400">#{o.pos} · {o.pts} pts</span>
+                </a>
+              ))}
+            </div>
+          </section>
+        );
+      })()}
+
       <CtaRecarga />
 
       <footer className="mx-auto max-w-3xl px-5 pb-16 pt-8 text-center text-xs text-slate-500">
