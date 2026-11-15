@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { Escudo, Forma } from "@/components/LigaUI";
+import { ListaPartidos2026 } from "@/components/FilaPartido2026";
 import { Chip, Tarjeta, Tabs } from "@/components/Ui";
 import { equipos2026, porSlug2026, statsEquipo2026, ultimos2026, proximos2026, resultado2026, tabla2026, filaDe2026, partidos2026 } from "@/lib/liga2026";
 import { equipos2024, info2024 } from "@/lib/stats2024";
@@ -237,11 +238,7 @@ export default async function Equipo({ params }) {
 
       <section className="mx-auto max-w-3xl px-5 py-4">
         <h2 className="mb-3 text-xl font-bold">Últimos {ult.length} partidos</h2>
-        <div className="overflow-x-auto rounded-2xl border border-slate-800">
-          <table className="w-full min-w-[520px] text-left text-sm">
-            <tbody>{ult.map((m) => <FilaRes key={m.id} m={m} id={e.id} />)}</tbody>
-          </table>
-        </div>
+        <ListaPartidos2026 lista={ult} id={e.id} />
       </section>
 
       <section className="mx-auto max-w-3xl px-5 py-4">
