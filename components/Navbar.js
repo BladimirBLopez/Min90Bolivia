@@ -5,6 +5,7 @@ const links = [
   ["Inicio", "/#inicio"],
   ["Equipos", "/equipos"],
   ["Pronósticos", "/#pronosticos"],
+  ["Picks gratis", "/pronosticos-hoy"],
   ["Resultados", "/#resultados"],
   ["Calculadora", "/#calculadora"],
   ["Recargar", "/recargar"],
