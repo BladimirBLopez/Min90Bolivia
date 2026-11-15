@@ -58,16 +58,24 @@ function FilaRes({ m, id }) {
 }
 
 function FilaProx({ m, id }) {
+  const sl = equipos2026.find((x) => x.id === m.local.id)?.slug;
+  const sv = equipos2026.find((x) => x.id === m.visitante.id)?.slug;
+  const href = sl && sv ? `/partido/${sl}-vs-${sv}` : null;
+  const celda = (hijo, extra = "") =>
+    href ? (
+      <a href={href} className={`block p-3 hover:text-green-400 ${extra}`}>{hijo}</a>
+    ) : (
+      <div className={`p-3 ${extra}`}>{hijo}</div>
+    );
   return (
-    <tr className="border-t border-slate-800">
-      <td className="p-3 text-slate-500">
-        {fmt(m.fecha)}{m.hora ? ` · ${m.hora}` : ""}
-        {m.estadio ? <span className="block text-xs text-slate-600">{m.estadio}</span> : null}
+    <tr className="border-t border-slate-800 hover:bg-slate-900">
+      <td className="p-0 text-slate-500">
+        {celda(<>{fmt(m.fecha)}{m.hora ? ` · ${m.hora}` : ""}{m.estadio ? <span className="block text-xs text-slate-600">{m.estadio}</span> : null}</>)}
       </td>
-      <td className="p-3"><Nombre t={m.local} id={id} /></td>
-      <td className="p-3 text-slate-500">vs</td>
-      <td className="p-3"><Nombre t={m.visitante} id={id} /></td>
-      <td className="p-3 text-xs text-slate-500">R{m.ronda}</td>
+      <td className="p-0">{celda(m.local.nombre, m.local.id === id ? "font-bold" : "")}</td>
+      <td className="p-0 text-slate-500">{celda("vs")}</td>
+      <td className="p-0">{celda(m.visitante.nombre, m.visitante.id === id ? "font-bold" : "")}</td>
+      <td className="p-0 text-xs text-slate-500">{celda(`R${m.ronda}`)}</td>
     </tr>
   );
 }
