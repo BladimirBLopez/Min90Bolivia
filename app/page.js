@@ -65,10 +65,10 @@ export default function Home() {
               <tr><th className="p-3">Fecha</th><th className="p-3">Partido</th><th className="p-3">Pronóstico</th><th className="p-3">Resultado</th><th className="p-3">Estado</th></tr>
             </thead>
             <tbody>
-              {historial.length === 0 && (
+              {(EJEMPLO || historial.length === 0) && (
                 <tr><td colSpan={5} className="p-4 text-center text-slate-500">Aún sin registros. Aquí aparecerán los resultados.</td></tr>
               )}
-              {historial.map((h, i) => (
+              {(EJEMPLO ? [] : historial).map((h, i) => (
                 <tr key={i} className="border-t border-slate-800">
                   <td className="p-3">{h.fecha}</td><td className="p-3">{h.partido}</td><td className="p-3">{h.pick}</td><td className="p-3">{h.resultado}</td>
                   <td className={`p-3 font-semibold ${h.estado === "Acertado" ? "text-green-400" : "text-red-400"}`}>{h.estado}</td>
