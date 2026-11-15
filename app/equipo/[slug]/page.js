@@ -22,7 +22,7 @@ export async function generateMetadata({ params }) {
   const f = filaDe2026(e.id);
   const title = `${e.nombre}: tabla, forma y próximos partidos 2026 | Min90 Bolivia`;
   const description = `${e.nombre} en la Primera División de Bolivia 2026${f ? `: puesto ${f.pos}, ${f.pts} puntos en ${f.pj} partidos` : ""}. Forma, estadísticas, últimos resultados y próximos partidos.`;
-  return { title, description, openGraph: { title, description, type: "website", ...(e.logo ? { images: [e.logo] } : {}) } };
+  return { title, description, openGraph: { title, description, type: "website" } };
 }
 
 const col = { G: "bg-green-500 text-black", E: "bg-yellow-500 text-black", P: "bg-red-500 text-white" };
