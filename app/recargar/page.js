@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const metadata = {
   title: "Cómo recargar en Metabet desde Bolivia | Min90 Bolivia",
   description: "Recarga tu saldo en Metabet pagando por QR. Te guiamos paso a paso por WhatsApp.",
@@ -25,7 +27,7 @@ const pasos = [
 export default function Recargar() {
   return (
     <main className="mx-auto max-w-2xl px-4 py-10 text-white">
-      <a href="/" className="text-sm text-green-400">← Volver a Min90 Bolivia</a>
+      <Link href="/" className="text-sm text-green-400">← Volver a Min90 Bolivia</Link>
       <h1 className="mt-4 text-3xl font-extrabold">Cómo recargar en Metabet desde Bolivia</h1>
       <p className="mt-3 text-slate-300">
         Recarga tu saldo con nosotros pagando por <strong>QR</strong>. Te acompañamos paso a paso por WhatsApp.
