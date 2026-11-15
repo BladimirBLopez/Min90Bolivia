@@ -15,6 +15,7 @@ export default function sitemap() {
     { url: base, lastModified: ahora, changeFrequency: "daily", priority: 1 },
     { url: `${base}/equipos`, lastModified: ahora, changeFrequency: "daily", priority: 0.9 },
     { url: `${base}/recargar`, lastModified: ahora, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${base}/pronosticos-hoy`, lastModified: ahora, changeFrequency: "daily", priority: 0.9 },
     ...equipos2026.map((e) => ({ url: `${base}/equipo/${e.slug}`, lastModified: ahora, changeFrequency: "daily", priority: 0.8 })),
     ...cruces.map((s) => ({ url: `${base}/partido/${s}`, lastModified: ahora, changeFrequency: "weekly", priority: 0.6 })),
   ];

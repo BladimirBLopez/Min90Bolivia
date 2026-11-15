@@ -22,18 +22,19 @@ function Equipo({ t, id }) {
 
 export function FilaPartido2026({ m, id }) {
   const r = resultado2026(m, id);
+  const href = `/partido/${slug2026(m.local.nombre)}-vs-${slug2026(m.visitante.nombre)}`;
   return (
     <div className="flex items-stretch gap-3 border-t border-slate-800 py-3">
       <div className={`w-1 shrink-0 rounded-full ${barra[r]}`} />
       <div className="min-w-0 flex-1">
-        <p className="mb-1 text-xs text-slate-500">{fechaCorta(m.fecha)} · Ronda {m.ronda}</p>
+        <a href={href} className="mb-1 block text-xs text-slate-500 hover:text-green-400">{fechaCorta(m.fecha)} · Ronda {m.ronda}</a>
         <Equipo t={m.local} id={id} />
         <Equipo t={m.visitante} id={id} />
       </div>
-      <div className="flex w-9 shrink-0 flex-col items-center justify-center rounded-lg bg-slate-800 text-sm font-bold">
+      <a href={href} className="flex w-9 shrink-0 flex-col items-center justify-center rounded-lg bg-slate-800 text-sm font-bold hover:bg-slate-700">
         <span>{m.goles.local}</span>
         <span>{m.goles.visitante}</span>
-      </div>
+      </a>
     </div>
   );
 }
