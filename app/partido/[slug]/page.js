@@ -255,6 +255,10 @@ export default async function Partido({ params }) {
           <p className="text-lg font-bold">¿Quieres jugar {a.nombre} vs {b.nombre}?</p>
           <p className="mt-1 text-sm text-slate-400">Escríbeme por WhatsApp y te cargo saldo.</p>
           <div className="mt-4 flex justify-center"><WhatsAppButton texto={`Hola, quiero cargar y jugar ${a.nombre} vs ${b.nombre}. Vi el partido en Min90 Bolivia`}>Quiero cargar</WhatsAppButton></div>
+          <div className="mt-3 flex flex-col items-center gap-2 text-sm">
+            <a href="https://chat.whatsapp.com/CB3GeNfmOqe31XQGjjDVwN?s=cl&p=a&iam=2" target="_blank" rel="noopener noreferrer" className="font-semibold text-green-400 underline">Picks gratis en el grupo de WhatsApp</a>
+            <Link href="/recargar" className="text-slate-400 underline">Ver cómo recargar paso a paso</Link>
+          </div>
         </div>
       </section>
 

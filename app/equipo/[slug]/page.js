@@ -1,3 +1,4 @@
+import CtaRecarga from "@/components/CtaRecarga";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { Escudo, Forma } from "@/components/LigaUI";
@@ -294,6 +295,8 @@ export default async function Equipo({ params }) {
           </table>
         </div>
       </section>
+
+      <CtaRecarga />
 
       <footer className="mx-auto max-w-3xl px-5 pb-16 pt-8 text-center text-xs text-slate-500">
         <p>Solo +18. Juega con responsabilidad.</p>
