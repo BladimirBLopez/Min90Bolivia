@@ -13,15 +13,15 @@ export const metadata = {
 const NUMERO = "59169356292";
 const GRUPO = "https://chat.whatsapp.com/CB3GeNfmOqe31XQGjjDVwN?s=cl&p=a&iam=2";
 const METABET = "https://metabet.tv/es/";
-const MENSAJE = "Hola, quiero recargar mi saldo en Metabet. Mi usuario es: ";
+const MENSAJE = "Hola, quiero jugar en Metabet y cargar saldo. Soy mayor de 18 años.";
 const WA = `https://wa.me/${NUMERO}?text=${encodeURIComponent(MENSAJE)}`;
 
 const pasos = [
-  { t: "Crea tu cuenta en Metabet", d: "Si todavía no tienes cuenta, regístrate en Metabet con tus datos reales." },
-  { t: "Escríbenos por WhatsApp", d: "Dinos tu usuario de Metabet y cuánto quieres recargar." },
+  { t: "Escríbenos por WhatsApp", d: "Dinos que quieres jugar y cuánto quieres cargar. Debes ser mayor de 18 años." },
+  { t: "Te creamos tu cuenta en Metabet", d: "Nosotros la creamos y te enviamos tu usuario y contraseña por WhatsApp." },
   { t: "Paga por QR", d: "Te enviamos el QR y pagas desde la app de tu banco." },
   { t: "Envía tu comprobante", d: "Mándanos la captura del pago por el mismo chat." },
-  { t: "Recibe tu saldo", d: "Cargamos tu saldo en tu cuenta de Metabet y te avisamos." },
+  { t: "Recibe tu saldo y juega", d: "Cargamos el saldo en tu cuenta y te avisamos. Ya puedes apostar." },
 ];
 
 export default function Recargar() {
@@ -39,7 +39,7 @@ export default function Recargar() {
         rel="noopener noreferrer"
         className="mt-6 block rounded-full bg-green-500 px-6 py-4 text-center text-lg font-bold text-black"
       >
-        Recargar por WhatsApp
+        Crear mi cuenta por WhatsApp
       </a>
 
       <h2 className="mt-10 text-2xl font-bold">Paso a paso</h2>
@@ -54,6 +54,7 @@ export default function Recargar() {
           </li>
         ))}
       </ol>
+      <p className="mt-4 text-sm text-slate-300">¿Ya tienes cuenta en Metabet? Escríbenos tu usuario y el monto, y te cargamos saldo directo.</p>
 
       <div className="mt-8 flex flex-col gap-3 sm:flex-row">
         <a href={METABET} target="_blank" rel="noopener noreferrer" className="flex-1 rounded-full border border-green-500 px-6 py-3 text-center font-semibold text-green-400">

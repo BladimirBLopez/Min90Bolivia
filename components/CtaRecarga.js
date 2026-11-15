@@ -12,7 +12,7 @@ export default function CtaRecarga() {
           Recarga tu saldo en Metabet pagando por QR y recibe los pronósticos gratis en nuestro grupo de WhatsApp.
         </p>
         <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-center">
-          <WhatsAppButton texto="Hola, quiero recargar mi saldo en Metabet. Mi usuario es: ">Recargar por WhatsApp</WhatsAppButton>
+          <WhatsAppButton texto="Hola, quiero jugar en Metabet y cargar saldo. Soy mayor de 18 años.">Crear mi cuenta por WhatsApp</WhatsAppButton>
           <a
             href={GRUPO}
             target="_blank"
