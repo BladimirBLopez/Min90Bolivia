@@ -1,12 +1,10 @@
 import Navbar from "@/components/Navbar";
-import Pronosticos from "@/components/Pronosticos";
 import Calculadora from "@/components/Calculadora";
 import Promo from "@/components/Promo";
-import { rutaPartido } from "@/lib/liga";
-import ProximosPartidos from "@/components/ProximosPartidos";
+import Partidos from "@/components/Partidos";
 import TablaInicio from "@/components/TablaInicio";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { EJEMPLO, estrella, pronosticos, historial, faq } from "@/app/data/pronosticos";
+import { EJEMPLO, historial, faq } from "@/app/data/pronosticos";
 
 const pasos = [
   { n: "1", t: "Escríbeme", d: "Toca el botón y salúdame por WhatsApp." },
@@ -40,7 +38,7 @@ export default function Home() {
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <a href="#pronosticos" className="rounded-full border border-green-500 px-6 py-3 font-bold text-green-400 hover:bg-green-500/10">
-            Ver pronósticos de hoy
+            Ver partidos y pronósticos
           </a>
           <WhatsAppButton>Escríbeme por WhatsApp</WhatsAppButton>
         </div>
@@ -53,9 +51,8 @@ export default function Home() {
         )}
       </section>
 
-      <ProximosPartidos />
+      <Partidos />
 
-      <Pronosticos estrella={{ ...estrella, href: rutaPartido(estrella.partido) }} lista={pronosticos.map((p) => ({ ...p, href: rutaPartido(p.partido) }))} />
 
       <Promo />
 

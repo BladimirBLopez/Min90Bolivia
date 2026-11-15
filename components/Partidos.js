@@ -1,0 +1,72 @@
+import { partidos2026, equipos2026, statsEquipo2026, slug2026 } from "@/lib/liga2026";
+import { EJEMPLO, estrella, pronosticos } from "@/app/data/pronosticos";
+import PickCard from "@/components/PickCard";
+import PartidosLista from "@/components/PartidosLista";
+
+const pct = (x, n) => (n ? Math.round((100 * x) / n) : 0);
+const jugado = (m) => m.estado === "FT" && m.goles.local !== null && m.goles.visitante !== null;
+const slugDe = (id) => (equipos2026.find((e) => e.id === id) || {}).slug;
+const buscar = (n) => {
+  const s = slug2026(n);
+  if (!s) return null;
+  return equipos2026.find((e) => e.slug === s) || equipos2026.find((e) => e.slug.includes(s) || s.includes(e.slug)) || null;
+};
+const cruce = (partido) => {
+  const [a, b] = String(partido).split(/\s+vs\s+/i);
+  const ea = a && buscar(a);
+  const eb = b && buscar(b);
+  return ea && eb && ea.id !== eb.id ? [ea, eb] : null;
+};
+
+export default function Partidos() {
+  const cache = {};
+  const stats = (id) => cache[id] || (cache[id] = statsEquipo2026(id));
+  const picks = {};
+  if (!EJEMPLO) {
+    [estrella, ...pronosticos].forEach((p) => {
+      const c = cruce(p.partido);
+      if (c) {
+        const k = `${c[0].id}-${c[1].id}`;
+        if (!picks[k]) picks[k] = p;
+      }
+    });
+  }
+  const usados = new Set();
+  const ligero = (m) => {
+    const sa = stats(m.local.id);
+    const sb = stats(m.visitante.id);
+    const k = `${m.local.id}-${m.visitante.id}`;
+    let pick = null;
+    if (!jugado(m) && picks[k] && !usados.has(k)) {
+      usados.add(k);
+      const p = picks[k];
+      pick = { pick: p.pick, cuota: p.cuota, confianza: p.confianza, analisis: p.analisis || null, mercado: p.mercado || null };
+    }
+    return {
+      id: m.id, fecha: m.fecha, hora: m.hora || null, ronda: m.ronda, estadio: m.estadio || null,
+      goles: { local: m.goles.local, visitante: m.goles.visitante },
+      local: { nombre: m.local.nombre, logo: m.local.logo || null },
+      visitante: { nombre: m.visitante.nombre, logo: m.visitante.logo || null },
+      slug: `${slugDe(m.local.id)}-vs-${slugDe(m.visitante.id)}`,
+      ambos: Math.round((pct(sa.btts, sa.pj) + pct(sb.btts, sb.pj)) / 2),
+      o25: Math.round((pct(sa.o25, sa.pj) + pct(sb.o25, sb.pj)) / 2),
+      pick,
+    };
+  };
+  const pendientes = partidos2026.filter((m) => !jugado(m)).map(ligero);
+  const terminados = partidos2026.filter(jugado).slice(-10).reverse().map(ligero);
+  const ce = !EJEMPLO && estrella ? cruce(estrella.partido) : null;
+
+  return (
+    <section id="pronosticos" className="mx-auto max-w-5xl px-5 py-10">
+      <h2 className="mb-1 text-2xl font-extrabold tracking-tight">Partidos y pronósticos</h2>
+      <p className="mb-4 text-sm text-neutral-400">Primera División 2026 · hora de Bolivia. Los pronósticos Min90 aparecen en el partido que corresponde.</p>
+      {!EJEMPLO && estrella ? (
+        <div className="mb-6">
+          <PickCard p={{ ...estrella, href: ce ? `/partido/${ce[0].slug}-vs-${ce[1].slug}` : null }} grande />
+        </div>
+      ) : null}
+      <PartidosLista pendientes={pendientes} terminados={terminados} />
+    </section>
+  );
+}
