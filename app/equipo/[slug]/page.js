@@ -7,7 +7,6 @@ import { Chip, Tarjeta, Tabs } from "@/components/Ui";
 import { equipos2026, porSlug2026, statsEquipo2026, ultimos2026, proximos2026, resultado2026, tabla2026, filaDe2026, partidos2026 } from "@/lib/liga2026";
 import { equipos2024, info2024 } from "@/lib/stats2024";
 
-const WA = "59169356292";
 const SOLO24 = equipos2024.filter((x) => !equipos2026.some((y) => y.slug === x.slug));
 
 export const dynamicParams = false;
@@ -148,7 +147,6 @@ export default async function Equipo({ params }) {
   const st24 = info ? info.stats : null;
   const estadio = (eq24 && eq24.estadio) || (partidos2026.find((m) => m.local.id === e.id && m.estadio) || {}).estadio;
   const ultRonda = Math.max(0, ...partidos2026.filter((m) => m.estado === "FT").map((m) => m.ronda));
-  const wa = `https://wa.me/${WA}?text=${encodeURIComponent(`Hola, quiero cargar saldo. Vi la página de ${e.nombre} en Min90 Bolivia`)}`;
   const racha = rachaTxt(s.racha);
 
   const caja = [
@@ -250,13 +248,6 @@ export default async function Equipo({ params }) {
         <ListaPartidos2026 lista={ult} id={e.id} />
       </section>
 
-      <section className="mx-auto max-w-3xl px-5 py-4">
-        <div className="rounded-2xl border border-green-700 bg-slate-900 p-5 text-center">
-          <p className="text-lg font-bold">¿Quieres jugar con {e.nombre}?</p>
-          <p className="mt-1 text-sm text-slate-400">Escríbeme por WhatsApp y te cargo saldo al instante.</p>
-          <a href={wa} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block rounded-xl bg-green-500 px-6 py-3 font-bold text-black">Cargar por WhatsApp</a>
-        </div>
-      </section>
 
       {st24 && st24.favor.length > 0 ? (
         <section className="mx-auto max-w-3xl px-5 py-4">
@@ -326,7 +317,7 @@ export default async function Equipo({ params }) {
         );
       })()}
 
-      <CtaRecarga />
+      <CtaRecarga texto={`Hola, quiero jugar en Metabet y cargar saldo. Vi la página de ${e.nombre} en Min90 Bolivia. Soy mayor de 18 años.`} />
 
       <footer className="mx-auto max-w-3xl px-5 pb-16 pt-8 text-center text-xs text-slate-500">
         <p>Solo +18. Juega con responsabilidad.</p>

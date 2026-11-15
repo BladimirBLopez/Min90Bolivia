@@ -3,7 +3,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 
 const GRUPO = "https://chat.whatsapp.com/CB3GeNfmOqe31XQGjjDVwN?s=cl&p=a&iam=2";
 
-export default function CtaRecarga() {
+export default function CtaRecarga({ texto = "Hola, quiero jugar en Metabet y cargar saldo. Soy mayor de 18 años." }) {
   return (
     <section className="mx-auto max-w-3xl px-5 py-6">
       <div className="rounded-3xl border border-green-500/40 bg-gradient-to-br from-green-950/60 to-slate-900 p-6 text-center">
@@ -12,7 +12,7 @@ export default function CtaRecarga() {
           Recarga tu saldo en Metabet pagando por QR y recibe los pronósticos gratis en nuestro grupo de WhatsApp.
         </p>
         <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-center">
-          <WhatsAppButton texto="Hola, quiero jugar en Metabet y cargar saldo. Soy mayor de 18 años.">Crear mi cuenta por WhatsApp</WhatsAppButton>
+          <WhatsAppButton texto={texto}>Crear mi cuenta por WhatsApp</WhatsAppButton>
           <a
             href={GRUPO}
             target="_blank"
