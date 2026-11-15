@@ -7,7 +7,7 @@ const links = [
   ["Pronósticos", "/#pronosticos"],
   ["Resultados", "/#resultados"],
   ["Calculadora", "/#calculadora"],
-  ["Cómo cargar", "/#cargar"],
+  ["Recargar", "/recargar"],
 ];
 
 export default function Navbar() {
