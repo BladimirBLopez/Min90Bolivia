@@ -1,4 +1,5 @@
 import { equipos2026, partidos2026 } from "@/lib/liga2026";
+import { guias } from "@/app/guias/data";
 
 const base = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
@@ -16,6 +17,8 @@ export default function sitemap() {
     { url: `${base}/equipos`, lastModified: ahora, changeFrequency: "daily", priority: 0.9 },
     { url: `${base}/recargar`, lastModified: ahora, changeFrequency: "monthly", priority: 0.9 },
     { url: `${base}/pronosticos-hoy`, lastModified: ahora, changeFrequency: "daily", priority: 0.9 },
+    { url: `${base}/guias`, lastModified: ahora, changeFrequency: "weekly", priority: 0.8 },
+    ...guias.map((g) => ({ url: `${base}/guias/${g.slug}`, lastModified: ahora, changeFrequency: "monthly", priority: 0.7 })),
     ...equipos2026.map((e) => ({ url: `${base}/equipo/${e.slug}`, lastModified: ahora, changeFrequency: "daily", priority: 0.8 })),
     ...cruces.map((s) => ({ url: `${base}/partido/${s}`, lastModified: ahora, changeFrequency: "weekly", priority: 0.6 })),
   ];
