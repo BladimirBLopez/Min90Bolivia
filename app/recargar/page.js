@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
 export const metadata = {
   title: "Cómo recargar en Metabet desde Bolivia | Min90 Bolivia",
@@ -26,6 +27,8 @@ const pasos = [
 
 export default function Recargar() {
   return (
+    <>
+    <Navbar />
     <main className="mx-auto max-w-2xl px-4 py-10 text-white">
       <Link href="/" className="text-sm text-green-400">← Volver a Min90 Bolivia</Link>
       <h1 className="mt-4 text-3xl font-extrabold">Cómo recargar en Metabet desde Bolivia</h1>
@@ -69,5 +72,6 @@ export default function Recargar() {
         +18. Juega con responsabilidad. Los pronósticos no garantizan resultados y apostar implica riesgo de perder dinero.
       </p>
     </main>
+    </>
   );
 }
