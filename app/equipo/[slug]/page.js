@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { Escudo, Forma } from "@/components/LigaUI";
+import { Chip, Tarjeta, Tabs } from "@/components/Ui";
 import { equipos2026, porSlug2026, statsEquipo2026, ultimos2026, proximos2026, resultado2026, tabla2026, filaDe2026, partidos2026 } from "@/lib/liga2026";
 import { equipos2024, info2024 } from "@/lib/stats2024";
 
@@ -164,37 +165,47 @@ export default async function Equipo({ params }) {
         Temporada 2026 · datos hasta la ronda {ultRonda}
       </div>
 
-      <section className="mx-auto max-w-3xl px-5 pb-4 pt-10">
-        <a href="/equipos" className="text-xs text-green-400">← Todos los equipos</a>
-        <div className="mt-4 flex items-center gap-4">
-          <Escudo e={e} size={72} />
-          <div>
-            <h1 className="text-3xl font-extrabold">{e.nombre}</h1>
-            <p className="text-sm text-neutral-400">
-              {[eq24 && eq24.ciudad, estadio, eq24 && eq24.capacidad ? `${eq24.capacidad} personas` : null, eq24 && eq24.fundado ? `Fundado en ${eq24.fundado}` : null].filter(Boolean).join(" · ")}
-            </p>
-            {fila ? <p className="mt-1 text-sm font-semibold text-green-400">Puesto {fila.pos} de {tabla.length} · {fila.pts} puntos</p> : null}
+      <header className="relative overflow-hidden border-b border-white/10">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(34,197,94,0.18),transparent_60%)]" />
+        <div className="relative mx-auto max-w-3xl px-5 pb-6 pt-8">
+          <a href="/equipos" className="text-xs text-green-400">← Todos los equipos</a>
+          <div className="mt-5 flex items-center gap-5">
+            <div className="rounded-3xl bg-white/5 p-3 ring-1 ring-white/10"><Escudo e={e} size={88} /></div>
+            <div className="min-w-0">
+              <h1 className="text-3xl font-black tracking-tight sm:text-4xl">{e.nombre}</h1>
+              <p className="mt-1 text-sm text-neutral-400">
+                {[eq24 && eq24.ciudad, estadio, eq24 && eq24.capacidad ? `${eq24.capacidad} personas` : null, eq24 && eq24.fundado ? `Fundado en ${eq24.fundado}` : null].filter(Boolean).join(" · ")}
+              </p>
+            </div>
+          </div>
+          <div className="mt-5 flex flex-wrap items-center gap-2">
+            {fila ? <Chip tono="verde">Puesto {fila.pos} de {tabla.length}</Chip> : null}
+            <Chip>{s.pts} pts</Chip>
+            {racha ? <Chip tono="amarillo">{racha}</Chip> : null}
+            <Forma lista={s.forma} />
           </div>
         </div>
-      </section>
+      </header>
 
-      <section className="mx-auto max-w-3xl px-5 py-4">
-        <h2 className="mb-3 text-xl font-bold">Temporada 2026</h2>
+      <Tabs items={[["Resumen", "#resumen"], ["Partidos", "#partidos"], ["Tabla", "#tabla"]]} />
+
+      <section className="mx-auto max-w-3xl px-5 py-5">
+        <h2 id="resumen" className="mb-3 scroll-mt-32 text-lg font-extrabold tracking-tight">Temporada 2026</h2>
         <div className="grid grid-cols-3 gap-2 text-center sm:grid-cols-6">
-          {caja.map(([k, v]) => (
-            <div key={k} className="rounded-xl bg-neutral-900 p-3">
-              <p className="text-xs text-neutral-500">{k}</p>
-              <p className="text-lg font-bold text-green-400">{v}</p>
-            </div>
+          {caja.map(([k, v], i) => (
+            <Tarjeta key={k} className="p-3">
+              <p className="text-[11px] uppercase tracking-wide text-neutral-500">{k}</p>
+              <p className={`text-xl font-black ${i === 1 ? "text-green-400" : "text-white"}`}>{v}</p>
+            </Tarjeta>
           ))}
         </div>
         <div className="mt-2 grid grid-cols-2 gap-2 text-center">
           {[["De local", s.casa], ["De visita", s.fuera]].map(([k, x]) => (
-            <div key={k} className="rounded-xl bg-neutral-900 p-3">
-              <p className="text-xs text-neutral-500">{k} · {x.pj} PJ</p>
-              <p className="text-lg font-bold text-green-400">{x.g}-{x.e}-{x.p}</p>
+            <Tarjeta key={k} className="p-3">
+              <p className="text-[11px] uppercase tracking-wide text-neutral-500">{k} · {x.pj} PJ</p>
+              <p className="text-xl font-black text-green-400">{x.g}-{x.e}-{x.p}</p>
               <p className="text-xs text-neutral-400">Goles {x.gf}:{x.gc}</p>
-            </div>
+            </Tarjeta>
           ))}
         </div>
       </section>
@@ -211,7 +222,7 @@ export default async function Equipo({ params }) {
       </section>
 
       <section className="mx-auto max-w-3xl px-5 py-4">
-        <h2 className="mb-3 text-xl font-bold">Próximos partidos</h2>
+        <h2 id="partidos" className="mb-3 scroll-mt-32 text-lg font-extrabold tracking-tight">Próximos partidos</h2>
         {prox.length ? (
           <div className="overflow-x-auto rounded-2xl border border-neutral-800">
             <table className="w-full min-w-[520px] text-left text-sm">
@@ -259,7 +270,7 @@ export default async function Equipo({ params }) {
       ) : null}
 
       <section className="mx-auto max-w-3xl px-5 py-4">
-        <h2 className="mb-3 text-xl font-bold">Tabla de posiciones 2026</h2>
+        <h2 id="tabla" className="mb-3 scroll-mt-32 text-lg font-extrabold tracking-tight">Tabla de posiciones 2026</h2>
         <div className="overflow-x-auto rounded-2xl border border-neutral-800">
           <table className="w-full min-w-[380px] text-left text-sm">
             <thead>
