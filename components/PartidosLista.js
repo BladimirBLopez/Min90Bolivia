@@ -33,7 +33,7 @@ function Tarjeta({ m }) {
       {m.slug || m.href ? <a href={m.href || `/partido/${m.slug}`} aria-label={`Ver análisis de ${m.local.nombre} vs ${m.visitante.nombre}`} className="absolute inset-0 z-0 rounded-2xl" /> : null}
       {m.slug || m.href ? <span aria-hidden="true" className="pointer-events-none absolute right-3 top-3 text-xl text-slate-500">›</span> : null}
       <p className="text-xs text-slate-600">
-        {fmt(m.fecha)}{m.hora ? ` · ${m.hora}` : ""} · Ronda {m.ronda}
+        {m.liga ? <span className="block font-bold text-oro-700">{m.liga}</span> : null}{fmt(m.fecha)}{m.hora ? ` · ${m.hora}` : ""} · Ronda {m.ronda}
         {m.estadio ? <span className="block text-slate-400">{m.estadio}</span> : null}
       </p>
       <div className="mt-3 flex items-center justify-between gap-2 text-center">
@@ -122,7 +122,7 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
               <h3 className="mb-2 text-sm font-extrabold uppercase tracking-wide text-oro-700">{etiqueta(g.f)}</h3>
             )}
             <div className="grid gap-3 sm:grid-cols-2">
-              {g.items.map((m) => <Tarjeta key={m.id} m={m} />)}
+              {g.items.map((m) => <Tarjeta key={`${m.liga || ""}-${m.id}`} m={m} />)}
             </div>
           </div>
         ))}

@@ -73,17 +73,21 @@ export default function Partidos() {
     { k: "brasil", nombre: "Brasil", pendientes: ordenar(brasil.pendientes), terminados: brasil.terminados },
     { k: "nations", nombre: "Nations League", pendientes: ordenar(nations.pendientes), terminados: nations.terminados },
   ].filter((x) => x.pendientes.length || x.terminados.length);
+  const etiquetar = (lista, nombre) => lista.map((m) => ({ ...m, liga: nombre }));
+  const clave = (m) => `${m.fecha || ""} ${m.hora || ""}`;
+  const proximos = ligas.flatMap((x) => etiquetar(x.pendientes, x.nombre)).sort((p, q) => clave(p).localeCompare(clave(q))).slice(0, 80);
+  const recientes = ligas.flatMap((x) => etiquetar(x.terminados, x.nombre)).sort((p, q) => clave(q).localeCompare(clave(p))).slice(0, 16);
 
   return (
     <section id="pronosticos" className="mx-auto max-w-5xl px-5 py-10">
       <h2 className="mb-1 text-2xl font-extrabold tracking-tight titulo-oro">Partidos y pronósticos</h2>
-      <p className="mb-4 text-sm text-slate-600">Bolivia, Brasil y Nations League. Los pronósticos Min90 aparecen en el partido que corresponde.</p>
+      <p className="mb-4 text-sm text-slate-600">Próximos partidos de Bolivia, Brasil y Nations League · hora de Bolivia. Los pronósticos Min90 aparecen en el partido que corresponde.</p>
       {!EJEMPLO && estrella ? (
         <div className="mb-6">
           <PickCard p={{ ...estrella, href: ce ? `/partido/${ce[0].slug}-vs-${ce[1].slug}` : null }} grande />
         </div>
       ) : null}
-      <PartidosLista ligas={ligas} />
+      <PartidosLista pendientes={proximos} terminados={recientes} />
     </section>
   );
 }
