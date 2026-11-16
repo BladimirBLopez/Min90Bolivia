@@ -29,6 +29,8 @@ export async function generateMetadata({ params }) {
   const mm = p26 ? partidoEntre2026(p26[0].id, p26[1].id) || partidoEntre2026(p26[1].id, p26[0].id) : null;
   let t = `${par[0].nombre} vs ${par[1].nombre}: pronóstico y estadísticas | Min90 Bolivia`;
   let d = `Forma, estadísticas y cara a cara de ${par[0].nombre} vs ${par[1].nombre} en la Primera División de Bolivia.`;
+  let ogT = t;
+  let ogD = d;
   if (mm) {
     const A = mm.local.nombre;
     const B = mm.visitante.nombre;
@@ -42,9 +44,13 @@ export async function generateMetadata({ params }) {
       const sb = statsEquipo2026(mm.visitante.id);
       const tend = sa.pj && sb.pj ? ` 🔥 Ambos marcan ${Math.round((pct(sa.btts, sa.pj) + pct(sb.btts, sb.pj)) / 2)}% · 📈 Más de 2.5 goles ${Math.round((pct(sa.o25, sa.pj) + pct(sb.o25, sb.pj)) / 2)}%.` : '';
       d = `📅 ${cuando} (hora de Bolivia).${tend} 📊 Forma, tabla 2026 y cara a cara. 👉 Míralo antes del partido.`;
+      const bt = sa.pj && sb.pj ? Math.round((pct(sa.btts, sa.pj) + pct(sb.btts, sb.pj)) / 2) : null;
+      const ov = sa.pj && sb.pj ? Math.round((pct(sa.o25, sa.pj) + pct(sb.o25, sb.pj)) / 2) : null;
+      ogT = `⚽ ${A} vs ${B}`;
+      ogD = `📅 ${cuando}` + (bt !== null ? ` | 🔥 Ambos marcan ${bt}% | 📈 +2.5 goles ${ov}%` : " | 👉 Míralo antes del partido");
     }
   }
-  return { title: t, description: d, openGraph: { title: t, description: d, type: "website" } };
+  return { title: t, description: d, openGraph: { title: ogT, description: ogD, type: "website" } };
 }
 
 const col = { G: "bg-green-500 text-black", E: "bg-yellow-500 text-black", P: "bg-red-500 text-white" };

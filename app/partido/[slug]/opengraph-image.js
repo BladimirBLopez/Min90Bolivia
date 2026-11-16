@@ -38,20 +38,22 @@ async function escudo(slug) {
   return v;
 }
 
+const tam = (n) => (n.length <= 13 ? 62 : n.length <= 17 ? 52 : n.length <= 20 ? 44 : 36);
+const fondo = { width: "100%", height: "100%", display: "flex", flexDirection: "column", background: "linear-gradient(135deg, #0b1220, #172554)", color: "white" };
+const barra = { display: "flex", width: "100%", height: 14, background: "#C9A227" };
+
 const col = (t, src) => (
   <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 420 }}>
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 210, height: 210, borderRadius: 105, background: "white", border: "8px solid #C9A227" }}>
       {src ? (
-        <img src={src} width={140} height={140} style={{ objectFit: "contain" }} />
+        <img src={src} width={144} height={144} style={{ objectFit: "contain" }} />
       ) : (
         <div style={{ display: "flex", fontSize: 100, fontWeight: 900, color: "#C9A227" }}>{t.nombre[0]}</div>
       )}
     </div>
-    <div style={{ display: "flex", justifyContent: "center", textAlign: "center", marginTop: 12, fontSize: fsn(t.nombre), fontWeight: 900, color: "#0f172a" }}>{t.nombre}</div>
+    <div style={{ display: "flex", justifyContent: "center", textAlign: "center", marginTop: 14, fontSize: tam(t.nombre), fontWeight: 900, color: "white" }}>{t.nombre}</div>
   </div>
 );
-
-const pildora = { display: "flex", padding: "8px 26px", borderRadius: 999, background: "white", border: "3px solid #C9A227", fontSize: 30, fontWeight: 800, color: "#334155" };
 
 export default async function Image({ params }) {
   const { slug } = await params;
@@ -63,9 +65,9 @@ export default async function Image({ params }) {
   if (!ok) {
     return new ImageResponse(
       (
-        <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "linear-gradient(180deg, #FDF9EC, #FFFFFF)", color: "#0f172a" }}>
-          <div style={{ display: "flex", fontSize: 104, fontWeight: 900 }}>Min90 Bolivia</div>
-          <div style={{ display: "flex", fontSize: 42, color: "#85670F", marginTop: 12 }}>Pronósticos del fútbol boliviano</div>
+        <div style={{ ...fondo, alignItems: "center", justifyContent: "center" }}>
+          <div style={{ display: "flex", fontSize: 108, fontWeight: 900, color: "white" }}>Min90 Bolivia</div>
+          <div style={{ display: "flex", fontSize: 44, color: "#F4E19C", marginTop: 12 }}>Pronósticos del fútbol boliviano</div>
         </div>
       ),
       size
@@ -80,42 +82,30 @@ export default async function Image({ params }) {
   const linea = m
     ? jugado
       ? `FINAL · ${fmt(m.fecha)}`
-      : `${fmt(m.fecha)}${m.hora ? ` · ${m.hora}` : ""} (hora de Bolivia)`
+      : `${fmt(m.fecha)}${m.hora ? ` · ${m.hora}` : ""}`
     : "Pronóstico, forma y estadísticas";
   const centro = jugado ? `${m.goles.local} - ${m.goles.visitante}` : "VS";
-
-  let ambos = null;
-  let o25 = null;
-  const sa = statsEquipo2026(a.id);
-  const sb = statsEquipo2026(b.id);
-  if (sa.pj && sb.pj) {
-    ambos = Math.round((pct(sa.btts, sa.pj) + pct(sb.btts, sb.pj)) / 2);
-    o25 = Math.round((pct(sa.o25, sa.pj) + pct(sb.o25, sb.pj)) / 2);
-  }
   const [srcA, srcB] = await Promise.all([escudo(ta.slug), escudo(tb.slug)]);
 
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", background: "linear-gradient(180deg, #FDF9EC, #FFFFFF)", color: "#0f172a" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: 84, background: "#C9A227", fontSize: 36, fontWeight: 900, color: "#0f172a" }}>MIN90 BOLIVIA · PRIMERA DIVISIÓN 2026</div>
+      <div style={fondo}>
+        <div style={barra} />
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "22px 48px 0 48px" }}>
+          <div style={{ display: "flex", fontSize: 40, fontWeight: 900, color: "#F4E19C" }}>MIN90 BOLIVIA</div>
+          <div style={{ display: "flex", fontSize: 30, fontWeight: 700, color: "#CBD5E1" }}>PRIMERA DIVISIÓN 2026</div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 74, height: 74, borderRadius: 37, border: "5px solid white", fontSize: 30, fontWeight: 900, color: "white" }}>+18</div>
+        </div>
         <div style={{ display: "flex", flex: 1, flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
             {col(ta, srcA)}
-            <div style={{ display: "flex", width: 240, justifyContent: "center", fontSize: jugado ? 84 : 76, fontWeight: 900, color: jugado ? "#85670F" : "#C9A227" }}>{centro}</div>
+            <div style={{ display: "flex", width: 280, height: 210, alignItems: "center", justifyContent: "center", fontSize: jugado ? 92 : 100, fontWeight: 900, color: "#D4AF37" }}>{centro}</div>
             {col(tb, srcB)}
           </div>
-          <div style={{ display: "flex", marginTop: 14, padding: "10px 40px", borderRadius: 999, background: "#0f172a", color: "#F4E19C", fontSize: 38, fontWeight: 800 }}>{linea}</div>
-          {ambos !== null ? (
-            <div style={{ display: "flex", marginTop: 14 }}>
-              <div style={pildora}>{`Ambos marcan ${ambos}%`}</div>
-              <div style={{ ...pildora, marginLeft: 16 }}>{`Más de 2.5 goles ${o25}%`}</div>
-            </div>
-          ) : null}
+          <div style={{ display: "flex", marginTop: 22, padding: "10px 52px", borderRadius: 999, background: "#C9A227", color: "#0b1220", fontSize: 50, fontWeight: 900 }}>{linea.toUpperCase()}</div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", paddingBottom: 22 }}>
-          <div style={{ display: "flex", padding: "14px 40px", borderRadius: 999, background: "#22c55e", color: "black", fontSize: 36, fontWeight: 800 }}>Cargar saldo por WhatsApp</div>
-          <div style={{ display: "flex", marginLeft: 22, fontSize: 26, color: "#64748b" }}>+18 · Juega con responsabilidad</div>
-        </div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", paddingBottom: 24, fontSize: 32, fontWeight: 700, color: "#CBD5E1" }}>Pronóstico, forma y cara a cara</div>
+        <div style={barra} />
       </div>
     ),
     size
