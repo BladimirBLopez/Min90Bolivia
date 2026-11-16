@@ -10,24 +10,24 @@ export default function TablaInicio() {
   return (
     <section id="tabla" className="mx-auto max-w-5xl px-5 py-10">
       <h2 className="mb-1 text-2xl font-extrabold tracking-tight">Tabla de posiciones 2026</h2>
-      <p className="mb-4 text-xs text-slate-400">Primera División de Bolivia · datos hasta la ronda {ultRonda}</p>
-      <div className="overflow-x-auto rounded-2xl border border-white/10">
+      <p className="mb-4 text-xs text-slate-600">Primera División de Bolivia · datos hasta la ronda {ultRonda}</p>
+      <div className="overflow-x-auto rounded-2xl border border-slate-200">
         <table className="w-full min-w-[420px] text-left text-sm">
-          <thead className="bg-slate-900 text-xs uppercase text-slate-500">
+          <thead className="bg-slate-50 text-xs uppercase text-slate-500">
             <tr><th className="p-3">#</th><th className="p-3">Equipo</th><th className="p-3">PJ</th><th className="p-3">DG</th><th className="p-3">Pts</th><th className="p-3">Forma</th></tr>
           </thead>
           <tbody>
             {tabla.map((t) => (
-              <tr key={t.id} className="border-t border-white/5">
+              <tr key={t.id} className="border-t border-slate-100">
                 <td className="p-3 text-slate-500">{t.pos}</td>
                 <td className="p-3">
-                  <a href={`/equipo/${t.slug}`} className="flex items-center gap-2 font-semibold hover:text-green-400">
+                  <a href={`/equipo/${t.slug}`} className="flex items-center gap-2 font-semibold hover:text-amber-700">
                     <Escudo e={t} size={22} />{t.nombre}
                   </a>
                 </td>
                 <td className="p-3">{t.pj}</td>
                 <td className="p-3">{sign(t.dif)}</td>
-                <td className="p-3 font-bold text-green-400">{t.pts}</td>
+                <td className="p-3 font-bold text-amber-700">{t.pts}</td>
                 <td className="p-3"><div className="flex gap-1">{t.forma.map((r, i) => <span key={i} className={`h-2.5 w-2.5 rounded-full ${punto[r]}`} />)}</div></td>
               </tr>
             ))}

@@ -9,7 +9,7 @@ export default function ShareButton({ texto }) {
   return (
     <button
       onClick={compartir}
-      className="mt-3 rounded-full border border-green-500/60 px-4 py-1.5 text-xs font-semibold text-green-400 hover:bg-green-500/10"
+      className="mt-3 rounded-full border border-amber-500/60 px-4 py-1.5 text-xs font-semibold text-amber-700 hover:bg-amber-500/10"
     >
       Compartir por WhatsApp
     </button>

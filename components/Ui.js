@@ -1,8 +1,8 @@
 const tonos = {
-  gris: "bg-white/10 text-slate-200",
-  verde: "bg-green-500/15 text-green-400 ring-1 ring-green-500/30",
-  amarillo: "bg-yellow-500/15 text-yellow-300 ring-1 ring-yellow-500/30",
-  rojo: "bg-red-500/15 text-red-400 ring-1 ring-red-500/30",
+  gris: "bg-slate-100 text-slate-700",
+  verde: "bg-amber-400/20 text-amber-800 ring-1 ring-amber-500/40",
+  amarillo: "bg-yellow-500/15 text-yellow-700 ring-1 ring-yellow-500/30",
+  rojo: "bg-red-500/15 text-red-600 ring-1 ring-red-500/30",
 };
 
 export function Chip({ tono = "gris", children }) {
@@ -10,15 +10,15 @@ export function Chip({ tono = "gris", children }) {
 }
 
 export function Tarjeta({ className = "", children }) {
-  return <div className={`rounded-2xl border border-white/10 bg-gradient-to-b from-slate-900 to-slate-950 ${className}`}>{children}</div>;
+  return <div className={`rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 ${className}`}>{children}</div>;
 }
 
 export function Tabs({ items }) {
   return (
-    <nav className="sticky top-[93px] z-30 border-b border-white/10 bg-slate-950/90 backdrop-blur sm:top-[57px]">
+    <nav className="sticky top-[93px] z-30 border-b border-slate-200 bg-white/90 backdrop-blur sm:top-[57px]">
       <div className="mx-auto flex max-w-3xl gap-1 overflow-x-auto px-4 py-2">
         {items.map(([t, h]) => (
-          <a key={h} href={h} className="whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold text-slate-300 hover:bg-white/10 hover:text-white">{t}</a>
+          <a key={h} href={h} className="whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-slate-900">{t}</a>
         ))}
       </div>
     </nav>

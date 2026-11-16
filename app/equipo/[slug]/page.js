@@ -40,16 +40,16 @@ const rachaTxt = (r) => (r && r.n >= 2 ? `${r.n} ${r.tipo === "G" ? "victorias" 
 function Nombre({ t, id }) {
   const x = equipos2026.find((q) => q.id === t.id);
   const cls = t.id === id ? "font-bold" : "";
-  return x ? <a href={`/equipo/${x.slug}`} className={`hover:text-green-400 ${cls}`}>{t.nombre}</a> : <span className={cls}>{t.nombre}</span>;
+  return x ? <a href={`/equipo/${x.slug}`} className={`hover:text-amber-700 ${cls}`}>{t.nombre}</a> : <span className={cls}>{t.nombre}</span>;
 }
 
 function FilaRes({ m, id }) {
   const r = resultado2026(m, id);
   return (
-    <tr className="border-t border-slate-800">
+    <tr className="border-t border-slate-200">
       <td className="p-3 text-slate-500">{fmt(m.fecha)}</td>
       <td className="p-3"><Nombre t={m.local} id={id} /></td>
-      <td className="p-3 font-bold text-green-400">{m.goles.local}-{m.goles.visitante}</td>
+      <td className="p-3 font-bold text-amber-700">{m.goles.local}-{m.goles.visitante}</td>
       <td className="p-3"><Nombre t={m.visitante} id={id} /></td>
       <td className="p-3"><span className={`rounded px-2 py-0.5 text-xs font-bold ${col[r]}`}>{r}</span></td>
     </tr>
@@ -62,14 +62,14 @@ function FilaProx({ m, id }) {
   const href = sl && sv ? `/partido/${sl}-vs-${sv}` : null;
   const celda = (hijo, extra = "") =>
     href ? (
-      <a href={href} className={`block p-3 hover:text-green-400 ${extra}`}>{hijo}</a>
+      <a href={href} className={`block p-3 hover:text-amber-700 ${extra}`}>{hijo}</a>
     ) : (
       <div className={`p-3 ${extra}`}>{hijo}</div>
     );
   return (
-    <tr className="border-t border-slate-800 hover:bg-slate-900">
+    <tr className="border-t border-slate-200 hover:bg-slate-100">
       <td className="p-0 text-slate-500">
-        {celda(<>{fmt(m.fecha)}{m.hora ? ` · ${m.hora}` : ""}{m.estadio ? <span className="block text-xs text-slate-600">{m.estadio}</span> : null}</>)}
+        {celda(<>{fmt(m.fecha)}{m.hora ? ` · ${m.hora}` : ""}{m.estadio ? <span className="block text-xs text-slate-400">{m.estadio}</span> : null}</>)}
       </td>
       <td className="p-0">{celda(m.local.nombre, m.local.id === id ? "font-bold" : "")}</td>
       <td className="p-0 text-slate-500">{celda("vs")}</td>
@@ -83,11 +83,11 @@ function Minutos({ titulo, datos, color }) {
   const max = Math.max(1, ...datos.map((d) => d.total));
   return (
     <div className="mb-5">
-      <p className="mb-2 text-sm font-bold text-slate-300">{titulo}</p>
+      <p className="mb-2 text-sm font-bold text-slate-700">{titulo}</p>
       <div className="flex items-end gap-2">
         {datos.map((d) => (
           <div key={d.t} className="flex flex-1 flex-col items-center justify-end">
-            <span className="text-xs text-slate-300">{d.total}</span>
+            <span className="text-xs text-slate-700">{d.total}</span>
             <div className={`w-full rounded-t ${color}`} style={{ height: `${Math.max(4, Math.round((d.total / max) * 80))}px` }} />
             <span className="mt-1 text-[10px] text-slate-500">{d.t}</span>
           </div>
@@ -99,10 +99,10 @@ function Minutos({ titulo, datos, color }) {
 
 function Lista({ filas }) {
   return (
-    <div className="divide-y divide-slate-800 rounded-2xl border border-slate-800 bg-slate-900 px-4">
+    <div className="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-slate-50 px-4">
       {filas.map(([k, v]) => (
         <div key={k} className="flex justify-between py-3 text-sm">
-          <span className="text-slate-400">{k}</span>
+          <span className="text-slate-600">{k}</span>
           <span className="font-semibold">{v}</span>
         </div>
       ))}
@@ -118,18 +118,18 @@ export default async function Equipo({ params }) {
     const o = SOLO24.find((x) => x.slug === slug);
     if (!o) notFound();
     return (
-      <main className="min-h-screen bg-slate-950 text-white">
+      <main className="min-h-screen bg-white text-slate-900">
         <Navbar />
         <section className="mx-auto max-w-3xl px-5 pb-16 pt-10">
-          <a href="/equipos" className="text-xs text-green-400">← Todos los equipos</a>
+          <a href="/equipos" className="text-xs text-amber-700">← Todos los equipos</a>
           <div className="mt-4 flex items-center gap-4">
             <Escudo e={o} size={72} />
             <div>
               <h1 className="text-3xl font-extrabold">{o.nombre}</h1>
-              <p className="text-sm text-slate-400">{o.ciudad} · {o.estadio}</p>
+              <p className="text-sm text-slate-600">{o.ciudad} · {o.estadio}</p>
             </div>
           </div>
-          <p className="mt-6 rounded-xl bg-slate-900 p-4 text-sm text-slate-300">
+          <p className="mt-6 rounded-xl bg-slate-50 p-4 text-sm text-slate-700">
             {o.nombre} no está en la Primera División 2026. Mira los equipos de esta temporada.
           </p>
         </section>
@@ -167,21 +167,21 @@ export default async function Equipo({ params }) {
   ];
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white">
+    <main className="min-h-screen bg-white text-slate-900">
       <Navbar />
-      <div className="bg-slate-800 p-2 text-center text-xs text-slate-300">
+      <div className="bg-slate-100 p-2 text-center text-xs text-slate-700">
         Temporada 2026 · datos hasta la ronda {ultRonda}
       </div>
 
-      <header className="relative overflow-hidden border-b border-white/10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(34,197,94,0.18),transparent_60%)]" />
+      <header className="relative overflow-hidden border-b border-slate-200">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(245,158,11,0.20),transparent_60%)]" />
         <div className="relative mx-auto max-w-3xl px-5 pb-6 pt-8">
-          <a href="/equipos" className="text-xs text-green-400">← Todos los equipos</a>
+          <a href="/equipos" className="text-xs text-amber-700">← Todos los equipos</a>
           <div className="mt-5 flex items-center gap-5">
-            <div className="rounded-3xl bg-white/5 p-3 ring-1 ring-white/10"><Escudo e={e} size={88} /></div>
+            <div className="rounded-3xl bg-slate-50 p-3 ring-1 ring-slate-200"><Escudo e={e} size={88} /></div>
             <div className="min-w-0">
               <h1 className="text-3xl font-black tracking-tight sm:text-4xl">{e.nombre}</h1>
-              <p className="mt-1 text-sm text-slate-400">
+              <p className="mt-1 text-sm text-slate-600">
                 {[eq24 && eq24.ciudad, estadio, eq24 && eq24.capacidad ? `${eq24.capacidad} personas` : null, eq24 && eq24.fundado ? `Fundado en ${eq24.fundado}` : null].filter(Boolean).join(" · ")}
               </p>
             </div>
@@ -203,7 +203,7 @@ export default async function Equipo({ params }) {
           {caja.map(([k, v], i) => (
             <Tarjeta key={k} className="p-3">
               <p className="text-[11px] uppercase tracking-wide text-slate-500">{k}</p>
-              <p className={`text-xl font-black ${i === 1 ? "text-green-400" : "text-white"}`}>{v}</p>
+              <p className={`text-xl font-black ${i === 1 ? "text-amber-700" : "text-slate-900"}`}>{v}</p>
             </Tarjeta>
           ))}
         </div>
@@ -211,8 +211,8 @@ export default async function Equipo({ params }) {
           {[["De local", s.casa], ["De visita", s.fuera]].map(([k, x]) => (
             <Tarjeta key={k} className="p-3">
               <p className="text-[11px] uppercase tracking-wide text-slate-500">{k} · {x.pj} PJ</p>
-              <p className="text-xl font-black text-green-400">{x.g}-{x.e}-{x.p}</p>
-              <p className="text-xs text-slate-400">Goles {x.gf}:{x.gc}</p>
+              <p className="text-xl font-black text-amber-700">{x.g}-{x.e}-{x.p}</p>
+              <p className="text-xs text-slate-600">Goles {x.gf}:{x.gc}</p>
             </Tarjeta>
           ))}
         </div>
@@ -232,7 +232,7 @@ export default async function Equipo({ params }) {
       <section className="mx-auto max-w-3xl px-5 py-4">
         <h2 id="partidos" className="mb-3 scroll-mt-32 text-lg font-extrabold tracking-tight">Próximos partidos</h2>
         {prox.length ? (
-          <div className="overflow-x-auto rounded-2xl border border-slate-800">
+          <div className="overflow-x-auto rounded-2xl border border-slate-200">
             <table className="w-full min-w-[520px] text-left text-sm">
               <tbody>{prox.map((m) => <FilaProx key={m.id} m={m} id={e.id} />)}</tbody>
             </table>
@@ -268,7 +268,7 @@ export default async function Equipo({ params }) {
 
       <section className="mx-auto max-w-3xl px-5 py-4">
         <h2 id="tabla" className="mb-3 scroll-mt-32 text-lg font-extrabold tracking-tight">Tabla de posiciones 2026</h2>
-        <div className="overflow-x-auto rounded-2xl border border-slate-800">
+        <div className="overflow-x-auto rounded-2xl border border-slate-200">
           <table className="w-full min-w-[380px] text-left text-sm">
             <thead>
               <tr className="text-xs text-slate-500">
@@ -277,17 +277,17 @@ export default async function Equipo({ params }) {
             </thead>
             <tbody>
               {tabla.map((x) => (
-                <tr key={x.id} className={`border-t border-slate-800 ${x.id === e.id ? "bg-slate-800" : ""}`}>
+                <tr key={x.id} className={`border-t border-slate-200 ${x.id === e.id ? "bg-slate-100" : ""}`}>
                   <td className="p-3 text-slate-500">{x.pos}</td>
                   <td className="p-3">
-                    <a href={`/equipo/${x.slug}`} className="flex items-center gap-2 hover:text-green-400">
+                    <a href={`/equipo/${x.slug}`} className="flex items-center gap-2 hover:text-amber-700">
                       <Escudo e={x} size={20} />
                       <span className={x.id === e.id ? "font-bold" : ""}>{x.nombre}</span>
                     </a>
                   </td>
                   <td className="p-3">{x.pj}</td>
                   <td className="p-3">{sign(x.dif)}</td>
-                  <td className="p-3 font-bold text-green-400">{x.pts}</td>
+                  <td className="p-3 font-bold text-amber-700">{x.pts}</td>
                 </tr>
               ))}
             </tbody>
@@ -306,10 +306,10 @@ export default async function Equipo({ params }) {
             <p className="mb-3 text-xs text-slate-500">Primera División 2026, de los más cercanos a {e.nombre} en la tabla a los más lejanos.</p>
             <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
               {otros.map((o) => (
-                <a key={o.id} href={`/equipo/${o.slug}`} className="flex flex-col items-center rounded-2xl border border-slate-800 bg-slate-900 p-3 text-center hover:border-green-500">
+                <a key={o.id} href={`/equipo/${o.slug}`} className="flex flex-col items-center rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center hover:border-amber-500">
                   <Escudo e={o} size={40} />
                   <span className="mt-2 text-xs font-semibold leading-tight">{o.nombre}</span>
-                  <span className="mt-1 text-[11px] text-green-400">#{o.pos} · {o.pts} pts</span>
+                  <span className="mt-1 text-[11px] text-amber-700">#{o.pos} · {o.pts} pts</span>
                 </a>
               ))}
             </div>

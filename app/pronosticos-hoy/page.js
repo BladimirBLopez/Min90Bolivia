@@ -21,11 +21,11 @@ const slugDe = (id) => equipos2026.find((x) => x.id === id)?.slug;
 export default function PronosticosHoy() {
   const lista = proximosTodos2026(8);
   return (
-    <main className="min-h-screen bg-slate-950 text-white">
+    <main className="min-h-screen bg-white text-slate-900">
       <Navbar />
       <section className="mx-auto max-w-3xl px-5 py-8">
         <h1 className="text-3xl font-extrabold">Próximos partidos y pronósticos</h1>
-        <p className="mt-2 text-slate-300">
+        <p className="mt-2 text-slate-700">
           Toca un partido para ver la forma, las estadísticas y el cara a cara de ambos equipos.
         </p>
         <a
@@ -39,7 +39,7 @@ export default function PronosticosHoy() {
 
         <div className="mt-8 space-y-3">
           {lista.length === 0 ? (
-            <p className="rounded-2xl border border-slate-800 p-4 text-center text-slate-400">
+            <p className="rounded-2xl border border-slate-200 p-4 text-center text-slate-600">
               Pronto publicaremos los próximos partidos.
             </p>
           ) : null}
@@ -54,15 +54,15 @@ export default function PronosticosHoy() {
                 </p>
                 <p className="mt-1 text-lg font-bold">{m.local.nombre} vs {m.visitante.nombre}</p>
                 {m.estadio ? <p className="text-xs text-slate-500">{m.estadio}</p> : null}
-                {href ? <p className="mt-2 text-sm font-semibold text-green-400">Ver estadísticas del partido →</p> : null}
+                {href ? <p className="mt-2 text-sm font-semibold text-amber-700">Ver estadísticas del partido →</p> : null}
               </>
             );
             return href ? (
-              <Link key={m.id} href={href} className="block rounded-2xl border border-slate-800 bg-slate-900 p-4 hover:border-green-500">
+              <Link key={m.id} href={href} className="block rounded-2xl border border-slate-200 bg-slate-50 p-4 hover:border-amber-500">
                 {cuerpo}
               </Link>
             ) : (
-              <div key={m.id} className="rounded-2xl border border-slate-800 bg-slate-900 p-4">{cuerpo}</div>
+              <div key={m.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">{cuerpo}</div>
             );
           })}
         </div>

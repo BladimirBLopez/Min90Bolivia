@@ -5,25 +5,25 @@ import { EJEMPLO } from "@/app/data/pronosticos";
 export default function Promo() {
   return (
     <section id="promos" className="mx-auto max-w-5xl px-5 py-10">
-      <div className="rounded-3xl border border-green-500/40 bg-gradient-to-br from-green-950/60 to-slate-900 p-6">
+      <div className="rounded-3xl border border-amber-500/50 bg-gradient-to-br from-amber-50 to-white p-6">
         <h2 className="text-2xl font-bold">Promos y canal de WhatsApp</h2>
-        <p className="mt-1 text-sm text-slate-300">
+        <p className="mt-1 text-sm text-slate-700">
           Recibe el pronóstico del día antes de los partidos y las promos para quienes cargan conmigo.
         </p>
         <div className="mt-5 grid gap-3 sm:grid-cols-3">
           {promos.map((p) => (
-            <div key={p.t} className="rounded-2xl bg-slate-950/70 p-4">
-              <h3 className="font-semibold text-green-400">{p.t}</h3>
-              <p className="mt-1 text-sm text-slate-300">{p.d}</p>
+            <div key={p.t} className="rounded-2xl bg-white/70 p-4">
+              <h3 className="font-semibold text-amber-700">{p.t}</h3>
+              <p className="mt-1 text-sm text-slate-700">{p.d}</p>
             </div>
           ))}
         </div>
-        {EJEMPLO && <p className="mt-3 text-xs text-yellow-400">Textos de ejemplo.</p>}
+        {EJEMPLO && <p className="mt-3 text-xs text-yellow-700">Textos de ejemplo.</p>}
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <WhatsAppButton>Quiero cargar</WhatsAppButton>
           {CANAL && (
             <a href={CANAL} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full border border-green-500 px-6 py-3 font-bold text-green-400 hover:bg-green-500/10">
+              className="inline-flex items-center justify-center rounded-full border border-amber-500 px-6 py-3 font-bold text-amber-700 hover:bg-amber-500/10">
               Unirme al canal
             </a>
           )}
