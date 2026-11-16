@@ -16,5 +16,13 @@ export default async function Image({ params }) {
     const f = path.join(process.cwd(), "public", "escudos", `${slug}.png`);
     if (fs.existsSync(f)) src = "data:image/png;base64," + fs.readFileSync(f).toString("base64");
   } catch {}
+  if (!src && process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    try {
+      const r = await fetch(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}/escudos/${slug}.png`, { signal: AbortSignal.timeout(5000) });
+      if (r.ok && (r.headers.get("content-type") || "").startsWith("image")) {
+        src = "data:image/png;base64," + Buffer.from(await r.arrayBuffer()).toString("base64");
+      }
+    } catch {}
+  }
   return imagenEquipoBase({ nombre: e.nombre, src, liga: "Primera División 2026", sub: "Tabla, forma y próximos partidos" });
 }

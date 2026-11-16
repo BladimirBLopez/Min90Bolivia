@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import CtaRecarga from "@/components/CtaRecarga";
+import { GRUPO_WHATSAPP } from "@/app/data/links";
 import { proximosTodos2026, equipos2026 } from "@/lib/liga2026";
 
 export const metadata = {
@@ -8,7 +9,7 @@ export const metadata = {
   description: "Próximos partidos de la Primera División de Bolivia con estadísticas y forma de cada equipo. Los picks gratis los lanzamos en nuestro grupo de WhatsApp.",
 };
 
-const GRUPO = "https://chat.whatsapp.com/CB3GeNfmOqe31XQGjjDVwN?s=cl&p=a&iam=2";
+const GRUPO = GRUPO_WHATSAPP;
 const DIAS = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
 const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
 const fmt = (f) => {

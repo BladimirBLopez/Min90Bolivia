@@ -1,8 +1,8 @@
 import Link from "next/link";
+import { GRUPO_WHATSAPP } from "@/app/data/links";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
-const GRUPO = "https://chat.whatsapp.com/CB3GeNfmOqe31XQGjjDVwN?s=cl&p=a&iam=2";
-
+const GRUPO = GRUPO_WHATSAPP;
 export default function CtaRecarga({ texto = "Hola, quiero jugar en Metabet y cargar saldo. Soy mayor de 18 años." }) {
   return (
     <section className="mx-auto max-w-3xl px-5 py-6">
