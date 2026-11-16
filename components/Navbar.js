@@ -47,7 +47,7 @@ export default function Navbar() {
           ))}
         </nav>
         <div className="flex justify-end">
-          <WhatsAppButton className="!px-3 !py-2 text-sm sm:!px-4">WhatsApp</WhatsAppButton>
+          <WhatsAppButton className="!px-3 !py-2 text-sm sm:!px-4 [&>svg]:hidden sm:[&>svg]:block">WhatsApp</WhatsAppButton>
         </div>
       </div>
       {open && (
