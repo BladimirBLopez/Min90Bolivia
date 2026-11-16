@@ -29,7 +29,9 @@ function Tarjeta({ m }) {
     ? `Hola, quiero cargar y jugar "${m.pick.pick}" en ${m.local.nombre} vs ${m.visitante.nombre}. Vi el pronóstico en Min90 Bolivia`
     : `Hola, quiero cargar y jugar ${m.local.nombre} vs ${m.visitante.nombre}. Vi el partido en Min90 Bolivia`;
   return (
-    <article className="rounded-2xl border border-white/10 bg-gradient-to-b from-slate-900 to-slate-950 p-4">
+    <article className="relative rounded-2xl border border-white/10 bg-gradient-to-b from-slate-900 to-slate-950 p-4 transition hover:-translate-y-0.5 hover:border-green-500/60">
+      <a href={`/partido/${m.slug}`} aria-label={`Ver análisis de ${m.local.nombre} vs ${m.visitante.nombre}`} className="absolute inset-0 z-0 rounded-2xl" />
+      <span aria-hidden="true" className="pointer-events-none absolute right-3 top-3 text-xl text-slate-500">›</span>
       <p className="text-xs text-slate-400">
         {fmt(m.fecha)}{m.hora ? ` · ${m.hora}` : ""} · Ronda {m.ronda}
         {m.estadio ? <span className="block text-slate-600">{m.estadio}</span> : null}
@@ -57,12 +59,11 @@ function Tarjeta({ m }) {
           <Chip tono="amarillo">Más de 2.5 goles {m.o25}%</Chip>
         </div>
       )}
-      <div className="mt-4 flex items-center justify-center gap-3">
-        <a href={`/partido/${m.slug}`} className="text-sm font-semibold text-green-400 hover:underline">Ver análisis</a>
-        {m.terminado ? null : (
-          <a href={waLinkDe(texto)} target="_blank" rel="noopener noreferrer" className="rounded-full bg-green-500 px-4 py-2 text-sm font-bold text-black hover:bg-green-400">Jugar este partido</a>
-        )}
-      </div>
+      {m.terminado ? null : (
+        <div className="mt-4 flex justify-center">
+          <a href={waLinkDe(texto)} target="_blank" rel="noopener noreferrer" className="relative z-10 rounded-full bg-green-500 px-4 py-2 text-sm font-bold text-black hover:bg-green-400">Jugar este partido</a>
+        </div>
+      )}
     </article>
   );
 }
