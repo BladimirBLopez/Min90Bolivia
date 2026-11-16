@@ -22,6 +22,11 @@ export default function LigasPage() {
             <p className="text-sm text-slate-600">Bolivia · 2026</p>
             <p className="mt-3 text-sm font-semibold text-oro-700">Ver partidos ›</p>
           </Link>
+          <Link href="/mas-ligas" className={card}>
+            <p className="text-lg font-bold">Más ligas</p>
+            <p className="text-sm text-slate-600">Libertadores · Sudamericana · Champions</p>
+            <p className="mt-3 text-sm font-semibold text-oro-700">Ver partidos ›</p>
+          </Link>
           {LIGAS.map((l) => (
             <Link key={l.slug} href={`/liga/${l.slug}`} className={card}>
               <p className="text-lg font-bold">{l.nombre}</p>

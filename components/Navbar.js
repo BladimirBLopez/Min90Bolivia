@@ -17,6 +17,7 @@ const ligas = [
   ["Bolivia", "/equipos", (p) => p === "/" || p.startsWith("/equipo") || p.startsWith("/partido") || p === "/pronosticos-hoy"],
   ["Brasileirão", "/liga/brasil-2026", (p) => p.startsWith("/liga/brasil-2026")],
   ["Nations League", "/liga/nations-league-2026", (p) => p.startsWith("/liga/nations-league-2026")],
+  ["Más ligas", "/mas-ligas", (p) => p.startsWith("/mas-ligas")],
 ];
 
 export default function Navbar() {
