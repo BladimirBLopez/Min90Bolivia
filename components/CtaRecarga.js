@@ -22,7 +22,7 @@ export default function CtaRecarga({ texto = "Hola, quiero jugar en Metabet y ca
             Picks gratis en el grupo
           </a>
         </div>
-        <Link href="/recargar" className="mt-4 inline-block text-sm text-slate-600 underline">
+        <Link href="/recarga-ahora" className="mt-4 inline-block text-sm text-slate-600 underline">
           Ver cómo recargar paso a paso
         </Link>
       </div>

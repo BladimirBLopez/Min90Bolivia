@@ -9,7 +9,7 @@ const links = [
   ["Guías", "/guias"],
   ["Resultados", "/#resultados"],
   ["Calculadora", "/#calculadora"],
-  ["Recargar", "/recargar"],
+  ["Recargar", "/recarga-ahora"],
 ];
 
 export default function Navbar() {
