@@ -5,7 +5,9 @@ import Navbar from "@/components/Navbar";
 import CtaRecarga from "@/components/CtaRecarga";
 import EscudoLiga from "@/components/EscudoLiga";
 import FormaLiga from "@/components/FormaLiga";
-import { ligaPorSlug, partidoPorId, datosEquipo, h2hLiga, slugEquipo, jugado, cargarLiga } from "@/lib/ligas";
+import { ligaPorSlug, partidoPorId, datosEquipo, h2hLiga, slugEquipo, jugado, cargarLiga, resultadoPara } from "@/lib/ligas";
+import Cuenta from "@/components/Cuenta";
+import TabsAncla from "@/components/TabsAncla";
 import { aPartidos, ajustar, predecir } from "@/lib/modelo";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
@@ -56,6 +58,34 @@ export default async function PartidoLiga({ params }) {
     ["Más de 2.5 goles", `${pct(sa.o25, sa.pj)}%`, `${pct(sb.o25, sb.pj)}%`],
   ];
   const eq = (t) => `/liga/${slug}/equipo/${slugEquipo(t.nombre)}`;
+  const nd = duelos.length;
+  const rd = duelos.map((d) => resultadoPara(d, m.local.id));
+  const dg = rd.filter((r) => r === "G").length;
+  const de = rd.filter((r) => r === "E").length;
+  const dp = rd.filter((r) => r === "P").length;
+  const dgoles = duelos.reduce((s, d) => s + d.goles.local + d.goles.visitante, 0);
+  const dbtts = duelos.filter((d) => d.goles.local > 0 && d.goles.visitante > 0).length;
+  const colr = { G: "bg-green-500 text-black", E: "bg-yellow-500 text-black", P: "bg-red-500 text-white" };
+  const filaUlt = (x, idEq) => {
+    const r = resultadoPara(x, idEq);
+    return (
+      <Link key={x.id} href={`/liga/${slug}/partido/${x.id}`} className="flex items-center gap-3 border-t border-slate-100 px-4 py-3 text-sm first:border-t-0 hover:bg-oro-50">
+        <span className="w-14 shrink-0 text-xs text-slate-500">{fmt(x.fecha)}</span>
+        <span className="min-w-0 flex-1">
+          <span className="flex items-center gap-2">
+            <EscudoLiga e={x.local} size={18} />
+            <span className={`truncate ${x.local.id === idEq ? "font-bold" : ""}`}>{x.local.nombre}</span>
+          </span>
+          <span className="mt-1 flex items-center gap-2">
+            <EscudoLiga e={x.visitante} size={18} />
+            <span className={`truncate ${x.visitante.id === idEq ? "font-bold" : ""}`}>{x.visitante.nombre}</span>
+          </span>
+        </span>
+        <span className="text-right font-bold leading-tight">{x.goles.local}<br />{x.goles.visitante}</span>
+        <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded text-xs font-bold ${colr[r]}`}>{r}</span>
+      </Link>
+    );
+  };
 
   return (
     <main className="min-h-screen bg-crema text-slate-900">
@@ -82,6 +112,7 @@ export default async function PartidoLiga({ params }) {
               <span className="mt-2 text-sm font-bold">{m.visitante.nombre}</span>
             </Link>
           </div>
+          <Cuenta inicio={!fin && m.hora ? `${m.fecha}T${m.hora}:00-04:00` : null} />
           <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
             <FormaLiga lista={sa.forma} />
             <span>Forma</span>
@@ -89,6 +120,19 @@ export default async function PartidoLiga({ params }) {
           </div>
         </div>
 
+        <TabsAncla items={[["Información", "#info"], ...(!fin ? [["Tendencias", "#tendencias"]] : []), ["Comparación", "#comparacion"], ["H2H", "#h2h"], ["Últimos partidos", "#ultimos"]]} />
+
+        <h2 id="info" className="mb-3 mt-8 scroll-mt-4 text-xl font-extrabold">Información del partido</h2>
+        <div className={`${box} divide-y divide-slate-100 px-4`}>
+          {[["Torneo", `${liga.nombre} ${liga.temporada}`], ["Ronda", m.ronda], ["Fecha y hora (Bolivia)", `${fmt(m.fecha)}${m.hora ? ` · ${m.hora}` : ""}`], ...(m.estadio ? [["Estadio", m.estadio]] : [])].map(([k, v]) => (
+            <div key={k} className="flex justify-between gap-3 py-3 text-sm">
+              <span className="text-slate-500">{k}</span>
+              <span className="text-right font-semibold">{v}</span>
+            </div>
+          ))}
+        </div>
+
+        <div id="tendencias" className="scroll-mt-4" />
         {!fin && (() => {
           try {
             const p = predecir(ajustar(aPartidos(cargarLiga(slug))), m.local.id, m.visitante.id);
@@ -130,7 +174,7 @@ export default async function PartidoLiga({ params }) {
           }
         })()}
 
-        <h2 className="mb-3 mt-8 text-xl font-extrabold">Comparación</h2>
+        <h2 id="comparacion" className="mb-3 mt-8 scroll-mt-4 text-xl font-extrabold">Comparación</h2>
         <div className={`${box} divide-y divide-slate-100 px-4`}>
           {filas.map(([k, a, b]) => (
             <div key={k} className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 py-3 text-sm">
@@ -142,9 +186,28 @@ export default async function PartidoLiga({ params }) {
         </div>
         <p className="mt-2 text-xs text-slate-500">Estadísticas de la temporada, no son pronósticos. Los pronósticos Min90 van en el grupo de WhatsApp.</p>
 
+        <h2 id="h2h" className="mb-3 mt-8 scroll-mt-4 text-xl font-extrabold">Cara a cara (H2H)</h2>
+        {duelos.length === 0 ? <p className="text-sm text-slate-500">Todavía no se enfrentaron en los partidos de esta temporada que tenemos guardados.</p> : null}
         {duelos.length > 0 && (
           <>
-            <h2 className="mb-3 mt-8 text-xl font-extrabold">Cara a cara esta temporada</h2>
+            <div className={`${box} mb-3 p-4`}>
+              <div className="flex h-2 overflow-hidden rounded-full bg-slate-200">
+                <div className="bg-green-500" style={{ width: `${pct(dg, nd)}%` }} />
+                <div className="bg-slate-400" style={{ width: `${pct(de, nd)}%` }} />
+                <div className="bg-blue-500" style={{ width: `${pct(dp, nd)}%` }} />
+              </div>
+              <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+                <div><p className="text-xl font-black text-green-600">{pct(dg, nd)}%</p><p className="text-[11px] leading-tight text-slate-500">{dg} gana {m.local.nombre}</p></div>
+                <div><p className="text-xl font-black text-slate-500">{pct(de, nd)}%</p><p className="text-[11px] leading-tight text-slate-500">{de} empate{de === 1 ? "" : "s"}</p></div>
+                <div><p className="text-xl font-black text-blue-600">{pct(dp, nd)}%</p><p className="text-[11px] leading-tight text-slate-500">{dp} gana {m.visitante.nombre}</p></div>
+              </div>
+              <div className="mt-4 divide-y divide-slate-100 text-sm">
+                <div className="flex justify-between py-2"><span className="text-slate-600">Total de partidos</span><span className="font-semibold">{nd}</span></div>
+                <div className="flex justify-between py-2"><span className="text-slate-600">Goles por partido</span><span className="font-semibold">{(dgoles / nd).toFixed(2)}</span></div>
+                <div className="flex justify-between py-2"><span className="text-slate-600">Ambos equipos anotaron</span><span className="font-semibold">{pct(dbtts, nd)}%</span></div>
+              </div>
+              <p className="mt-2 text-[11px] text-slate-500">Solo partidos de esta temporada guardados en la web.</p>
+            </div>
             <div className={box}>
               {duelos.map((d) => (
                 <Link key={d.id} href={`/liga/${slug}/partido/${d.id}`} className="flex items-center justify-between gap-3 border-t border-slate-100 px-4 py-3 text-sm first:border-t-0 hover:bg-oro-50">
@@ -156,6 +219,23 @@ export default async function PartidoLiga({ params }) {
             </div>
           </>
         )}
+      </section>
+
+      <section className="mx-auto max-w-3xl px-5 pb-6">
+        <h2 id="ultimos" className="mb-3 scroll-mt-4 text-xl font-extrabold">Últimos partidos</h2>
+        {[[m.local, sa], [m.visitante, sb]].map(([t, s]) => (
+          <div key={t.id} className="mb-4">
+            <Link href={eq(t)} className="mb-2 flex items-center gap-2 font-bold hover:text-oro-700">
+              <EscudoLiga e={t} size={24} />
+              {t.nombre}
+            </Link>
+            <div className={box}>
+              {s.ultimos.slice(0, 5).map((x) => filaUlt(x, t.id))}
+              {s.ultimos.length === 0 ? <p className="p-4 text-sm text-slate-500">Todavía no hay partidos jugados.</p> : null}
+            </div>
+          </div>
+        ))}
+        <p className="text-xs text-slate-500">Solo resultados de esta temporada. Córners, tarjetas y xG no están disponibles en nuestros datos.</p>
       </section>
 
       <CtaRecarga texto={`Hola, quiero cargar y jugar ${m.local.nombre} vs ${m.visitante.nombre}. Vi el partido en Min90 Bolivia. Soy mayor de 18 años.`} />
