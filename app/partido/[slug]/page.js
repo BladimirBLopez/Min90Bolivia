@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import CtaRecarga from "@/components/CtaRecarga";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import { ajustar, predecir, aPartidos } from "@/lib/modelo";
 import ShareButton from "@/components/ShareButton";
 import { Escudo, Forma, FilaPartido, fmtFecha } from "@/components/LigaUI";
 import { pares, parseSlugPartido, porSlug, h2h, resultado as resultado24, rutaPartido } from "@/lib/liga";
@@ -175,6 +176,49 @@ export default async function Partido({ params }) {
           </div>
         </section>
       )}
+
+      {!jugado(real) && (() => {
+        const p = predecir(ajustar(aPartidos(partidos2026)), a.id, b.id);
+        if (!p) return null;
+        const r = (x) => Math.round(x * 100);
+        const amb = Math.round((pct(sa.btts, sa.pj) + pct(sb.btts, sb.pj)) / 2);
+        const texto = `Hola, quiero jugar ${a.nombre} vs ${b.nombre}. Vi la lectura Min90 en la web. Soy mayor de 18 años.`;
+        const chip = "rounded-full border-2 border-oro-400 bg-white px-3 py-1 text-slate-700";
+        return (
+          <section className="mx-auto max-w-3xl px-5 py-4">
+            <div className="rounded-2xl border border-oro-400 bg-gradient-to-b from-oro-50 to-white p-5">
+              <div className="flex items-center justify-between gap-2">
+                <h2 className="text-xl font-extrabold">Lectura Min90</h2>
+                <span className="rounded-full bg-slate-900 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-oro-200">Estimación estadística</span>
+              </div>
+              <p className="mt-1 text-xs text-slate-600">Probabilidades calculadas con los resultados de la temporada 2026.</p>
+              <div className="mt-4 flex h-3 overflow-hidden rounded-full bg-slate-200">
+                <div className="bg-oro-500" style={{ flex: p.p1 }} />
+                <div className="bg-slate-400" style={{ flex: p.px }} />
+                <div className="bg-slate-800" style={{ flex: p.p2 }} />
+              </div>
+              <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+                <div><p className="text-2xl font-black text-oro-700">{r(p.p1)}%</p><p className="text-xs font-semibold text-slate-700">{a.nombre}</p></div>
+                <div><p className="text-2xl font-black text-slate-500">{r(p.px)}%</p><p className="text-xs font-semibold text-slate-700">Empate</p></div>
+                <div><p className="text-2xl font-black text-slate-900">{r(p.p2)}%</p><p className="text-xs font-semibold text-slate-700">{b.nombre}</p></div>
+              </div>
+              <div className="mt-4 flex flex-wrap justify-center gap-2 text-sm font-bold">
+                <span className={chip}>Más de 2.5 goles {r(p.o25)}%</span>
+                <span className={chip}>Ambos marcan {amb}%</span>
+                <span className={chip}>Local o empate {r(p.x1)}%</span>
+                <span className={chip}>Empate o visita {r(p.x2)}%</span>
+              </div>
+              <p className="mt-4 text-center text-sm text-slate-700">
+                Goles esperados: <b>{p.lh.toFixed(1)}</b> a <b>{p.la.toFixed(1)}</b>. Marcadores más probables: {p.top.map((s) => `${s.x}-${s.y} (${r(s.p)}%)`).join(" · ")}
+              </p>
+              <div className="mt-5 flex justify-center">
+                <WhatsAppButton texto={texto}>Quiero jugar este partido</WhatsAppButton>
+              </div>
+              <p className="mt-3 text-center text-[11px] text-slate-500">Es una estimación estadística, no una garantía de resultado. Solo +18. Juega con responsabilidad.</p>
+            </div>
+          </section>
+        );
+      })()}
 
       <section className="mx-auto max-w-3xl px-5 py-4">
         <h2 className="mb-3 text-xl font-bold">Tabla 2026</h2>
