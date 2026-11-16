@@ -4,8 +4,8 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import { Escudo } from "@/components/LigaUI";
 import { proximosTodos2026, equipos2026 } from "@/lib/liga2026";
 
-const TITULO = "Recarga ahora en Metabet con atención directa por WhatsApp | Min90 Bolivia";
-const DESC = "Te creamos tu cuenta, pagas por QR y cargamos tu saldo. Además recibes picks gratis en nuestro grupo de WhatsApp.";
+const TITULO = "Recarga ahora en Metabet | Min90 Bolivia";
+const DESC = "Te creamos tu cuenta, pagas por QR y cargamos tu saldo por WhatsApp. Picks gratis en el grupo. Solo +18.";
 const GRUPO = "https://chat.whatsapp.com/CB3GeNfmOqe31XQGjjDVwN?s=cl&p=a&iam=2";
 const MSG = "Hola, quiero recargar ahora en Metabet. Soy mayor de 18 años.";
 
