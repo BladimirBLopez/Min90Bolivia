@@ -17,6 +17,7 @@ export default function sitemap() {
     { url: `${base}/equipos`, lastModified: ahora, changeFrequency: "daily", priority: 0.9 },
     { url: `${base}/recargar`, lastModified: ahora, changeFrequency: "monthly", priority: 0.9 },
     { url: `${base}/pronosticos-hoy`, lastModified: ahora, changeFrequency: "daily", priority: 0.9 },
+    { url: `${base}/jugar`, lastModified: ahora, changeFrequency: "monthly", priority: 0.9 },
     { url: `${base}/guias`, lastModified: ahora, changeFrequency: "weekly", priority: 0.8 },
     ...guias.map((g) => ({ url: `${base}/guias/${g.slug}`, lastModified: ahora, changeFrequency: "monthly", priority: 0.7 })),
     ...equipos2026.map((e) => ({ url: `${base}/equipo/${e.slug}`, lastModified: ahora, changeFrequency: "daily", priority: 0.8 })),
