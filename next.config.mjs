@@ -5,6 +5,7 @@ const nextConfig = {
     "/partido/**": ["./data/liga2026/**/*"],
     "/equipo/[slug]/opengraph-image": ["./data/liga2026/**/*"],
     "/equipo/**": ["./data/liga2026/**/*"],
+    "/liga/**": ["./data/ligas/**/*"],
   },
 };
 
