@@ -16,8 +16,10 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-oro-300 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
-        <Link href="/#inicio" className="text-2xl font-black tracking-tight">
-          Min<span className="text-oro-600">90</span>
+        <Link href="/#inicio" className="flex items-center gap-2 text-2xl font-black tracking-tight">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-min90.png" alt="Min90 Bolivia" width={40} height={40} className="h-10 w-10 rounded-xl" />
+          <span>Min<span className="text-oro-600">90</span></span>
         </Link>
         <nav className="hidden gap-5 text-sm text-slate-700 sm:flex">
           {links.map(([t, h]) => (
