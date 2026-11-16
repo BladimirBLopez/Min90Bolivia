@@ -10,7 +10,7 @@ const fmt = (f) => {
   const dt = new Date(Date.UTC(y, m - 1, d));
   return `${DIAS[dt.getUTCDay()]} ${d} ${MESES[m - 1]}`;
 };
-const tabs = [["proximos", "Próximos"], ["hoy", "Hoy"], ["manana", "Mañana"], ["terminados", "Terminados"]];
+const tabs = [["vivo", "🔴 En vivo"], ["proximos", "Próximos"], ["hoy", "Hoy"], ["manana", "Mañana"], ["terminados", "Terminados"]];
 const hoy = () => new Date(Date.now() - 4 * 3600 * 1000).toISOString().slice(0, 10);
 const manana = () => new Date(Date.now() + 20 * 3600 * 1000).toISOString().slice(0, 10);
 
@@ -22,8 +22,16 @@ function Escudito({ t }) {
   return <img src={t.logo} alt={t.nombre} width={56} height={56} loading="lazy" className="h-14 w-14 object-contain" />;
 }
 
+const esNations = (m) =>
+  m.liga === "Nations League" ||
+  (typeof m.href === "string" &&
+   m.href.startsWith("/liga/nations-league-2026/partido/"));
+
 function Tarjeta({ m }) {
-  const fin = m.goles.local !== null && m.goles.visitante !== null && !m.pick && m.terminado;
+  const mostrarMarcador =
+    (m.terminado || m.enVivo) &&
+    m.goles.local !== null &&
+    m.goles.visitante !== null;
   const c = m.pick ? m.pick.confianza || 0 : 0;
   const texto = m.pick
     ? `Hola, quiero cargar y jugar "${m.pick.pick}" en ${m.local.nombre} vs ${m.visitante.nombre}. Vi el pronóstico en Min90 Bolivia`
@@ -32,13 +40,32 @@ function Tarjeta({ m }) {
     <article className="relative rounded-2xl border border-slate-200 border-t-4 border-t-oro-500 bg-white p-4 shadow-md shadow-slate-200/70 transition hover:-translate-y-0.5 hover:shadow-lg">
       {m.slug || m.href ? <a href={m.href || `/partido/${m.slug}`} aria-label={`Ver análisis de ${m.local.nombre} vs ${m.visitante.nombre}`} className="absolute inset-0 z-0 rounded-2xl" /> : null}
       {m.slug || m.href ? <span aria-hidden="true" className="pointer-events-none absolute right-3 top-3 text-xl text-slate-500">›</span> : null}
+      {m.enVivo ? (
+        <div className="mb-2 flex justify-end" aria-live="polite">
+          <span className={"rounded-full px-3 py-1 text-xs font-extrabold " +
+            (m.estadoVivo === "HT"
+              ? "bg-amber-100 text-amber-800"
+              : "bg-red-600 text-white")}>
+            {m.estadoVivo === "HT"
+              ? "DESCANSO · HT"
+              : "🔴 EN VIVO" +
+                (m.minutoVivo ? " · " + m.minutoVivo : "")}
+          </span>
+        </div>
+      ) : m.finESPN ? (
+        <div className="mb-2 flex justify-end">
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
+            FINAL
+          </span>
+        </div>
+      ) : null}
       <p className="text-xs text-slate-600">
         {m.liga ? <span className="block font-bold text-oro-700">{m.liga}</span> : null}{fmt(m.fecha)}{m.hora ? ` · ${m.hora}` : ""} · Ronda {m.ronda}
         {m.estadio ? <span className="block text-slate-400">{m.estadio}</span> : null}
       </p>
       <div className="mt-3 flex items-center justify-between gap-2 text-center">
         <div className="flex flex-1 flex-col items-center"><Escudito t={m.local} /><span className="mt-2 text-sm font-bold text-slate-900">{m.local.nombre}</span></div>
-        {m.terminado
+        {mostrarMarcador
           ? <span className="text-xl font-black text-oro-700">{m.goles.local} - {m.goles.visitante}</span>
           : <span className="text-sm font-bold text-slate-500">vs</span>}
         <div className="flex flex-1 flex-col items-center"><Escudito t={m.visitante} /><span className="mt-2 text-sm font-bold text-slate-900">{m.visitante.nombre}</span></div>
@@ -74,16 +101,108 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
   const opciones = ligas && ligas.length ? ligas : [{ k: "unica", nombre: "", pendientes, terminados }];
   const [lk, setLk] = useState(opciones[0].k);
   const [ref, setRef] = useState(null);
+  const [datosEnVivo, setDatosEnVivo] = useState({});
+  const [errorEnVivo, setErrorEnVivo] = useState(false);
   useEffect(() => { setRef({ h: hoy(), m: manana() }); }, []);
+
+  const hayNationsHoy = opciones.some((o) =>
+    [...o.pendientes, ...o.terminados].some(
+      (m) => esNations(m) && m.fecha === hoy()
+    )
+  );
+
+  useEffect(() => {
+    if (!hayNationsHoy) return;
+
+    let activo = true;
+
+    const actualizar = async () => {
+      try {
+        const r = await fetch("/api/en-vivo", {
+          cache: "no-store"
+        });
+
+        if (!r.ok) throw new Error("API HTTP " + r.status);
+
+        const d = await r.json();
+
+        if (d.fecha !== hoy() || !Array.isArray(d.partidos)) {
+          throw new Error("Respuesta inválida");
+        }
+
+        const mapa = Object.fromEntries(
+          d.partidos
+            .filter((p) =>
+              p.liga === "nations-league-2026" &&
+              p.idLocal != null
+            )
+            .map((p) => [String(p.idLocal), p])
+        );
+
+        if (activo) {
+          setDatosEnVivo(mapa);
+          setErrorEnVivo(false);
+        }
+      } catch {
+        if (activo) {
+          setDatosEnVivo({});
+          setErrorEnVivo(true);
+        }
+      }
+    };
+
+    actualizar();
+
+    const reloj = setInterval(actualizar, 60000);
+
+    return () => {
+      activo = false;
+      clearInterval(reloj);
+    };
+  }, [hayNationsHoy]);
   const actual = opciones.find((x) => x.k === lk) || opciones[0];
-  const pend = actual.pendientes.map((m) => ({ ...m, terminado: false }));
-  const term = actual.terminados.map((m) => ({ ...m, terminado: true }));
+  const combinar = (m, terminado) => {
+    const p = esNations(m) && m.fecha === hoy()
+      ? datosEnVivo[String(m.id)]
+      : null;
+
+    if (!p) return { ...m, terminado, enVivo: false };
+
+    const golesValidos =
+      Number.isFinite(p.goles?.local) &&
+      Number.isFinite(p.goles?.visitante);
+
+    const enVivo = p.fase === "in";
+    const finESPN = p.fase === "post" && golesValidos;
+
+    return {
+      ...m,
+      terminado: terminado || finESPN,
+      enVivo,
+      finESPN,
+      estadoVivo: p.detalle,
+      minutoVivo: p.minuto,
+      goles: golesValidos ? p.goles : m.goles,
+    };
+  };
+
+  const todos = [
+    ...actual.pendientes.map((m) => combinar(m, false)),
+    ...actual.terminados.map((m) => combinar(m, true)),
+  ];
+
+  const pend = todos.filter((m) =>
+    !m.terminado && !m.enVivo
+  );
+  const term = todos.filter((m) => m.terminado);
+  const vivos = todos.filter((m) => m.enVivo);
   let lista;
-  if (tab === "proximos") lista = [...pend].sort((x, y) => `${x.fecha || ""} ${x.hora || ""}`.localeCompare(`${y.fecha || ""} ${y.hora || ""}`));
+  if (tab === "vivo") lista = [...vivos].sort((a, b) => (a.hora || "").localeCompare(b.hora || ""));
+  else if (tab === "proximos") lista = [...pend].sort((x, y) => `${x.fecha || ""} ${x.hora || ""}`.localeCompare(`${y.fecha || ""} ${y.hora || ""}`));
   else if (tab === "terminados") lista = term;
   else {
     const d = tab === "hoy" ? hoy() : manana();
-    lista = [...term, ...pend].filter((m) => m.fecha === d).sort((a, b) => (a.hora || "").localeCompare(b.hora || ""));
+    lista = todos.filter((m) => m.fecha === d).sort((a, b) => (a.hora || "").localeCompare(b.hora || ""));
   }
   const cambiar = (k) => { setTab(k); setN(8); };
   const cambiarLiga = (k) => { setLk(k); setTab("proximos"); setN(8); };
@@ -108,10 +227,10 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
         </div>
       ) : null}
       <div className="mb-4 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {tabs.map(([k, t]) => (
+        {tabs.filter(([k]) => k !== "vivo" || todos.some(esNations)).map(([k, t]) => (
           <button key={k} onClick={() => cambiar(k)}
             className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold ${tab === k ? "border border-oro-500 bg-oro-400 text-slate-900 shadow-sm" : "border border-slate-300 bg-white text-slate-700 hover:border-oro-500"}`}>
-            {t}
+            {k === "vivo" && vivos.length ? `${t} (${vivos.length})` : t}
           </button>
         ))}
       </div>
@@ -129,7 +248,7 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
       </div>
       {lista.length === 0 && (
         <div className="rounded-xl bg-white p-4 text-center text-sm text-slate-600">
-          No hay partidos en esta categoría.
+          {tab === "vivo" && errorEnVivo ? "No se pudieron actualizar los partidos en vivo." : "No hay partidos en esta categoría."}
           <button onClick={() => cambiar("proximos")} className="ml-2 font-semibold text-oro-700 underline">Ver próximos</button>
         </div>
       )}
