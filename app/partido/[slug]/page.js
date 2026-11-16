@@ -184,9 +184,39 @@ export default async function Partido({ params }) {
         const amb = Math.round((pct(sa.btts, sa.pj) + pct(sb.btts, sb.pj)) / 2);
         const texto = `Hola, quiero jugar ${a.nombre} vs ${b.nombre}. Vi la lectura Min90 en la web. Soy mayor de 18 años.`;
         const chip = "rounded-full border-2 border-oro-400 bg-white px-3 py-1 text-slate-700";
+        const dc = p.x1 >= p.x2 ? { t: `${a.nombre} o empate`, v: p.x1 } : { t: `${b.nombre} o empate`, v: p.x2 };
+        const gl = p.o25 >= 0.5 ? { t: "Más de 2.5 goles", v: p.o25 } : { t: "Menos de 2.5 goles", v: 1 - p.o25 };
+        const am = amb >= 50 ? { t: "Sí", v: amb / 100 } : { t: "No", v: (100 - amb) / 100 };
+        const filas = [["Resultado", dc], ["Goles", gl], ["Ambos marcan", am]];
+        const fuerte = filas.reduce((m, f) => (f[1].v > m[1].v ? f : m), filas[0]);
+        const waPick = `Hola, quiero jugar ${a.nombre} vs ${b.nombre}. Vi el pronóstico Min90 (${fuerte[1].t}) en la web y quiero consultar la cuota. Soy mayor de 18 años.`;
         return (
           <section className="mx-auto max-w-3xl px-5 py-4">
-            <div className="rounded-2xl border border-oro-400 bg-gradient-to-b from-oro-50 to-white p-5">
+                        <div className="rounded-2xl border-2 border-oro-500 bg-white p-5 shadow-sm">
+              <div className="flex items-center justify-between gap-2">
+                <h2 className="text-xl font-extrabold">Pronóstico Min90</h2>
+                <span className="rounded-full bg-oro-500 px-3 py-1 text-[11px] font-black uppercase tracking-wide text-slate-900">Selecciones del modelo</span>
+              </div>
+              <p className="mt-1 text-xs text-slate-600">Lo más probable según los resultados de 2026.</p>
+              <div className="mt-4 space-y-3">
+                {filas.map(([k, f]) => (
+                  <div key={k}>
+                    <div className="flex items-baseline justify-between gap-3">
+                      <p className="text-sm"><span className="mr-2 text-xs uppercase text-slate-500">{k}</span><b className={f.v >= 0.55 ? "text-slate-900" : "text-slate-500"}>{f.t}</b></p>
+                      <p className={`text-lg font-black ${f.v >= 0.55 ? "text-oro-700" : "text-slate-400"}`}>{r(f.v)}%</p>
+                    </div>
+                    <div className="mt-1 h-2 overflow-hidden rounded-full bg-slate-200"><div className={f.v >= 0.55 ? "h-full bg-oro-500" : "h-full bg-slate-400"} style={{ width: `${r(f.v)}%` }} /></div>
+                    {f.v < 0.55 ? <p className="mt-0.5 text-[11px] text-slate-500">Sin ventaja clara</p> : null}
+                  </div>
+                ))}
+              </div>
+              <div className="mt-5 flex flex-wrap items-center gap-3">
+                <WhatsAppButton texto={waPick}>Consultar cuota</WhatsAppButton>
+                <ShareButton texto={`Pronóstico Min90: ${a.nombre} vs ${b.nombre} - ${fuerte[1].t} (${r(fuerte[1].v)}% estimado)`} />
+              </div>
+              <p className="mt-3 text-[11px] text-slate-500">Estimación estadística, no una garantía de resultado. Solo +18. Juega con responsabilidad.</p>
+            </div>
+            <div className="mt-4 rounded-2xl border border-oro-400 bg-gradient-to-b from-oro-50 to-white p-5">
               <div className="flex items-center justify-between gap-2">
                 <h2 className="text-xl font-extrabold">Lectura Min90</h2>
                 <span className="rounded-full bg-slate-900 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-oro-200">Estimación estadística</span>
