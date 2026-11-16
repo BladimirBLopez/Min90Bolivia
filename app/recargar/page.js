@@ -30,7 +30,7 @@ export default function Recargar() {
     <>
     <Navbar />
     <main className="mx-auto max-w-2xl px-4 py-10 text-slate-900">
-      <Link href="/" className="text-sm text-amber-700">← Volver a Min90 Bolivia</Link>
+      <Link href="/" className="text-sm text-oro-700">← Volver a Min90 Bolivia</Link>
       <h1 className="mt-4 text-3xl font-extrabold">Cómo recargar en Metabet desde Bolivia</h1>
       <p className="mt-3 text-slate-700">
         Recarga tu saldo con nosotros pagando por <strong>QR</strong>. Te acompañamos paso a paso por WhatsApp.
@@ -45,7 +45,7 @@ export default function Recargar() {
         Crear mi cuenta por WhatsApp
       </a>
 
-      <h2 className="mt-10 text-2xl font-bold">Paso a paso</h2>
+      <h2 className="mt-10 text-2xl font-bold titulo-oro">Paso a paso</h2>
       <ol className="mt-4 space-y-4">
         {pasos.map((p, i) => (
           <li key={i} className="flex gap-4 rounded-xl bg-slate-100 p-4">
@@ -60,7 +60,7 @@ export default function Recargar() {
       <p className="mt-4 text-sm text-slate-700">¿Ya tienes cuenta en Metabet? Escríbenos tu usuario y el monto, y te cargamos saldo directo.</p>
 
       <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-        <a href={METABET} target="_blank" rel="noopener noreferrer" className="flex-1 rounded-full border border-amber-500 px-6 py-3 text-center font-semibold text-amber-700">
+        <a href={METABET} target="_blank" rel="noopener noreferrer" className="flex-1 rounded-full border border-oro-500 px-6 py-3 text-center font-semibold text-oro-700">
           Ir a Metabet
         </a>
         <a href={GRUPO} target="_blank" rel="noopener noreferrer" className="flex-1 rounded-full border border-slate-500 px-6 py-3 text-center font-semibold text-slate-700">

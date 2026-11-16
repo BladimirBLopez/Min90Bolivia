@@ -1,6 +1,6 @@
 const tonos = {
   gris: "bg-slate-100 text-slate-700",
-  verde: "bg-amber-400/20 text-amber-800 ring-1 ring-amber-500/40",
+  verde: "bg-oro-400/20 text-oro-800 ring-1 ring-oro-500/40",
   amarillo: "bg-yellow-500/15 text-yellow-700 ring-1 ring-yellow-500/30",
   rojo: "bg-red-500/15 text-red-600 ring-1 ring-red-500/30",
 };

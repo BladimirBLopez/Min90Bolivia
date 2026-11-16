@@ -58,7 +58,7 @@ const jugado = (m) => !!m && m.estado === "FT" && m.goles.local !== null && m.go
 function Nombre({ t, id }) {
   const x = equipos2026.find((q) => q.id === t.id);
   const cls = t.id === id ? "font-bold" : "";
-  return x ? <a href={`/equipo/${x.slug}`} className={`hover:text-amber-700 ${cls}`}>{t.nombre}</a> : <span className={cls}>{t.nombre}</span>;
+  return x ? <a href={`/equipo/${x.slug}`} className={`hover:text-oro-700 ${cls}`}>{t.nombre}</a> : <span className={cls}>{t.nombre}</span>;
 }
 
 function FilaRes({ m, id }) {
@@ -67,7 +67,7 @@ function FilaRes({ m, id }) {
     <tr className="border-t border-slate-200">
       <td className="p-3 text-slate-500">{fmt(m.fecha)}</td>
       <td className="p-3"><Nombre t={m.local} id={id} /></td>
-      <td className="p-3 font-bold text-amber-700">{m.goles.local}-{m.goles.visitante}</td>
+      <td className="p-3 font-bold text-oro-700">{m.goles.local}-{m.goles.visitante}</td>
       <td className="p-3"><Nombre t={m.visitante} id={id} /></td>
       <td className="p-3"><span className={`rounded px-2 py-0.5 text-xs font-bold ${col[r]}`}>{r}</span></td>
     </tr>
@@ -80,7 +80,7 @@ function Comp({ label, a, b, suf = "", dec = 0 }) {
   return (
     <div className="py-2">
       <div className="mb-1 flex justify-between text-xs">
-        <span className="font-semibold text-amber-700">{a.toFixed(dec)}{suf}</span>
+        <span className="font-semibold text-oro-700">{a.toFixed(dec)}{suf}</span>
         <span className="text-slate-600">{label}</span>
         <span className="font-semibold text-yellow-700">{b.toFixed(dec)}{suf}</span>
       </div>
@@ -103,12 +103,12 @@ export default async function Partido({ params }) {
       <main className="min-h-screen bg-white text-slate-900">
         <Navbar />
         <section className="mx-auto max-w-3xl px-5 pb-16 pt-10 text-center">
-          <Link href="/" className="text-xs text-amber-700">← Volver a pronósticos</Link>
+          <Link href="/" className="text-xs text-oro-700">← Volver a pronósticos</Link>
           <h1 className="mt-4 text-2xl font-extrabold">{old[0].nombre} vs {old[1].nombre}</h1>
           <p className="mt-4 rounded-xl bg-slate-50 p-4 text-sm text-slate-700">
             Uno de estos equipos no está en la Primera División 2026. Mira los equipos de esta temporada.
           </p>
-          <a href="/equipos" className="mt-4 inline-block text-sm text-amber-700">Ver equipos 2026</a>
+          <a href="/equipos" className="mt-4 inline-block text-sm text-oro-700">Ver equipos 2026</a>
         </section>
       </main>
     );
@@ -137,8 +137,8 @@ export default async function Partido({ params }) {
       </div>
 
       <section className="mx-auto max-w-3xl px-5 pb-4 pt-10 text-center">
-        <Link href="/" className="text-xs text-amber-700">← Volver a pronósticos</Link>
-        <p className="mt-4 text-xs uppercase tracking-widest text-amber-700">Primera División de Bolivia</p>
+        <Link href="/" className="text-xs text-oro-700">← Volver a pronósticos</Link>
+        <p className="mt-4 text-xs uppercase tracking-widest text-oro-700">Primera División de Bolivia</p>
         <div className="mt-4 flex items-center justify-center gap-4">
           <a href={`/equipo/${a.slug}`} className="flex flex-col items-center"><Escudo e={a} size={64} /><span className="mt-1 text-sm font-semibold">{a.nombre}</span></a>
           <span className="text-2xl font-bold text-slate-500">vs</span>
@@ -147,13 +147,13 @@ export default async function Partido({ params }) {
         <p className="mt-3 text-sm text-slate-600">
           {real ? `${fmt(real.fecha)}${real.hora ? ` · ${real.hora}` : ""} (hora Bolivia)${real.estadio ? ` · ${real.estadio}` : ""} · Ronda ${real.ronda}` : "Fecha por confirmar"}
         </p>
-        {jugado(real) ? <p className="mt-1 text-lg font-bold text-amber-700">Resultado final: {real.goles.local}-{real.goles.visitante}</p> : null}
+        {jugado(real) ? <p className="mt-1 text-lg font-bold text-oro-700">Resultado final: {real.goles.local}-{real.goles.visitante}</p> : null}
       </section>
 
       {pick && (
         <section className="mx-auto max-w-3xl px-5 py-4">
-          <div className="rounded-2xl border border-amber-500/60 bg-amber-50 p-5">
-            <p className="text-xs uppercase text-amber-700">Pronóstico Min90 · {pick.mercado}</p>
+          <div className="rounded-2xl border border-oro-500/60 bg-oro-50 p-5">
+            <p className="text-xs uppercase text-oro-700">Pronóstico Min90 · {pick.mercado}</p>
             {EJEMPLO ? <p className="text-xs text-yellow-700">Pronóstico de ejemplo</p> : null}
             <p className="mt-1 text-2xl font-bold">{pick.pick}</p>
             <p className="text-sm text-slate-700">Cuota {pick.cuota} · Confianza {"★".repeat(pick.confianza)}{"☆".repeat(3 - pick.confianza)}</p>
@@ -172,7 +172,7 @@ export default async function Partido({ params }) {
           {[[a, fa], [b, fb]].map(([e, f]) => (
             <div key={e.id} className="rounded-xl bg-slate-50 p-3">
               <p className="font-semibold">{e.nombre}</p>
-              <p className="text-amber-700">{f ? `#${f.pos} · ${f.pts} pts` : "—"}</p>
+              <p className="text-oro-700">{f ? `#${f.pos} · ${f.pts} pts` : "—"}</p>
               <p className="text-xs text-slate-500">{f ? `PJ ${f.pj} · ${f.g}-${f.e}-${f.p}` : ""}</p>
             </div>
           ))}
@@ -194,7 +194,7 @@ export default async function Partido({ params }) {
       <section className="mx-auto max-w-3xl px-5 py-4">
         <h2 className="mb-1 text-xl font-bold">Estadísticas 2026</h2>
         <div className="mb-2 flex justify-between text-xs">
-          <span className="text-amber-700">{a.nombre}</span>
+          <span className="text-oro-700">{a.nombre}</span>
           <span className="text-yellow-700">{b.nombre}</span>
         </div>
         <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2">
@@ -207,7 +207,7 @@ export default async function Partido({ params }) {
         <div className="mt-3 grid grid-cols-2 gap-2 text-center text-sm">
           <div className="rounded-xl bg-slate-50 p-3">
             <p className="text-xs text-slate-500">{a.nombre} de local · {sa.casa.pj} PJ</p>
-            <p className="font-bold text-amber-700">{sa.casa.g}-{sa.casa.e}-{sa.casa.p}</p>
+            <p className="font-bold text-oro-700">{sa.casa.g}-{sa.casa.e}-{sa.casa.p}</p>
             <p className="text-xs text-slate-600">Goles {sa.casa.gf}:{sa.casa.gc}</p>
           </div>
           <div className="rounded-xl bg-slate-50 p-3">
@@ -251,12 +251,12 @@ export default async function Partido({ params }) {
       </section>
 
       <section className="mx-auto max-w-3xl px-5 py-4">
-        <div className="rounded-2xl border border-amber-500 bg-slate-50 p-5 text-center">
+        <div className="rounded-2xl border border-oro-500 bg-slate-50 p-5 text-center">
           <p className="text-lg font-bold">¿Quieres jugar {a.nombre} vs {b.nombre}?</p>
           <p className="mt-1 text-sm text-slate-600">Escríbeme por WhatsApp y te cargo saldo.</p>
           <div className="mt-4 flex justify-center"><WhatsAppButton texto={`Hola, quiero cargar y jugar ${a.nombre} vs ${b.nombre}. Vi el partido en Min90 Bolivia`}>Quiero cargar</WhatsAppButton></div>
           <div className="mt-3 flex flex-col items-center gap-2 text-sm">
-            <a href="https://chat.whatsapp.com/CB3GeNfmOqe31XQGjjDVwN?s=cl&p=a&iam=2" target="_blank" rel="noopener noreferrer" className="font-semibold text-amber-700 underline">Picks gratis en el grupo de WhatsApp</a>
+            <a href="https://chat.whatsapp.com/CB3GeNfmOqe31XQGjjDVwN?s=cl&p=a&iam=2" target="_blank" rel="noopener noreferrer" className="font-semibold text-oro-700 underline">Picks gratis en el grupo de WhatsApp</a>
             <Link href="/recargar" className="text-slate-600 underline">Ver cómo recargar paso a paso</Link>
           </div>
         </div>

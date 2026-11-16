@@ -17,10 +17,10 @@ export default function Guias() {
         <p className="mt-2 text-slate-700">Explicaciones simples para entender cuotas, mercados y cómo mantener el control.</p>
         <div className="mt-6 space-y-3">
           {guias.map((g) => (
-            <Link key={g.slug} href={`/guias/${g.slug}`} className="block rounded-2xl border border-slate-200 bg-slate-50 p-4 hover:border-amber-500">
+            <Link key={g.slug} href={`/guias/${g.slug}`} className="block rounded-2xl border border-slate-200 bg-slate-50 p-4 hover:border-oro-500">
               <p className="text-lg font-bold">{g.titulo}</p>
               <p className="mt-1 text-sm text-slate-600">{g.descripcion}</p>
-              <p className="mt-2 text-sm font-semibold text-amber-700">Leer guía →</p>
+              <p className="mt-2 text-sm font-semibold text-oro-700">Leer guía →</p>
             </Link>
           ))}
         </div>

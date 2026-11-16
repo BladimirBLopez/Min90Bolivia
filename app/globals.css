@@ -11,3 +11,13 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+.titulo-oro::after {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 3px;
+  margin-top: 0.5rem;
+  border-radius: 9999px;
+  background: #C9A227;
+}

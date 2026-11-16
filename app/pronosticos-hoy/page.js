@@ -54,11 +54,11 @@ export default function PronosticosHoy() {
                 </p>
                 <p className="mt-1 text-lg font-bold">{m.local.nombre} vs {m.visitante.nombre}</p>
                 {m.estadio ? <p className="text-xs text-slate-500">{m.estadio}</p> : null}
-                {href ? <p className="mt-2 text-sm font-semibold text-amber-700">Ver estadísticas del partido →</p> : null}
+                {href ? <p className="mt-2 text-sm font-semibold text-oro-700">Ver estadísticas del partido →</p> : null}
               </>
             );
             return href ? (
-              <Link key={m.id} href={href} className="block rounded-2xl border border-slate-200 bg-slate-50 p-4 hover:border-amber-500">
+              <Link key={m.id} href={href} className="block rounded-2xl border border-slate-200 bg-slate-50 p-4 hover:border-oro-500">
                 {cuerpo}
               </Link>
             ) : (

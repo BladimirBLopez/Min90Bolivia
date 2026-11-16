@@ -29,7 +29,7 @@ function Tarjeta({ m }) {
     ? `Hola, quiero cargar y jugar "${m.pick.pick}" en ${m.local.nombre} vs ${m.visitante.nombre}. Vi el pronóstico en Min90 Bolivia`
     : `Hola, quiero cargar y jugar ${m.local.nombre} vs ${m.visitante.nombre}. Vi el partido en Min90 Bolivia`;
   return (
-    <article className="relative rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-amber-500/60">
+    <article className="relative rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-oro-500/60">
       <a href={`/partido/${m.slug}`} aria-label={`Ver análisis de ${m.local.nombre} vs ${m.visitante.nombre}`} className="absolute inset-0 z-0 rounded-2xl" />
       <span aria-hidden="true" className="pointer-events-none absolute right-3 top-3 text-xl text-slate-500">›</span>
       <p className="text-xs text-slate-600">
@@ -39,15 +39,15 @@ function Tarjeta({ m }) {
       <div className="mt-3 flex items-center justify-between gap-2 text-center">
         <div className="flex flex-1 flex-col items-center"><Escudito t={m.local} /><span className="mt-1 text-sm font-semibold">{m.local.nombre}</span></div>
         {m.terminado
-          ? <span className="text-xl font-black text-amber-700">{m.goles.local} - {m.goles.visitante}</span>
+          ? <span className="text-xl font-black text-oro-700">{m.goles.local} - {m.goles.visitante}</span>
           : <span className="text-sm font-bold text-slate-500">vs</span>}
         <div className="flex flex-1 flex-col items-center"><Escudito t={m.visitante} /><span className="mt-1 text-sm font-semibold">{m.visitante.nombre}</span></div>
       </div>
       {m.pick ? (
-        <div className="mt-3 rounded-xl border border-amber-500/50 bg-amber-50 p-3">
+        <div className="mt-3 rounded-xl border border-oro-500/50 bg-oro-50 p-3">
           <div className="flex items-center justify-between gap-2">
-            <p className="text-[11px] uppercase tracking-wide text-amber-700">Pronóstico Min90{m.pick.mercado ? ` · ${m.pick.mercado}` : ""}</p>
-            <span className="rounded-full bg-amber-400/15 px-2.5 py-0.5 text-xs font-black text-amber-700 ring-1 ring-amber-500/40">Cuota {m.pick.cuota}</span>
+            <p className="text-[11px] uppercase tracking-wide text-oro-700">Pronóstico Min90{m.pick.mercado ? ` · ${m.pick.mercado}` : ""}</p>
+            <span className="rounded-full bg-oro-400 px-2.5 py-0.5 text-xs font-black text-slate-900">Cuota {m.pick.cuota}</span>
           </div>
           <p className="mt-1 text-lg font-extrabold">{m.pick.pick}</p>
           <p className="text-xs text-yellow-700">{"★".repeat(c)}{"☆".repeat(3 - c)}</p>
@@ -87,7 +87,7 @@ export default function PartidosLista({ pendientes, terminados }) {
       <div className="mb-4 flex gap-2 overflow-x-auto pb-1">
         {tabs.map(([k, t]) => (
           <button key={k} onClick={() => cambiar(k)}
-            className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold ${tab === k ? "bg-amber-400 text-black" : "bg-slate-50 text-slate-700"}`}>
+            className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold ${tab === k ? "bg-oro-400 text-black" : "bg-slate-50 text-slate-700"}`}>
             {t}
           </button>
         ))}
@@ -98,12 +98,12 @@ export default function PartidosLista({ pendientes, terminados }) {
       {lista.length === 0 && (
         <div className="rounded-xl bg-slate-50 p-4 text-center text-sm text-slate-600">
           No hay partidos en esta categoría.
-          <button onClick={() => cambiar("proximos")} className="ml-2 font-semibold text-amber-700 underline">Ver próximos</button>
+          <button onClick={() => cambiar("proximos")} className="ml-2 font-semibold text-oro-700 underline">Ver próximos</button>
         </div>
       )}
       {lista.length > n && (
         <div className="mt-4 text-center">
-          <button onClick={() => setN(n + 8)} className="rounded-full border border-amber-500 px-5 py-2 text-sm font-bold text-amber-700 hover:bg-amber-500/10">Ver más partidos</button>
+          <button onClick={() => setN(n + 8)} className="rounded-full border border-oro-500 px-5 py-2 text-sm font-bold text-oro-700 hover:bg-oro-500/10">Ver más partidos</button>
         </div>
       )}
       <p className="mt-4 text-xs text-slate-500">Las tendencias son el promedio de ambos equipos en 2026 y no garantizan resultados. Solo +18.</p>

@@ -25,7 +25,7 @@ export default async function Guia({ params }) {
     <main className="min-h-screen bg-white text-slate-900">
       <Navbar />
       <article className="mx-auto max-w-3xl px-5 py-8">
-        <Link href="/guias" className="text-sm text-amber-700">← Todas las guías</Link>
+        <Link href="/guias" className="text-sm text-oro-700">← Todas las guías</Link>
         <h1 className="mt-4 text-3xl font-extrabold">{g.titulo}</h1>
         <p className="mt-3 text-slate-700">{g.intro}</p>
         {g.secciones.map((s, i) => (
@@ -48,11 +48,11 @@ export default async function Guia({ params }) {
           <ul className="mt-2 space-y-1 text-sm">
             {otras.map((o) => (
               <li key={o.slug}>
-                <Link href={`/guias/${o.slug}`} className="text-amber-700 hover:underline">{o.titulo}</Link>
+                <Link href={`/guias/${o.slug}`} className="text-oro-700 hover:underline">{o.titulo}</Link>
               </li>
             ))}
             <li>
-              <Link href="/pronosticos-hoy" className="text-amber-700 hover:underline">Próximos partidos y estadísticas</Link>
+              <Link href="/pronosticos-hoy" className="text-oro-700 hover:underline">Próximos partidos y estadísticas</Link>
             </li>
           </ul>
         </div>

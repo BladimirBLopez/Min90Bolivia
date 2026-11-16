@@ -25,11 +25,11 @@ export default function Equipos() {
             const i = info2024(t.nombre);
             const ciudad = i && i.equipo ? i.equipo.ciudad : null;
             return (
-              <a key={t.id} href={`/equipo/${t.slug}`} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center hover:border-amber-500">
+              <a key={t.id} href={`/equipo/${t.slug}`} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center hover:border-oro-500">
                 <div className="flex justify-center"><Escudo e={t} size={56} /></div>
                 <p className="mt-2 font-semibold">{t.nombre}</p>
                 {ciudad ? <p className="text-xs text-slate-500">{ciudad}</p> : null}
-                <p className="mt-1 text-xs text-amber-700">#{t.pos} · {t.pts} pts</p>
+                <p className="mt-1 text-xs text-oro-700">#{t.pos} · {t.pts} pts</p>
               </a>
             );
           })}

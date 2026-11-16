@@ -40,7 +40,7 @@ const rachaTxt = (r) => (r && r.n >= 2 ? `${r.n} ${r.tipo === "G" ? "victorias" 
 function Nombre({ t, id }) {
   const x = equipos2026.find((q) => q.id === t.id);
   const cls = t.id === id ? "font-bold" : "";
-  return x ? <a href={`/equipo/${x.slug}`} className={`hover:text-amber-700 ${cls}`}>{t.nombre}</a> : <span className={cls}>{t.nombre}</span>;
+  return x ? <a href={`/equipo/${x.slug}`} className={`hover:text-oro-700 ${cls}`}>{t.nombre}</a> : <span className={cls}>{t.nombre}</span>;
 }
 
 function FilaRes({ m, id }) {
@@ -49,7 +49,7 @@ function FilaRes({ m, id }) {
     <tr className="border-t border-slate-200">
       <td className="p-3 text-slate-500">{fmt(m.fecha)}</td>
       <td className="p-3"><Nombre t={m.local} id={id} /></td>
-      <td className="p-3 font-bold text-amber-700">{m.goles.local}-{m.goles.visitante}</td>
+      <td className="p-3 font-bold text-oro-700">{m.goles.local}-{m.goles.visitante}</td>
       <td className="p-3"><Nombre t={m.visitante} id={id} /></td>
       <td className="p-3"><span className={`rounded px-2 py-0.5 text-xs font-bold ${col[r]}`}>{r}</span></td>
     </tr>
@@ -62,7 +62,7 @@ function FilaProx({ m, id }) {
   const href = sl && sv ? `/partido/${sl}-vs-${sv}` : null;
   const celda = (hijo, extra = "") =>
     href ? (
-      <a href={href} className={`block p-3 hover:text-amber-700 ${extra}`}>{hijo}</a>
+      <a href={href} className={`block p-3 hover:text-oro-700 ${extra}`}>{hijo}</a>
     ) : (
       <div className={`p-3 ${extra}`}>{hijo}</div>
     );
@@ -121,7 +121,7 @@ export default async function Equipo({ params }) {
       <main className="min-h-screen bg-white text-slate-900">
         <Navbar />
         <section className="mx-auto max-w-3xl px-5 pb-16 pt-10">
-          <a href="/equipos" className="text-xs text-amber-700">← Todos los equipos</a>
+          <a href="/equipos" className="text-xs text-oro-700">← Todos los equipos</a>
           <div className="mt-4 flex items-center gap-4">
             <Escudo e={o} size={72} />
             <div>
@@ -176,7 +176,7 @@ export default async function Equipo({ params }) {
       <header className="relative overflow-hidden border-b border-slate-200">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(245,158,11,0.20),transparent_60%)]" />
         <div className="relative mx-auto max-w-3xl px-5 pb-6 pt-8">
-          <a href="/equipos" className="text-xs text-amber-700">← Todos los equipos</a>
+          <a href="/equipos" className="text-xs text-oro-700">← Todos los equipos</a>
           <div className="mt-5 flex items-center gap-5">
             <div className="rounded-3xl bg-slate-50 p-3 ring-1 ring-slate-200"><Escudo e={e} size={88} /></div>
             <div className="min-w-0">
@@ -203,7 +203,7 @@ export default async function Equipo({ params }) {
           {caja.map(([k, v], i) => (
             <Tarjeta key={k} className="p-3">
               <p className="text-[11px] uppercase tracking-wide text-slate-500">{k}</p>
-              <p className={`text-xl font-black ${i === 1 ? "text-amber-700" : "text-slate-900"}`}>{v}</p>
+              <p className={`text-xl font-black ${i === 1 ? "text-oro-700" : "text-slate-900"}`}>{v}</p>
             </Tarjeta>
           ))}
         </div>
@@ -211,7 +211,7 @@ export default async function Equipo({ params }) {
           {[["De local", s.casa], ["De visita", s.fuera]].map(([k, x]) => (
             <Tarjeta key={k} className="p-3">
               <p className="text-[11px] uppercase tracking-wide text-slate-500">{k} · {x.pj} PJ</p>
-              <p className="text-xl font-black text-amber-700">{x.g}-{x.e}-{x.p}</p>
+              <p className="text-xl font-black text-oro-700">{x.g}-{x.e}-{x.p}</p>
               <p className="text-xs text-slate-600">Goles {x.gf}:{x.gc}</p>
             </Tarjeta>
           ))}
@@ -280,14 +280,14 @@ export default async function Equipo({ params }) {
                 <tr key={x.id} className={`border-t border-slate-200 ${x.id === e.id ? "bg-slate-100" : ""}`}>
                   <td className="p-3 text-slate-500">{x.pos}</td>
                   <td className="p-3">
-                    <a href={`/equipo/${x.slug}`} className="flex items-center gap-2 hover:text-amber-700">
+                    <a href={`/equipo/${x.slug}`} className="flex items-center gap-2 hover:text-oro-700">
                       <Escudo e={x} size={20} />
                       <span className={x.id === e.id ? "font-bold" : ""}>{x.nombre}</span>
                     </a>
                   </td>
                   <td className="p-3">{x.pj}</td>
                   <td className="p-3">{sign(x.dif)}</td>
-                  <td className="p-3 font-bold text-amber-700">{x.pts}</td>
+                  <td className="p-3 font-bold text-oro-700">{x.pts}</td>
                 </tr>
               ))}
             </tbody>
@@ -306,10 +306,10 @@ export default async function Equipo({ params }) {
             <p className="mb-3 text-xs text-slate-500">Primera División 2026, de los más cercanos a {e.nombre} en la tabla a los más lejanos.</p>
             <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
               {otros.map((o) => (
-                <a key={o.id} href={`/equipo/${o.slug}`} className="flex flex-col items-center rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center hover:border-amber-500">
+                <a key={o.id} href={`/equipo/${o.slug}`} className="flex flex-col items-center rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center hover:border-oro-500">
                   <Escudo e={o} size={40} />
                   <span className="mt-2 text-xs font-semibold leading-tight">{o.nombre}</span>
-                  <span className="mt-1 text-[11px] text-amber-700">#{o.pos} · {o.pts} pts</span>
+                  <span className="mt-1 text-[11px] text-oro-700">#{o.pos} · {o.pts} pts</span>
                 </a>
               ))}
             </div>

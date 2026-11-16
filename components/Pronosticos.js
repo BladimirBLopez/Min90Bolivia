@@ -17,15 +17,15 @@ export default function Pronosticos({ estrella, lista }) {
 
   return (
     <section id="pronosticos" className="mx-auto max-w-5xl px-5 py-10">
-      <h2 className="mb-1 text-2xl font-bold">Pronóstico estrella del día</h2>
+      <h2 className="mb-1 text-2xl font-bold titulo-oro">Pronóstico estrella del día</h2>
       <p className="mb-4 text-sm text-slate-600">Nuestra mejor opción de la jornada.</p>
       <PickCard p={estrella} grande />
 
-      <h2 className="mb-4 mt-10 text-2xl font-bold">Pronósticos</h2>
+      <h2 className="mb-4 mt-10 text-2xl font-bold titulo-oro">Pronósticos</h2>
       <div className="mb-3 flex gap-2">
         {tabs.map(([k, t]) => (
           <button key={k} onClick={() => setTab(k)}
-            className={`rounded-full px-4 py-2 text-sm font-semibold ${tab === k ? "bg-amber-400 text-black" : "bg-slate-50 text-slate-700"}`}>
+            className={`rounded-full px-4 py-2 text-sm font-semibold ${tab === k ? "bg-oro-400 text-black" : "bg-slate-50 text-slate-700"}`}>
             {t}
           </button>
         ))}
@@ -33,7 +33,7 @@ export default function Pronosticos({ estrella, lista }) {
       <div className="mb-4 flex gap-2 overflow-x-auto pb-1">
         {mercados.map((m) => (
           <button key={m} onClick={() => setMercado(m)}
-            className={`whitespace-nowrap rounded-full border px-3 py-1 text-xs ${mercado === m ? "border-amber-500 text-amber-700" : "border-slate-200 text-slate-600"}`}>
+            className={`whitespace-nowrap rounded-full border px-3 py-1 text-xs ${mercado === m ? "border-oro-500 text-oro-700" : "border-slate-200 text-slate-600"}`}>
             {m}
           </button>
         ))}

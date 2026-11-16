@@ -59,7 +59,7 @@ export default function Partidos() {
 
   return (
     <section id="pronosticos" className="mx-auto max-w-5xl px-5 py-10">
-      <h2 className="mb-1 text-2xl font-extrabold tracking-tight">Partidos y pronósticos</h2>
+      <h2 className="mb-1 text-2xl font-extrabold tracking-tight titulo-oro">Partidos y pronósticos</h2>
       <p className="mb-4 text-sm text-slate-600">Primera División 2026 · hora de Bolivia. Los pronósticos Min90 aparecen en el partido que corresponde.</p>
       {!EJEMPLO && estrella ? (
         <div className="mb-6">

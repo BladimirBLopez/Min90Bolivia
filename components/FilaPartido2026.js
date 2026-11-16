@@ -12,7 +12,7 @@ function Equipo({ t, id }) {
   return (
     <a
       href={`/equipo/${slug2026(t.nombre)}`}
-      className={`flex min-w-0 items-center gap-2 py-0.5 hover:text-amber-700 ${t.id === id ? "font-bold text-slate-900" : "text-slate-700"}`}
+      className={`flex min-w-0 items-center gap-2 py-0.5 hover:text-oro-700 ${t.id === id ? "font-bold text-slate-900" : "text-slate-700"}`}
     >
       <Escudo e={t} size={22} />
       <span className="truncate">{t.nombre}</span>
@@ -27,7 +27,7 @@ export function FilaPartido2026({ m, id }) {
     <div className="flex items-stretch gap-3 border-t border-slate-200 py-3">
       <div className={`w-1 shrink-0 rounded-full ${barra[r]}`} />
       <div className="min-w-0 flex-1">
-        <a href={href} className="mb-1 block text-xs text-slate-500 hover:text-amber-700">{fechaCorta(m.fecha)} · Ronda {m.ronda}</a>
+        <a href={href} className="mb-1 block text-xs text-slate-500 hover:text-oro-700">{fechaCorta(m.fecha)} · Ronda {m.ronda}</a>
         <Equipo t={m.local} id={id} />
         <Equipo t={m.visitante} id={id} />
       </div>
@@ -49,7 +49,7 @@ export function ListaPartidos2026({ lista, id, visibles = 5 }) {
       ))}
       {resto.length > 0 ? (
         <details className="group">
-          <summary className="cursor-pointer list-none border-t border-slate-200 py-3 text-center text-xs font-bold uppercase tracking-wide text-slate-600 hover:text-amber-700 group-open:hidden">
+          <summary className="cursor-pointer list-none border-t border-slate-200 py-3 text-center text-xs font-bold uppercase tracking-wide text-slate-600 hover:text-oro-700 group-open:hidden">
             Mostrar más
           </summary>
           {resto.map((m) => (
