@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Chip } from "@/components/Ui";
 import { waLinkDe } from "@/components/WhatsAppButton";
 
@@ -68,22 +68,45 @@ function Tarjeta({ m }) {
   );
 }
 
-export default function PartidosLista({ pendientes, terminados }) {
+export default function PartidosLista({ pendientes = [], terminados = [], ligas }) {
   const [tab, setTab] = useState("proximos");
   const [n, setN] = useState(8);
-  const pend = pendientes.map((m) => ({ ...m, terminado: false }));
-  const term = terminados.map((m) => ({ ...m, terminado: true }));
+  const opciones = ligas && ligas.length ? ligas : [{ k: "unica", nombre: "", pendientes, terminados }];
+  const [lk, setLk] = useState(opciones[0].k);
+  const [ref, setRef] = useState(null);
+  useEffect(() => { setRef({ h: hoy(), m: manana() }); }, []);
+  const actual = opciones.find((x) => x.k === lk) || opciones[0];
+  const pend = actual.pendientes.map((m) => ({ ...m, terminado: false }));
+  const term = actual.terminados.map((m) => ({ ...m, terminado: true }));
   let lista;
-  if (tab === "proximos") lista = pend;
+  if (tab === "proximos") lista = [...pend].sort((x, y) => `${x.fecha || ""} ${x.hora || ""}`.localeCompare(`${y.fecha || ""} ${y.hora || ""}`));
   else if (tab === "terminados") lista = term;
   else {
     const d = tab === "hoy" ? hoy() : manana();
     lista = [...term, ...pend].filter((m) => m.fecha === d).sort((a, b) => (a.hora || "").localeCompare(b.hora || ""));
   }
   const cambiar = (k) => { setTab(k); setN(8); };
+  const cambiarLiga = (k) => { setLk(k); setTab("proximos"); setN(8); };
+  const etiqueta = (f) => (ref && f === ref.h ? "Hoy" : ref && f === ref.m ? "Mañana" : fmt(f));
+  const grupos = [];
+  lista.slice(0, n).forEach((m) => {
+    const g = grupos[grupos.length - 1];
+    if (g && g.f === m.fecha) g.items.push(m);
+    else grupos.push({ f: m.fecha, items: [m] });
+  });
 
   return (
     <>
+      {opciones.length > 1 ? (
+        <div className="mb-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {opciones.map((o) => (
+            <button key={o.k} onClick={() => cambiarLiga(o.k)}
+              className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-bold ${lk === o.k ? "bg-slate-900 text-white" : "border border-slate-300 bg-white text-slate-700"}`}>
+              {o.nombre}
+            </button>
+          ))}
+        </div>
+      ) : null}
       <div className="mb-4 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {tabs.map(([k, t]) => (
           <button key={k} onClick={() => cambiar(k)}
@@ -92,8 +115,17 @@ export default function PartidosLista({ pendientes, terminados }) {
           </button>
         ))}
       </div>
-      <div className="grid gap-3 sm:grid-cols-2">
-        {lista.slice(0, n).map((m) => <Tarjeta key={m.id} m={m} />)}
+      <div>
+        {grupos.map((g) => (
+          <div key={g.f} className="mb-4">
+            {tab === "hoy" || tab === "manana" ? null : (
+              <h3 className="mb-2 text-sm font-extrabold uppercase tracking-wide text-oro-700">{etiqueta(g.f)}</h3>
+            )}
+            <div className="grid gap-3 sm:grid-cols-2">
+              {g.items.map((m) => <Tarjeta key={m.id} m={m} />)}
+            </div>
+          </div>
+        ))}
       </div>
       {lista.length === 0 && (
         <div className="rounded-xl bg-white p-4 text-center text-sm text-slate-600">
