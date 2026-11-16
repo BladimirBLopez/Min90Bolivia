@@ -30,7 +30,7 @@ export async function generateMetadata({ params }) {
   if (!m) return {};
   return conSocial({
     title: `${m.local.nombre} vs ${m.visitante.nombre}: ${l.nombre} | Min90 Bolivia`,
-    description: `${m.local.nombre} vs ${m.visitante.nombre} (${fmt(m.fecha)}${m.hora ? ` · ${m.hora}` : ""}, hora de Bolivia). Forma y estadísticas de ambos equipos.`,
+    description: `${m.local.nombre} vs ${m.visitante.nombre} (${fmt(m.fecha)}${m.hora ? ` · ${m.hora}` : ""}, hora de Bolivia). Estadísticas y tendencias de ambos equipos. Recarga Metabet por WhatsApp, pago por QR.`,
   });
 }
 
