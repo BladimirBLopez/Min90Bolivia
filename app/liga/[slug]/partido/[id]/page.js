@@ -33,10 +33,17 @@ export async function generateMetadata({ params }) {
   const l = ligaPorSlug(slug);
   const m = l && partidoPorId(slug, id);
   if (!m) return {};
-  return conSocial({
+  const meta = conSocial({
     title: `${m.local.nombre} vs ${m.visitante.nombre}: ${l.nombre} | Min90 Bolivia`,
     description: `${m.local.nombre} vs ${m.visitante.nombre} (${fmt(m.fecha)}${m.hora ? ` · ${m.hora}` : ""}, hora de Bolivia). Estadísticas y tendencias de ambos equipos. Recarga Metabet por WhatsApp, pago por QR.`,
   });
+  const tituloSocial = `Recarga Metabet | ${m.local.nombre} vs ${m.visitante.nombre}: ${l.nombre}`;
+
+  return {
+    ...meta,
+    openGraph: { ...meta.openGraph, title: tituloSocial },
+    twitter: { ...meta.twitter, title: tituloSocial },
+  };
 }
 
 export default async function PartidoLiga({ params }) {
