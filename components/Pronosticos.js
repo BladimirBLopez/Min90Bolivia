@@ -25,7 +25,7 @@ export default function Pronosticos({ estrella, lista }) {
       <div className="mb-3 flex gap-2">
         {tabs.map(([k, t]) => (
           <button key={k} onClick={() => setTab(k)}
-            className={`rounded-full px-4 py-2 text-sm font-semibold ${tab === k ? "bg-oro-400 text-black" : "bg-slate-50 text-slate-700"}`}>
+            className={`rounded-full px-4 py-2 text-sm font-semibold ${tab === k ? "bg-oro-400 text-black" : "bg-white text-slate-700"}`}>
             {t}
           </button>
         ))}
@@ -42,7 +42,7 @@ export default function Pronosticos({ estrella, lista }) {
         {filtrados.map((p, i) => <PickCard key={i} p={p} />)}
       </div>
       {filtrados.length === 0 && (
-        <p className="rounded-xl bg-slate-50 p-4 text-center text-sm text-slate-500">
+        <p className="rounded-xl bg-white p-4 text-center text-sm text-slate-500">
           No hay pronósticos en esta categoría todavía.
         </p>
       )}

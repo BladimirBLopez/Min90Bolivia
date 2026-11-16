@@ -87,7 +87,7 @@ export default function PartidosLista({ pendientes, terminados }) {
       <div className="mb-4 flex gap-2 overflow-x-auto pb-1">
         {tabs.map(([k, t]) => (
           <button key={k} onClick={() => cambiar(k)}
-            className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold ${tab === k ? "bg-oro-400 text-black" : "bg-slate-50 text-slate-700"}`}>
+            className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold ${tab === k ? "bg-oro-400 text-black" : "bg-white text-slate-700"}`}>
             {t}
           </button>
         ))}
@@ -96,7 +96,7 @@ export default function PartidosLista({ pendientes, terminados }) {
         {lista.slice(0, n).map((m) => <Tarjeta key={m.id} m={m} />)}
       </div>
       {lista.length === 0 && (
-        <div className="rounded-xl bg-slate-50 p-4 text-center text-sm text-slate-600">
+        <div className="rounded-xl bg-white p-4 text-center text-sm text-slate-600">
           No hay partidos en esta categoría.
           <button onClick={() => cambiar("proximos")} className="ml-2 font-semibold text-oro-700 underline">Ver próximos</button>
         </div>

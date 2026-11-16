@@ -12,7 +12,7 @@ export default function Equipos() {
   const tabla = tabla2026();
   const ultRonda = Math.max(0, ...partidos2026.filter((m) => m.estado === "FT").map((m) => m.ronda));
   return (
-    <main className="min-h-screen bg-white text-slate-900">
+    <main className="min-h-screen bg-crema text-slate-900">
       <Navbar />
       <div className="bg-slate-100 p-2 text-center text-xs text-slate-700">
         Temporada 2026 · datos hasta la ronda {ultRonda}
@@ -25,7 +25,7 @@ export default function Equipos() {
             const i = info2024(t.nombre);
             const ciudad = i && i.equipo ? i.equipo.ciudad : null;
             return (
-              <a key={t.id} href={`/equipo/${t.slug}`} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center hover:border-oro-500">
+              <a key={t.id} href={`/equipo/${t.slug}`} className="rounded-2xl border border-slate-200 bg-white p-4 text-center hover:border-oro-500">
                 <div className="flex justify-center"><Escudo e={t} size={56} /></div>
                 <p className="mt-2 font-semibold">{t.nombre}</p>
                 {ciudad ? <p className="text-xs text-slate-500">{ciudad}</p> : null}

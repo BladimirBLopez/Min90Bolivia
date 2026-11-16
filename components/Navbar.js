@@ -14,21 +14,21 @@ const links = [
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-40 border-b border-oro-300 bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-oro-500/40 bg-[#14100a]/95 text-white backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
         <Link href="/#inicio" className="flex items-center gap-2 text-2xl font-black tracking-tight">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo-min90.png" alt="Min90 Bolivia" width={40} height={40} className="h-10 w-10 rounded-xl" />
-          <span>Min<span className="text-oro-600">90</span></span>
+          <span>Min<span className="text-oro-400">90</span></span>
         </Link>
-        <nav className="hidden gap-5 text-sm text-slate-700 sm:flex">
+        <nav className="hidden gap-5 text-sm text-oro-100 sm:flex">
           {links.map(([t, h]) => (
-            <a key={h} href={h} className="hover:text-oro-700">{t}</a>
+            <a key={h} href={h} className="hover:text-oro-300">{t}</a>
           ))}
         </nav>
         <WhatsAppButton className="!px-4 !py-2 text-sm">WhatsApp</WhatsAppButton>
       </div>
-      <nav className="flex gap-5 overflow-x-auto border-t border-slate-100 px-4 py-2 text-sm text-slate-700 sm:hidden">
+      <nav className="flex gap-5 overflow-x-auto border-t border-white/10 px-4 py-2 text-sm text-oro-100 sm:hidden">
         {links.map(([t, h]) => (
           <a key={h} href={h} className="whitespace-nowrap">{t}</a>
         ))}

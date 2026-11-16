@@ -8,7 +8,7 @@ const colores = {
 export default function PickCard({ p, grande = false }) {
   const estrellas = "★".repeat(p.confianza) + "☆".repeat(3 - p.confianza);
   return (
-    <article className={`rounded-2xl border p-4 ${grande ? "border-oro-500/60 bg-oro-50" : "border-slate-200 bg-slate-50"}`}>
+    <article className={`rounded-2xl border p-4 ${grande ? "border-oro-500/60 bg-oro-50" : "border-slate-200 bg-white"}`}>
       <div className="flex items-center justify-between gap-2">
         <p className="text-xs uppercase tracking-wide text-oro-700">{p.liga}</p>
         <span className={`rounded-full px-3 py-1 text-xs font-semibold ${colores[p.estado]}`}>{p.estado}</span>

@@ -22,7 +22,7 @@ export default async function Guia({ params }) {
   if (!g) notFound();
   const otras = guias.filter((x) => x.slug !== slug);
   return (
-    <main className="min-h-screen bg-white text-slate-900">
+    <main className="min-h-screen bg-crema text-slate-900">
       <Navbar />
       <article className="mx-auto max-w-3xl px-5 py-8">
         <Link href="/guias" className="text-sm text-oro-700">← Todas las guías</Link>
@@ -43,7 +43,7 @@ export default async function Guia({ params }) {
             ) : null}
           </section>
         ))}
-        <div className="mt-10 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+        <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-4">
           <p className="font-bold">Más guías</p>
           <ul className="mt-2 space-y-1 text-sm">
             {otras.map((o) => (

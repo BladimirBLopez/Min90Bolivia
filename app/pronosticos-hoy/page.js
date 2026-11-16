@@ -21,7 +21,7 @@ const slugDe = (id) => equipos2026.find((x) => x.id === id)?.slug;
 export default function PronosticosHoy() {
   const lista = proximosTodos2026(8);
   return (
-    <main className="min-h-screen bg-white text-slate-900">
+    <main className="min-h-screen bg-crema text-slate-900">
       <Navbar />
       <section className="mx-auto max-w-3xl px-5 py-8">
         <h1 className="text-3xl font-extrabold">Próximos partidos y pronósticos</h1>
@@ -58,11 +58,11 @@ export default function PronosticosHoy() {
               </>
             );
             return href ? (
-              <Link key={m.id} href={href} className="block rounded-2xl border border-slate-200 bg-slate-50 p-4 hover:border-oro-500">
+              <Link key={m.id} href={href} className="block rounded-2xl border border-slate-200 bg-white p-4 hover:border-oro-500">
                 {cuerpo}
               </Link>
             ) : (
-              <div key={m.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">{cuerpo}</div>
+              <div key={m.id} className="rounded-2xl border border-slate-200 bg-white p-4">{cuerpo}</div>
             );
           })}
         </div>

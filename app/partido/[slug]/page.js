@@ -110,12 +110,12 @@ export default async function Partido({ params }) {
     const old = parseSlugPartido(slug);
     if (!old) notFound();
     return (
-      <main className="min-h-screen bg-white text-slate-900">
+      <main className="min-h-screen bg-crema text-slate-900">
         <Navbar />
         <section className="mx-auto max-w-3xl px-5 pb-16 pt-10 text-center">
           <Link href="/" className="text-xs text-oro-700">← Volver a pronósticos</Link>
           <h1 className="mt-4 text-2xl font-extrabold">{old[0].nombre} vs {old[1].nombre}</h1>
-          <p className="mt-4 rounded-xl bg-slate-50 p-4 text-sm text-slate-700">
+          <p className="mt-4 rounded-xl bg-white p-4 text-sm text-slate-700">
             Uno de estos equipos no está en la Primera División 2026. Mira los equipos de esta temporada.
           </p>
           <a href="/equipos" className="mt-4 inline-block text-sm text-oro-700">Ver equipos 2026</a>
@@ -140,7 +140,7 @@ export default async function Partido({ params }) {
   const pick = [estrella, ...pronosticos].find((p) => rutaPartido(p.partido) === `/partido/${slug}`);
 
   return (
-    <main className="min-h-screen bg-white text-slate-900">
+    <main className="min-h-screen bg-crema text-slate-900">
       <Navbar />
       <div className="bg-slate-100 p-2 text-center text-xs text-slate-700">
         Temporada 2026 · datos hasta la ronda {ultRonda}
@@ -180,7 +180,7 @@ export default async function Partido({ params }) {
         <h2 className="mb-3 text-xl font-bold">Tabla 2026</h2>
         <div className="grid grid-cols-2 gap-2 text-center text-sm">
           {[[a, fa], [b, fb]].map(([e, f]) => (
-            <div key={e.id} className="rounded-xl bg-slate-50 p-3">
+            <div key={e.id} className="rounded-xl bg-white p-3">
               <p className="font-semibold">{e.nombre}</p>
               <p className="text-oro-700">{f ? `#${f.pos} · ${f.pts} pts` : "—"}</p>
               <p className="text-xs text-slate-500">{f ? `PJ ${f.pj} · ${f.g}-${f.e}-${f.p}` : ""}</p>
@@ -193,7 +193,7 @@ export default async function Partido({ params }) {
         <h2 className="mb-3 text-xl font-bold">Forma (últimos 5)</h2>
         <div className="space-y-2">
           {[[a, sa], [b, sb]].map(([e, s]) => (
-            <div key={e.id} className="flex items-center justify-between rounded-xl bg-slate-50 p-3">
+            <div key={e.id} className="flex items-center justify-between rounded-xl bg-white p-3">
               <span className="text-sm font-semibold">{e.nombre}</span>
               <Forma lista={s.forma} />
             </div>
@@ -207,7 +207,7 @@ export default async function Partido({ params }) {
           <span className="text-oro-700">{a.nombre}</span>
           <span className="text-yellow-700">{b.nombre}</span>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2">
+        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-2">
           <Comp label="Goles a favor por partido" a={sa.promGf} b={sb.promGf} dec={2} />
           <Comp label="Goles en contra por partido" a={sa.promGc} b={sb.promGc} dec={2} />
           <Comp label="Sin recibir gol" a={pct(sa.cs, sa.pj)} b={pct(sb.cs, sb.pj)} suf="%" />
@@ -215,12 +215,12 @@ export default async function Partido({ params }) {
           <Comp label="Más de 2.5 goles" a={pct(sa.o25, sa.pj)} b={pct(sb.o25, sb.pj)} suf="%" />
         </div>
         <div className="mt-3 grid grid-cols-2 gap-2 text-center text-sm">
-          <div className="rounded-xl bg-slate-50 p-3">
+          <div className="rounded-xl bg-white p-3">
             <p className="text-xs text-slate-500">{a.nombre} de local · {sa.casa.pj} PJ</p>
             <p className="font-bold text-oro-700">{sa.casa.g}-{sa.casa.e}-{sa.casa.p}</p>
             <p className="text-xs text-slate-600">Goles {sa.casa.gf}:{sa.casa.gc}</p>
           </div>
-          <div className="rounded-xl bg-slate-50 p-3">
+          <div className="rounded-xl bg-white p-3">
             <p className="text-xs text-slate-500">{b.nombre} de visita · {sb.fuera.pj} PJ</p>
             <p className="font-bold text-yellow-700">{sb.fuera.g}-{sb.fuera.e}-{sb.fuera.p}</p>
             <p className="text-xs text-slate-600">Goles {sb.fuera.gf}:{sb.fuera.gc}</p>
@@ -231,7 +231,7 @@ export default async function Partido({ params }) {
       <section className="mx-auto max-w-3xl px-5 py-4">
         <h2 className="mb-3 text-xl font-bold">Cara a cara 2026</h2>
         {duelos.length === 0 ? (
-          <p className="rounded-xl bg-slate-50 p-4 text-center text-sm text-slate-500">Aún no se enfrentaron en 2026.</p>
+          <p className="rounded-xl bg-white p-4 text-center text-sm text-slate-500">Aún no se enfrentaron en 2026.</p>
         ) : (
           <>
             <p className="mb-2 text-sm text-slate-700">

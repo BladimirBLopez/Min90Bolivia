@@ -13,7 +13,7 @@ export default function TablaInicio() {
       <p className="mb-4 text-xs text-slate-600">Primera División de Bolivia · datos hasta la ronda {ultRonda}</p>
       <div className="overflow-x-auto rounded-2xl border border-slate-200">
         <table className="w-full min-w-[420px] text-left text-sm">
-          <thead className="border-b-2 border-oro-400 bg-slate-50 text-xs uppercase text-slate-500">
+          <thead className="border-b-2 border-oro-400 bg-white text-xs uppercase text-slate-500">
             <tr><th className="p-3">#</th><th className="p-3">Equipo</th><th className="p-3">PJ</th><th className="p-3">DG</th><th className="p-3">Pts</th><th className="p-3">Forma</th></tr>
           </thead>
           <tbody>

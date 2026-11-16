@@ -60,7 +60,7 @@ export default function RecargaAhora() {
     : MSG;
 
   return (
-    <main className="min-h-screen bg-white pb-24 text-slate-900 sm:pb-0">
+    <main className="min-h-screen bg-crema pb-24 text-slate-900 sm:pb-0">
       <Navbar />
 
       <section className="bg-gradient-to-br from-[#1c1500] to-[#0b0b0b] px-5 pb-12 pt-10 text-white">

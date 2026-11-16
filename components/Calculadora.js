@@ -14,7 +14,7 @@ export default function Calculadora() {
     <section id="calculadora" className="mx-auto max-w-5xl px-5 py-10">
       <h2 className="mb-1 text-2xl font-bold titulo-oro">Calculadora de ganancia</h2>
       <p className="mb-4 text-sm text-slate-600">Para una apuesta o una combinada: escribe las cuotas separadas por espacio.</p>
-      <div className="grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:grid-cols-2">
+      <div className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 sm:grid-cols-2">
         <label className="text-sm">Monto (Bs)
           <input value={monto} onChange={(e) => setMonto(e.target.value)} inputMode="decimal" placeholder="50"
             className="mt-1 w-full rounded-lg bg-white p-3 text-slate-900 outline-none ring-1 ring-slate-200 focus:ring-oro-500" />

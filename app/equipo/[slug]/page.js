@@ -99,7 +99,7 @@ function Minutos({ titulo, datos, color }) {
 
 function Lista({ filas }) {
   return (
-    <div className="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-slate-50 px-4">
+    <div className="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white px-4">
       {filas.map(([k, v]) => (
         <div key={k} className="flex justify-between py-3 text-sm">
           <span className="text-slate-600">{k}</span>
@@ -118,7 +118,7 @@ export default async function Equipo({ params }) {
     const o = SOLO24.find((x) => x.slug === slug);
     if (!o) notFound();
     return (
-      <main className="min-h-screen bg-white text-slate-900">
+      <main className="min-h-screen bg-crema text-slate-900">
         <Navbar />
         <section className="mx-auto max-w-3xl px-5 pb-16 pt-10">
           <a href="/equipos" className="text-xs text-oro-700">← Todos los equipos</a>
@@ -129,7 +129,7 @@ export default async function Equipo({ params }) {
               <p className="text-sm text-slate-600">{o.ciudad} · {o.estadio}</p>
             </div>
           </div>
-          <p className="mt-6 rounded-xl bg-slate-50 p-4 text-sm text-slate-700">
+          <p className="mt-6 rounded-xl bg-white p-4 text-sm text-slate-700">
             {o.nombre} no está en la Primera División 2026. Mira los equipos de esta temporada.
           </p>
         </section>
@@ -167,7 +167,7 @@ export default async function Equipo({ params }) {
   ];
 
   return (
-    <main className="min-h-screen bg-white text-slate-900">
+    <main className="min-h-screen bg-crema text-slate-900">
       <Navbar />
       <div className="bg-slate-100 p-2 text-center text-xs text-slate-700">
         Temporada 2026 · datos hasta la ronda {ultRonda}
@@ -178,7 +178,7 @@ export default async function Equipo({ params }) {
         <div className="relative mx-auto max-w-3xl px-5 pb-6 pt-8">
           <a href="/equipos" className="text-xs text-oro-700">← Todos los equipos</a>
           <div className="mt-5 flex items-center gap-5">
-            <div className="rounded-3xl bg-slate-50 p-3 ring-1 ring-slate-200"><Escudo e={e} size={88} /></div>
+            <div className="rounded-3xl bg-white p-3 ring-1 ring-slate-200"><Escudo e={e} size={88} /></div>
             <div className="min-w-0">
               <h1 className="text-3xl font-black tracking-tight sm:text-4xl">{e.nombre}</h1>
               <p className="mt-1 text-sm text-slate-600">
@@ -306,7 +306,7 @@ export default async function Equipo({ params }) {
             <p className="mb-3 text-xs text-slate-500">Primera División 2026, de los más cercanos a {e.nombre} en la tabla a los más lejanos.</p>
             <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
               {otros.map((o) => (
-                <a key={o.id} href={`/equipo/${o.slug}`} className="flex flex-col items-center rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center hover:border-oro-500">
+                <a key={o.id} href={`/equipo/${o.slug}`} className="flex flex-col items-center rounded-2xl border border-slate-200 bg-white p-3 text-center hover:border-oro-500">
                   <Escudo e={o} size={40} />
                   <span className="mt-2 text-xs font-semibold leading-tight">{o.nombre}</span>
                   <span className="mt-1 text-[11px] text-oro-700">#{o.pos} · {o.pts} pts</span>
