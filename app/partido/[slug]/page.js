@@ -37,11 +37,11 @@ export async function generateMetadata({ params }) {
       t = `${A} ${mm.goles.local}-${mm.goles.visitante} ${B}: resultado y estadísticas | Min90 Bolivia`;
       d = `Resultado y análisis de ${A} vs ${B} (${fmt(mm.fecha)}): forma de ambos, tabla 2026 y cara a cara en la Primera División de Bolivia.`;
     } else {
-      t = `${A} vs ${B} (${cuando}): pronóstico y estadísticas | Min90 Bolivia`;
+      t = `⚽ ${A} vs ${B} (${cuando}): pronóstico | Min90 Bolivia`;
       const sa = statsEquipo2026(mm.local.id);
       const sb = statsEquipo2026(mm.visitante.id);
-      const tend = sa.pj && sb.pj ? ` Ambos marcan ${Math.round((pct(sa.btts, sa.pj) + pct(sb.btts, sb.pj)) / 2)}% · Más de 2.5 goles ${Math.round((pct(sa.o25, sa.pj) + pct(sb.o25, sb.pj)) / 2)}%.` : '';
-      d = `${A} vs ${B}, ${cuando} (hora de Bolivia).${tend} Forma, tabla 2026 y cara a cara: míralo antes del partido.`;
+      const tend = sa.pj && sb.pj ? ` 🔥 Ambos marcan ${Math.round((pct(sa.btts, sa.pj) + pct(sb.btts, sb.pj)) / 2)}% · 📈 Más de 2.5 goles ${Math.round((pct(sa.o25, sa.pj) + pct(sb.o25, sb.pj)) / 2)}%.` : '';
+      d = `📅 ${cuando} (hora de Bolivia).${tend} 📊 Forma, tabla 2026 y cara a cara. 👉 Míralo antes del partido.`;
     }
   }
   return { title: t, description: d, openGraph: { title: t, description: d, type: "website" } };
