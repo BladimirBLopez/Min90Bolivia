@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Calculadora from "@/components/Calculadora";
 import Promo from "@/components/Promo";
@@ -7,9 +8,9 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import { EJEMPLO, historial, faq } from "@/app/data/pronosticos";
 
 const pasos = [
-  { n: "1", t: "Escríbeme", d: "Toca el botón y salúdame por WhatsApp." },
-  { n: "2", t: "Haz tu pago", d: "Te paso los datos para pagar." },
-  { n: "3", t: "Recibe tu carga", d: "Te cargo y listo para jugar." },
+  { n: "1", t: "Escríbenos por WhatsApp", d: "Dinos cuánto quieres cargar." },
+  { n: "2", t: "Paga por QR", d: "Te mandamos el QR. Pagas y nos envías el comprobante." },
+  { n: "3", t: "Recibe tu saldo", d: "Cargamos tu cuenta y te avisamos. Ya puedes jugar." },
 ];
 const porque = [
   "Pronósticos todos los días",
@@ -91,7 +92,7 @@ export default function Home() {
         <div className="grid gap-3 sm:grid-cols-3">
           {pasos.map((s) => (
             <div key={s.n} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-green-500 font-bold text-black">{s.n}</span>
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-oro-500 font-bold text-white">{s.n}</span>
               <h3 className="mt-3 font-semibold">{s.t}</h3>
               <p className="mt-1 text-sm text-slate-600">{s.d}</p>
             </div>
@@ -103,7 +104,11 @@ export default function Home() {
             <li key={x} className="rounded-xl bg-slate-50 p-3 text-sm"><span className="mr-2 text-oro-700">✔</span>{x}</li>
           ))}
         </ul>
-        <div className="mt-8 text-center"><WhatsAppButton>Quiero cargar ahora</WhatsAppButton></div>
+        <p className="mt-6 text-center text-sm text-slate-600">¿Primera vez? Nosotros te creamos la cuenta de Metabet. ¿Ya tienes una? Escríbenos tu usuario y el monto.</p>
+        <div className="mt-6 text-center">
+          <WhatsAppButton>Quiero cargar ahora</WhatsAppButton>
+          <Link href="/recarga-ahora" className="mt-4 block text-sm font-semibold text-oro-700 underline">Ver cómo funciona</Link>
+        </div>
       </section>
 
       <section id="faq" className="mx-auto max-w-5xl px-5 py-10">
