@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import CanchaFondo from "@/lib/ogCancha";
+import BadgeVivo from "@/lib/ogBadgeVivo";
 import fs from "fs";
 import path from "path";
 import { porSlug2026, partidoEntre2026, statsEquipo2026 } from "@/lib/liga2026";
@@ -68,7 +69,7 @@ export default async function Image({ params }) {
       (
         <div style={{ ...fondo, alignItems: "center", justifyContent: "center" }}>
           <CanchaFondo />
-          <div style={{ display: "flex", fontSize: 108, fontWeight: 900, color: "white" }}>Min90 Bolivia</div>
+          <BadgeVivo size={40} />
           <div style={{ display: "flex", fontSize: 44, color: "#F4E19C", marginTop: 12 }}>Pronósticos del fútbol boliviano</div>
         </div>
       ),
@@ -95,7 +96,7 @@ export default async function Image({ params }) {
         <CanchaFondo />
         <div style={barra} />
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "22px 48px 0 48px" }}>
-          <div style={{ display: "flex", fontSize: 40, fontWeight: 900, color: "#F4E19C" }}>MIN90 BOLIVIA</div>
+          <BadgeVivo size={28} />
           <div style={{ display: "flex", fontSize: 30, fontWeight: 700, color: "#CBD5E1" }}>PRIMERA DIVISIÓN 2026</div>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 74, height: 74, borderRadius: 37, border: "5px solid white", fontSize: 30, fontWeight: 900, color: "white" }}>+18</div>
         </div>

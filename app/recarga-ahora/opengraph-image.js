@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import CanchaFondo from "@/lib/ogCancha";
+import BadgeVivo from "@/lib/ogBadgeVivo";
 
 export const alt = "Recarga ahora en Metabet | Min90 Bolivia";
 export const size = { width: 1200, height: 630 };
@@ -23,11 +24,7 @@ export default function Image() {
       >
         <CanchaFondo />
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%", flex: 1 }}>
-          <div style={{ display: "flex", alignItems: "center", fontSize: 40, fontWeight: 800 }}>
-            <span>Min</span>
-            <span style={{ color: "#D4AF37" }}>90</span>
-            <span style={{ marginLeft: 10 }}>Bolivia</span>
-          </div>
+          <BadgeVivo size={28} />
 
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ display: "flex", fontSize: 118, fontWeight: 800, lineHeight: 1, color: "#D4AF37" }}>Recarga ahora</div>

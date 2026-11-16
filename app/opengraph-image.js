@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import CanchaFondo from "@/lib/ogCancha";
+import BadgeVivo from "@/lib/ogBadgeVivo";
 
 export const alt = "Min90 Bolivia - Pronósticos del fútbol boliviano";
 export const size = { width: 1200, height: 630 };
@@ -14,11 +15,7 @@ export default function Image() {
         <CanchaFondo />
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: 84, background: "#C9A227", fontSize: 36, fontWeight: 900, color: "#0f172a" }}>PRIMERA DIVISIÓN DE BOLIVIA · 2026</div>
         <div style={{ display: "flex", flex: 1, flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-          <div style={{ display: "flex", fontSize: 150, fontWeight: 900, letterSpacing: -4 }}>
-            <span>Min</span>
-            <span style={{ color: "#C9A227" }}>90</span>
-            <span style={{ marginLeft: 24 }}>Bolivia</span>
-          </div>
+          <BadgeVivo size={44} />
           <div style={{ display: "flex", fontSize: 50, fontWeight: 800, marginTop: 6, color: "#F4E19C" }}>Pronósticos del fútbol boliviano</div>
           <div style={{ display: "flex", marginTop: 34 }}>
             <div style={pildora}>Partidos de hoy</div>
