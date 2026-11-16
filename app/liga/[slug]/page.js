@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import PartidosLista from "@/components/PartidosLista";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { LIGAS, ligaPorSlug, listasLiga, tablaLiga } from "@/lib/ligas";
+import { LIGAS, ligaPorSlug, listasLiga, tablaLiga, equiposLiga, slugEquipo } from "@/lib/ligas";
+import EscudoLiga from "@/components/EscudoLiga";
 
 export const revalidate = 3600;
 export const dynamicParams = false;
@@ -61,7 +62,7 @@ export default async function LigaPage({ params }) {
                             // eslint-disable-next-line @next/next/no-img-element
                             <img src={t.logo} alt="" width={24} height={24} loading="lazy" className="h-6 w-6 object-contain" />
                           ) : null}
-                          <span className="truncate">{t.nombre}</span>
+                          <Link href={`/liga/${slug}/equipo/${slugEquipo(t.nombre)}`} className="truncate hover:text-oro-700">{t.nombre}</Link>
                         </span>
                       </td>
                       <td className="px-2 py-2.5 text-center">{t.pj}</td>
@@ -75,6 +76,19 @@ export default async function LigaPage({ params }) {
           </div>
         )}
 
+        {!liga.tabla && (
+          <div className="mb-8">
+            <h2 className="mb-3 text-xl font-extrabold">Equipos</h2>
+            <div className="flex flex-wrap gap-2">
+              {equiposLiga(slug).map((q) => (
+                <Link key={q.id} href={`/liga/${slug}/equipo/${q.slug}`} className="flex items-center gap-2 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-800 hover:border-oro-500">
+                  <EscudoLiga e={q} size={20} />
+                  {q.nombre}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
         <h2 className="mb-3 text-xl font-extrabold">Partidos</h2>
         <PartidosLista pendientes={pendientes} terminados={terminados} />
 

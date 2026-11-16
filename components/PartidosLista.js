@@ -30,8 +30,8 @@ function Tarjeta({ m }) {
     : `Hola, quiero cargar y jugar ${m.local.nombre} vs ${m.visitante.nombre}. Vi el partido en Min90 Bolivia`;
   return (
     <article className="relative rounded-2xl border border-slate-200 border-t-4 border-t-oro-500 bg-white p-4 shadow-md shadow-slate-200/70 transition hover:-translate-y-0.5 hover:shadow-lg">
-      {m.slug ? {m.slug ? <a href={`/partido/${m.slug}`} aria-label={`Ver análisis de ${m.local.nombre} vs ${m.visitante.nombre}`} className="absolute inset-0 z-0 rounded-2xl" /> : null} : null}
-      {m.slug ? {m.slug ? <span aria-hidden="true" className="pointer-events-none absolute right-3 top-3 text-xl text-slate-500">›</span> : null} : null}
+      {m.slug ? {m.slug || m.href ? <a href={m.href || `/partido/${m.slug}`} aria-label={`Ver análisis de ${m.local.nombre} vs ${m.visitante.nombre}`} className="absolute inset-0 z-0 rounded-2xl" /> : null} : null}
+      {m.slug ? {m.slug || m.href ? <span aria-hidden="true" className="pointer-events-none absolute right-3 top-3 text-xl text-slate-500">›</span> : null} : null}
       <p className="text-xs text-slate-600">
         {fmt(m.fecha)}{m.hora ? ` · ${m.hora}` : ""} · Ronda {m.ronda}
         {m.estadio ? <span className="block text-slate-400">{m.estadio}</span> : null}
