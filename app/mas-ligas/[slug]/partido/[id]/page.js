@@ -32,7 +32,8 @@ export default async function PartidoExtra({ params }) {
 
   try {
     detalle = await detalleESPN(liga, id);
-  } catch {
+  } catch (error) {
+    console.error("[mas-ligas ESPN] detalle", slug, id, error?.message || String(error));
     // La fuente puede no ofrecer detalles temporalmente.
   }
 
