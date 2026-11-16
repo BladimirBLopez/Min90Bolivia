@@ -18,11 +18,11 @@ const base = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 export const metadata = {
   metadataBase: new URL(base),
-  title: "Min90 Bolivia",
-  description: "Pronósticos del fútbol boliviano todos los días. Carga por WhatsApp.",
+  title: "Min90 Bolivia · Estadísticas y tendencias de fútbol",
+  description: "Estadísticas y tendencias de la liga boliviana, la de Brasil y la Nations League. Recarga Metabet por WhatsApp, pago por QR.",
   openGraph: {
-    title: "Min90 Bolivia",
-    description: "Pronósticos del fútbol boliviano todos los días. Carga por WhatsApp.",
+    title: "Min90 Bolivia · Estadísticas y tendencias de fútbol",
+    description: "Estadísticas y tendencias de la liga boliviana, la de Brasil y la Nations League. Recarga Metabet por WhatsApp, pago por QR.",
     siteName: "Min90 Bolivia",
     locale: "es_BO",
     type: "website",

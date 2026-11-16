@@ -13,8 +13,8 @@ const pasos = [
   { n: "3", t: "Recibe tu saldo", d: "Cargamos tu cuenta y te avisamos. Ya puedes jugar." },
 ];
 const porque = [
-  "Pronósticos todos los días",
-  "Historial público de aciertos y fallos",
+  EJEMPLO ? "Partidos y estadísticas todos los días" : "Pronósticos todos los días",
+  EJEMPLO ? "Tendencias de Bolivia, Brasil y Nations League" : "Historial público de aciertos y fallos",
   "Atención las 24 horas por WhatsApp",
   "Recargas al instante",
 ];
@@ -31,20 +31,21 @@ export default function Home() {
 
       <section id="inicio" className="bg-gradient-to-b from-[#1c1500] to-[#0b0b0b] text-white">
       <div className="mx-auto max-w-5xl px-5 pb-12 pt-14 text-center">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-oro-300">Fútbol boliviano</p>
+        <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-oro-300">Bolivia · Brasil · Nations League</p>
         <h1 className="text-4xl font-extrabold leading-tight sm:text-5xl">
-          Pronósticos del fútbol boliviano, todos los días
+          {EJEMPLO ? "Partidos, estadísticas y tendencias de fútbol, todos los días" : "Pronósticos de fútbol, todos los días"}
         </h1>
         <span className="mx-auto mt-4 block h-1 w-16 rounded-full bg-oro-400" />
         <p className="mx-auto mt-4 max-w-xl text-slate-200">
-          Análisis de la División Profesional y más. Y si quieres jugar, te cargo por WhatsApp al instante.
+          Estadísticas y tendencias de la liga boliviana, la liga de Brasil y la UEFA Nations League. Si quieres jugar, te cargo Metabet por WhatsApp al instante.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <a href="#pronosticos" className="rounded-full border border-oro-400 px-6 py-3 font-bold text-oro-300 hover:bg-white/10">
-            Ver partidos y pronósticos
+            Ver partidos de hoy
           </a>
-          <WhatsAppButton>Escríbeme por WhatsApp</WhatsAppButton>
+          <WhatsAppButton>Recargar ahora</WhatsAppButton>
         </div>
+        <p className="mt-4 text-xs text-oro-300">Pago por QR · Atención 24 horas · Recargas al instante</p>
         {!EJEMPLO && (
           <div className="mx-auto mt-10 grid max-w-md grid-cols-3 gap-3 text-center">
           <div className="rounded-xl bg-white/10 p-3"><p className="text-2xl font-bold text-green-400">{acertados}</p><p className="text-xs text-slate-300">Acertados</p></div>
@@ -57,10 +58,33 @@ export default function Home() {
 
       <Partidos />
 
+      <section className="mx-auto max-w-5xl px-5 pb-4">
+        <div className="rounded-2xl bg-gradient-to-r from-green-700 to-green-500 p-5 text-center text-white shadow-md">
+          <p className="text-lg font-extrabold">¿Quieres jugar un partido?</p>
+          <p className="mt-1 text-sm text-green-50">Recarga Metabet por WhatsApp · Pago por QR · Atención 24 horas</p>
+          <div className="mt-3"><WhatsAppButton className="!bg-white !text-green-800 hover:!bg-green-50">Recargar ahora</WhatsAppButton></div>
+        </div>
+      </section>
+
+
+      <section id="ligas" className="mx-auto max-w-5xl px-5 py-10">
+        <h2 className="mb-1 text-2xl font-extrabold tracking-tight titulo-oro">Ligas y torneos</h2>
+        <p className="mb-4 text-sm text-slate-600">Equipos, tablas y estadísticas de cada liga.</p>
+        <div className="grid gap-3 sm:grid-cols-3">
+          {[["Bolivia", "Primera División 2026", "/equipos"], ["Brasil", "Liga de Brasil 2026", "/liga/brasil-2026"], ["Nations League", "UEFA 2026-27", "/liga/nations-league-2026"]].map(([t, d, h]) => (
+            <Link key={h} href={h} className="rounded-2xl border border-slate-200 border-t-4 border-t-oro-500 bg-white p-4 shadow-md shadow-slate-200/70 hover:shadow-lg">
+              <p className="text-lg font-extrabold">{t}</p>
+              <p className="text-sm text-slate-600">{d}</p>
+              <p className="mt-2 text-sm font-semibold text-oro-700">Ver equipos y partidos ›</p>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-3 text-center"><Link href="/ligas" className="text-sm font-semibold text-oro-700 underline">Ver todas las ligas</Link></div>
+      </section>
 
       <Promo />
 
-      <section id="resultados" className="mx-auto max-w-5xl px-5 py-10">
+      <section id="resultados" className={`mx-auto max-w-5xl px-5 py-10${EJEMPLO ? " hidden" : ""}`}>
         <h2 className="mb-1 text-2xl font-bold titulo-oro">Transparencia total</h2>
         <p className="mb-4 text-sm text-slate-600">Aquí queda registrado cada pronóstico y si acertó o no. Sin borrar los fallos.</p>
         <div className="overflow-x-auto rounded-2xl border border-slate-200">
@@ -125,7 +149,7 @@ export default function Home() {
 
       <footer className="bg-[#14100a] px-5 pb-28 pt-10 text-center text-xs text-slate-400">
         <p>Solo +18. Juega con responsabilidad.</p>
-        <p className="mt-1">Los pronósticos son opiniones y no garantizan resultados.</p>
+        <p className="mt-1">Las estadísticas y los pronósticos son informativos y no garantizan resultados.</p>
         <p className="mt-3">© Min90 Bolivia</p>
       </footer>
 
