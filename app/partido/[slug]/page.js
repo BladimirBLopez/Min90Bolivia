@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import CtaRecarga from "@/components/CtaRecarga";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ShareButton from "@/components/ShareButton";
 import { Escudo, Forma, FilaPartido, fmtFecha } from "@/components/LigaUI";
@@ -250,17 +251,7 @@ export default async function Partido({ params }) {
         )}
       </section>
 
-      <section className="mx-auto max-w-3xl px-5 py-4">
-        <div className="rounded-2xl border border-oro-500 bg-slate-50 p-5 text-center">
-          <p className="text-lg font-bold">¿Quieres jugar {a.nombre} vs {b.nombre}?</p>
-          <p className="mt-1 text-sm text-slate-600">Escríbeme por WhatsApp y te cargo saldo.</p>
-          <div className="mt-4 flex justify-center"><WhatsAppButton texto={`Hola, quiero cargar y jugar ${a.nombre} vs ${b.nombre}. Vi el partido en Min90 Bolivia`}>Quiero cargar</WhatsAppButton></div>
-          <div className="mt-3 flex flex-col items-center gap-2 text-sm">
-            <a href="https://chat.whatsapp.com/CB3GeNfmOqe31XQGjjDVwN?s=cl&p=a&iam=2" target="_blank" rel="noopener noreferrer" className="font-semibold text-oro-700 underline">Picks gratis en el grupo de WhatsApp</a>
-            <Link href="/recargar" className="text-slate-600 underline">Ver cómo recargar paso a paso</Link>
-          </div>
-        </div>
-      </section>
+      <CtaRecarga texto={`Hola, quiero jugar en Metabet y cargar saldo. Vi el partido ${a.nombre} vs ${b.nombre} en Min90 Bolivia. Soy mayor de 18 años.`} />
 
       <footer className="mx-auto max-w-3xl px-5 pb-16 pt-8 text-center text-xs text-slate-500">
         <p>Solo +18. Juega con responsabilidad.</p>
