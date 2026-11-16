@@ -66,22 +66,6 @@ export default function Home() {
         </div>
       </section>
 
-
-      <section id="ligas" className="mx-auto max-w-5xl px-5 py-10">
-        <h2 className="mb-1 text-2xl font-extrabold tracking-tight titulo-oro">Ligas y torneos</h2>
-        <p className="mb-4 text-sm text-slate-600">Equipos, tablas y estadísticas de cada liga.</p>
-        <div className="grid gap-3 sm:grid-cols-3">
-          {[["Bolivia", "Primera División 2026", "/equipos"], ["Brasil", "Liga de Brasil 2026", "/liga/brasil-2026"], ["Nations League", "UEFA 2026-27", "/liga/nations-league-2026"]].map(([t, d, h]) => (
-            <Link key={h} href={h} className="rounded-2xl border border-slate-200 border-t-4 border-t-oro-500 bg-white p-4 shadow-md shadow-slate-200/70 hover:shadow-lg">
-              <p className="text-lg font-extrabold">{t}</p>
-              <p className="text-sm text-slate-600">{d}</p>
-              <p className="mt-2 text-sm font-semibold text-oro-700">Ver equipos y partidos ›</p>
-            </Link>
-          ))}
-        </div>
-        <div className="mt-3 text-center"><Link href="/ligas" className="text-sm font-semibold text-oro-700 underline">Ver todas las ligas</Link></div>
-      </section>
-
       <Promo />
 
       <section id="resultados" className={`mx-auto max-w-5xl px-5 py-10${EJEMPLO ? " hidden" : ""}`}>
