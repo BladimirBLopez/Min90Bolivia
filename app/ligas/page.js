@@ -17,7 +17,7 @@ export default function LigasPage() {
         <h1 className="text-3xl font-extrabold titulo-oro">Ligas y torneos</h1>
         <p className="mt-2 text-sm text-slate-600">Horario de Bolivia. Elige una liga para ver sus partidos.</p>
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
-          <Link href="/#pronosticos" className={card}>
+          <Link href="/equipos" className={card}>
             <p className="text-lg font-bold">Primera División de Bolivia</p>
             <p className="text-sm text-slate-600">Bolivia · 2026</p>
             <p className="mt-3 text-sm font-semibold text-oro-700">Ver partidos ›</p>
