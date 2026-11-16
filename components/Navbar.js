@@ -6,6 +6,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 const links = [
   ["Inicio", "/#inicio"],
   ["Equipos", "/equipos"],
+  ["Ligas", "/ligas"],
   ["Pronósticos", "/#pronosticos"],
   ["Picks gratis", "/pronosticos-hoy"],
   ["Guías", "/guias"],
