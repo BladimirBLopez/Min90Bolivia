@@ -10,6 +10,7 @@ import Cuenta from "@/components/Cuenta";
 import TabsAncla from "@/components/TabsAncla";
 import { aPartidos, ajustar, predecir } from "@/lib/modelo";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import { ProveedorPartidoEnVivo, MarcadorPartidoEnVivo, DetallesPartidoEnVivo } from "@/components/DetallePartidoEnVivo";
 
 export const revalidate = 3600;
 export const dynamicParams = true;
@@ -90,6 +91,7 @@ export default async function PartidoLiga({ params }) {
   return (
     <main className="min-h-screen bg-crema text-slate-900">
       <Navbar />
+      <ProveedorPartidoEnVivo habilitado={slug === "nations-league-2026"} idLocal={String(m.id)} inicio={m.ts}>
       <section className="mx-auto max-w-3xl px-5 py-8">
         <Link href={`/liga/${slug}`} className="text-sm font-semibold text-oro-700 hover:underline">← {liga.nombre}</Link>
         <div className={`${box} mt-4 p-5 text-center`}>
@@ -102,7 +104,9 @@ export default async function PartidoLiga({ params }) {
               <EscudoLiga e={m.local} size={64} />
               <span className="mt-2 text-sm font-bold">{m.local.nombre}</span>
             </Link>
-            {fin ? (
+            {slug === "nations-league-2026" ? (
+              <MarcadorPartidoEnVivo marcadorInicial={fin ? m.goles : null} />
+            ) : fin ? (
               <span className="text-3xl font-black text-oro-700">{m.goles.local} - {m.goles.visitante}</span>
             ) : (
               <span className="text-sm font-bold text-slate-500">vs</span>
@@ -120,7 +124,7 @@ export default async function PartidoLiga({ params }) {
           </div>
         </div>
 
-        <TabsAncla items={[["Información", "#info"], ...(!fin ? [["Tendencias", "#tendencias"]] : []), ["Comparación", "#comparacion"], ["H2H", "#h2h"], ["Últimos partidos", "#ultimos"]]} />
+        <TabsAncla items={[["Información", "#info"], ...(slug === "nations-league-2026" ? [["En vivo y detalles", "#en-vivo"]] : []), ...(!fin ? [["Tendencias", "#tendencias"]] : []), ["Comparación", "#comparacion"], ["H2H", "#h2h"], ["Últimos partidos", "#ultimos"]]} />
 
         <h2 id="info" className="mb-3 mt-8 scroll-mt-4 text-xl font-extrabold">Información del partido</h2>
         <div className={`${box} divide-y divide-slate-100 px-4`}>
@@ -131,6 +135,8 @@ export default async function PartidoLiga({ params }) {
             </div>
           ))}
         </div>
+
+        {slug === "nations-league-2026" ? <DetallesPartidoEnVivo /> : null}
 
         <div id="tendencias" className="scroll-mt-4" />
         {!fin && (() => {
@@ -220,6 +226,7 @@ export default async function PartidoLiga({ params }) {
           </>
         )}
       </section>
+      </ProveedorPartidoEnVivo>
 
       <section className="mx-auto max-w-3xl px-5 pb-6">
         <h2 id="ultimos" className="mb-3 scroll-mt-4 text-xl font-extrabold">Últimos partidos</h2>
