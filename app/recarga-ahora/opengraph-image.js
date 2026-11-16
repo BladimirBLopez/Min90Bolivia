@@ -101,7 +101,7 @@ export default async function Image() {
                   fontSize: 26,
                 }}
               >
-                Te creamos tu cuenta y te enviamos el QR
+                Te enviamos el QR para pagar
               </div>
               <div
                 style={{

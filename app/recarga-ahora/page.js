@@ -5,7 +5,7 @@ import { Escudo } from "@/components/LigaUI";
 import { proximosTodos2026, equipos2026 } from "@/lib/liga2026";
 
 const TITULO = "Recarga ahora en Metabet | Min90 Bolivia";
-const DESC = "Te creamos tu cuenta, pagas por QR y cargamos tu saldo por WhatsApp. Picks gratis en el grupo. Solo +18.";
+const DESC = "Pagas por QR y cargamos tu saldo por WhatsApp. Atención directa y picks gratis en el grupo. Solo +18.";
 const GRUPO = "https://chat.whatsapp.com/CB3GeNfmOqe31XQGjjDVwN?s=cl&p=a&iam=2";
 const MSG = "Hola, quiero recargar ahora en Metabet. Soy mayor de 18 años.";
 
@@ -25,10 +25,9 @@ const fmt = (f) => {
 };
 const slugDe = (id) => equipos2026.find((x) => x.id === id)?.slug;
 
-const chips = ["Cuenta lista", "Pago por QR", "Picks gratis"];
+const chips = ["Pago por QR", "Atención directa", "Picks gratis"];
 
 const beneficios = [
-  { t: "Te creamos la cuenta", d: "Sin trámites: abrimos tu cuenta en Metabet y te la enviamos por WhatsApp." },
   { t: "Pagas por QR", d: "Escaneas el QR desde la app de tu banco, sin complicarte." },
   { t: "Atención directa", d: "Hablas con una persona por WhatsApp, no con un formulario." },
   { t: "Picks gratis en el grupo", d: "Publicamos pronósticos gratis en nuestro grupo de WhatsApp." },
@@ -36,10 +35,9 @@ const beneficios = [
 ];
 
 const pasos = [
-  { t: "Escríbenos por WhatsApp", d: "Dinos que quieres jugar y cuánto quieres cargar." },
-  { t: "Te creamos tu cuenta", d: "Te enviamos tu usuario y contraseña de Metabet." },
-  { t: "Pagas por QR", d: "Te mandamos el QR. Pagas y nos envías el comprobante." },
-  { t: "Recibes tu saldo", d: "Cargamos tu cuenta y te avisamos. Ya puedes jugar." },
+  { t: "Escríbenos por WhatsApp", d: "Dinos cuánto quieres cargar." },
+  { t: "Paga por QR", d: "Te mandamos el QR. Pagas y nos envías el comprobante." },
+  { t: "Recibe tu saldo", d: "Cargamos tu cuenta y te avisamos. Ya puedes jugar." },
 ];
 
 function Check() {
@@ -71,7 +69,7 @@ export default function RecargaAhora() {
             <span className="block text-oro-400">con atención directa</span>
           </h1>
           <p className="mt-4 text-lg text-slate-200">
-            Te creamos tu cuenta, pagas por QR y cargamos tu saldo. Además recibes picks gratis en nuestro grupo.
+            Pagas por QR y cargamos tu saldo por WhatsApp, con atención directa. Además recibes picks gratis en nuestro grupo.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <WhatsAppButton texto={MSG} className="w-full sm:w-auto">Recarga ahora</WhatsAppButton>
@@ -128,7 +126,7 @@ export default function RecargaAhora() {
         <div className="mt-5 space-y-2 rounded-3xl bg-[#ECE5DD] p-4">
           <div className="ml-auto max-w-[85%] rounded-2xl rounded-tr-sm bg-[#DCF8C6] px-4 py-2 text-sm text-slate-800">{MSG}</div>
           <div className="max-w-[85%] rounded-2xl rounded-tl-sm bg-white px-4 py-2 text-sm text-slate-800">
-            Hola, te creamos tu cuenta en Metabet y te enviamos el QR para pagar.
+            Hola, te enviamos el QR para pagar.
           </div>
           <div className="max-w-[85%] rounded-2xl rounded-tl-sm bg-white px-4 py-2 text-sm text-slate-800">
             Cuando recibimos tu comprobante, cargamos tu saldo y te avisamos.
@@ -165,7 +163,7 @@ export default function RecargaAhora() {
             </li>
           ))}
         </ol>
-        <p className="mt-4 text-sm text-slate-600">¿Ya tienes cuenta en Metabet? Escríbenos tu usuario y el monto, y te cargamos saldo directo.</p>
+        <p className="mt-4 text-sm text-slate-600">¿Primera vez? Nosotros te creamos la cuenta de Metabet. ¿Ya tienes una? Escríbenos tu usuario y el monto.</p>
       </section>
 
       <section className="mx-auto max-w-3xl px-5 py-8">
