@@ -38,7 +38,7 @@ export default async function Image() {
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ display: "flex", fontSize: 118, fontWeight: 800, lineHeight: 1, color: "#D4AF37" }}>Recarga ahora</div>
             <div style={{ display: "flex", fontSize: 54, fontWeight: 700, marginTop: 14 }}>y juega en Metabet</div>
-            <div style={{ display: "flex", fontSize: 32, color: "#e5e7eb", marginTop: 18 }}>Atención directa por WhatsApp</div>
+            <div style={{ display: "flex", fontSize: 32, color: "#e5e7eb", marginTop: 18 }}>Al instante · Atención 24 horas</div>
           </div>
 
           <div style={{ display: "flex", alignItems: "center" }}>

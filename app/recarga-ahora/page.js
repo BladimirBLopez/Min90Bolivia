@@ -5,7 +5,7 @@ import { Escudo } from "@/components/LigaUI";
 import { proximosTodos2026, equipos2026 } from "@/lib/liga2026";
 
 const TITULO = "Recarga ahora en Metabet | Min90 Bolivia";
-const DESC = "Pagas por QR y cargamos tu saldo por WhatsApp. Atención directa y picks gratis en el grupo. Solo +18.";
+const DESC = "Recargas al instante pagando por QR. Atención las 24 horas por WhatsApp y picks gratis en el grupo. Solo +18.";
 const GRUPO = "https://chat.whatsapp.com/CB3GeNfmOqe31XQGjjDVwN?s=cl&p=a&iam=2";
 const MSG = "Hola, quiero recargar ahora en Metabet. Soy mayor de 18 años.";
 
@@ -25,11 +25,12 @@ const fmt = (f) => {
 };
 const slugDe = (id) => equipos2026.find((x) => x.id === id)?.slug;
 
-const chips = ["Pago por QR", "Atención directa", "Picks gratis"];
+const chips = ["Recarga al instante", "Atención 24 horas", "Picks gratis"];
 
 const beneficios = [
   { t: "Pagas por QR", d: "Escaneas el QR desde la app de tu banco, sin complicarte." },
-  { t: "Atención directa", d: "Hablas con una persona por WhatsApp, no con un formulario." },
+  { t: "Atención las 24 horas", d: "Escríbenos a cualquier hora por WhatsApp y hablas con una persona." },
+  { t: "Recarga al instante", d: "Apenas confirmamos tu pago, cargamos tu saldo." },
   { t: "Picks gratis en el grupo", d: "Publicamos pronósticos gratis en nuestro grupo de WhatsApp." },
   { t: "Estadísticas gratis", d: "Tabla, forma y cara a cara de cada partido de la liga boliviana, en esta web." },
 ];
@@ -37,7 +38,7 @@ const beneficios = [
 const pasos = [
   { t: "Escríbenos por WhatsApp", d: "Dinos cuánto quieres cargar." },
   { t: "Paga por QR", d: "Te mandamos el QR. Pagas y nos envías el comprobante." },
-  { t: "Recibe tu saldo", d: "Cargamos tu cuenta y te avisamos. Ya puedes jugar." },
+  { t: "Recibe tu saldo", d: "Cargamos tu saldo al instante y te avisamos. Ya puedes jugar." },
 ];
 
 function Check() {
@@ -69,7 +70,7 @@ export default function RecargaAhora() {
             <span className="block text-oro-400">con atención directa</span>
           </h1>
           <p className="mt-4 text-lg text-slate-200">
-            Pagas por QR y cargamos tu saldo por WhatsApp, con atención directa. Además recibes picks gratis en nuestro grupo.
+            Pagas por QR y recibes tu saldo al instante. Atención las 24 horas por WhatsApp, y picks gratis en nuestro grupo.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <WhatsAppButton texto={MSG} className="w-full sm:w-auto">Recarga ahora</WhatsAppButton>

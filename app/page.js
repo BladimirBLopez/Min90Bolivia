@@ -15,8 +15,8 @@ const pasos = [
 const porque = [
   "Pronósticos todos los días",
   "Historial público de aciertos y fallos",
-  "Atención directa por WhatsApp",
-  "Carga rápida",
+  "Atención las 24 horas por WhatsApp",
+  "Recargas al instante",
 ];
 
 export default function Home() {
@@ -37,7 +37,7 @@ export default function Home() {
         </h1>
         <span className="mx-auto mt-4 block h-1 w-16 rounded-full bg-oro-400" />
         <p className="mx-auto mt-4 max-w-xl text-slate-700">
-          Análisis de la División Profesional y más. Y si quieres jugar, te cargo por WhatsApp en minutos.
+          Análisis de la División Profesional y más. Y si quieres jugar, te cargo por WhatsApp al instante.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <a href="#pronosticos" className="rounded-full border border-oro-500 px-6 py-3 font-bold text-oro-700 hover:bg-oro-500/10">
