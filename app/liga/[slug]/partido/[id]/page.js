@@ -101,30 +101,31 @@ export default async function PartidoLiga({ params }) {
       <ProveedorPartidoEnVivo habilitado={slug === "nations-league-2026"} idLocal={String(m.id)} inicio={m.ts}>
       <section className="mx-auto max-w-3xl px-5 py-8">
         <Link href={`/liga/${slug}`} className="text-sm font-semibold text-oro-700 hover:underline">← {liga.nombre}</Link>
-        <div className={`${box} mt-4 p-5 text-center`}>
-          <p className="text-xs text-slate-600">
+        <div className={`${box} mt-4 px-4 pb-4 pt-5 text-center sm:px-6`}>
+          <p className="text-xs font-extrabold uppercase tracking-wide text-oro-700">{liga.nombre} {liga.temporada}</p>
+          <p className="mt-2 text-xs text-slate-500">
             {fmt(m.fecha)}{m.hora ? ` · ${m.hora}` : ""} · Ronda {m.ronda} · hora de Bolivia
             {m.estadio ? <span className="block text-slate-400">{m.estadio}</span> : null}
           </p>
-          <div className="mt-4 flex items-center justify-between gap-2">
+          <div className="mt-6 flex items-center justify-between gap-2 sm:gap-4">
             <Link href={eq(m.local)} className="flex flex-1 flex-col items-center">
-              <EscudoLiga e={m.local} size={64} />
-              <span className="mt-2 text-sm font-bold">{m.local.nombre}</span>
+              <EscudoLiga e={m.local} size={76} />
+              <span className="mt-3 text-sm font-extrabold leading-tight sm:text-base">{m.local.nombre}</span>
             </Link>
             {slug === "nations-league-2026" ? (
               <MarcadorPartidoEnVivo marcadorInicial={fin ? m.goles : null} />
             ) : fin ? (
-              <span className="text-3xl font-black text-oro-700">{m.goles.local} - {m.goles.visitante}</span>
+              <span className="text-4xl font-black tracking-tight text-oro-700 sm:text-5xl">{m.goles.local} - {m.goles.visitante}</span>
             ) : (
               <span className="text-sm font-bold text-slate-500">vs</span>
             )}
             <Link href={eq(m.visitante)} className="flex flex-1 flex-col items-center">
-              <EscudoLiga e={m.visitante} size={64} />
-              <span className="mt-2 text-sm font-bold">{m.visitante.nombre}</span>
+              <EscudoLiga e={m.visitante} size={76} />
+              <span className="mt-3 text-sm font-extrabold leading-tight sm:text-base">{m.visitante.nombre}</span>
             </Link>
           </div>
           <Cuenta inicio={!fin && m.hora ? `${m.fecha}T${m.hora}:00-04:00` : null} />
-          <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
+          <div className="mt-6 flex items-center justify-between rounded-xl bg-slate-50 px-2 py-2 text-[10px] text-slate-500 sm:px-3">
             <FormaLiga lista={sa.forma} />
             <span>Forma</span>
             <FormaLiga lista={sb.forma} />

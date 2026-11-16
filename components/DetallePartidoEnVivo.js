@@ -81,16 +81,16 @@ export function MarcadorPartidoEnVivo({ marcadorInicial }) {
   else if (fase === "post") etiqueta = "FINAL";
 
   return (
-    <div className="flex min-w-[70px] shrink-0 flex-col items-center gap-1 text-center" aria-live="polite">
-      {etiqueta && (
-        <span className={`rounded-full px-2 py-1 text-[10px] font-extrabold ${fase === "in" ? (esDescanso ? "bg-amber-100 text-amber-800" : "bg-red-600 text-white") : "bg-slate-100 text-slate-700"}`}>
-          {fase === "in" && !esDescanso ? "🔴 " : ""}{etiqueta}
-        </span>
-      )}
+    <div className="flex min-w-[90px] shrink-0 flex-col items-center gap-2 text-center" aria-live="polite">
       {goles && Number.isFinite(goles.local) && Number.isFinite(goles.visitante) ? (
-        <span className="whitespace-nowrap text-3xl font-black text-oro-700">{goles.local} - {goles.visitante}</span>
+        <span className="whitespace-nowrap text-4xl font-black tracking-tight text-oro-700 sm:text-5xl">{goles.local} - {goles.visitante}</span>
       ) : (
         <span className="text-sm font-bold text-slate-500">vs</span>
+      )}
+      {etiqueta && (
+        <span className={`rounded-full px-3 py-1.5 text-xs font-extrabold shadow-sm ${fase === "in" ? (esDescanso ? "bg-amber-100 text-amber-800" : "bg-red-600 text-white") : "bg-slate-100 text-slate-700"}`}>
+          {fase === "in" && !esDescanso ? "🔴 " : ""}{etiqueta}
+        </span>
       )}
       {error && <span className="text-[10px] text-slate-500">Sin datos actuales</span>}
     </div>
