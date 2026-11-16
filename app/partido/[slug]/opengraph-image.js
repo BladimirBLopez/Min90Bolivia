@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import CanchaFondo from "@/lib/ogCancha";
 import fs from "fs";
 import path from "path";
 import { porSlug2026, partidoEntre2026, statsEquipo2026 } from "@/lib/liga2026";
@@ -39,7 +40,7 @@ async function escudo(slug) {
 }
 
 const tam = (n) => (n.length <= 13 ? 62 : n.length <= 17 ? 52 : n.length <= 20 ? 44 : 36);
-const fondo = { width: "100%", height: "100%", display: "flex", flexDirection: "column", background: "linear-gradient(135deg, #0b1220, #172554)", color: "white" };
+const fondo = { width: "100%", height: "100%", display: "flex", flexDirection: "column", position: "relative", background: "#103522", color: "white" };
 const barra = { display: "flex", width: "100%", height: 14, background: "#C9A227" };
 
 const col = (t, src) => (
@@ -66,6 +67,7 @@ export default async function Image({ params }) {
     return new ImageResponse(
       (
         <div style={{ ...fondo, alignItems: "center", justifyContent: "center" }}>
+          <CanchaFondo />
           <div style={{ display: "flex", fontSize: 108, fontWeight: 900, color: "white" }}>Min90 Bolivia</div>
           <div style={{ display: "flex", fontSize: 44, color: "#F4E19C", marginTop: 12 }}>Pronósticos del fútbol boliviano</div>
         </div>
@@ -90,6 +92,7 @@ export default async function Image({ params }) {
   return new ImageResponse(
     (
       <div style={fondo}>
+        <CanchaFondo />
         <div style={barra} />
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "22px 48px 0 48px" }}>
           <div style={{ display: "flex", fontSize: 40, fontWeight: 900, color: "#F4E19C" }}>MIN90 BOLIVIA</div>

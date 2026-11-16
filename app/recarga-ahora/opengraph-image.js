@@ -1,35 +1,29 @@
 import { ImageResponse } from "next/og";
+import CanchaFondo from "@/lib/ogCancha";
 
 export const alt = "Recarga ahora en Metabet | Min90 Bolivia";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default async function Image() {
-  let logo = null;
-  try {
-    const buf = await fetch(new URL("../../public/logo-min90.png", import.meta.url)).then((r) => r.arrayBuffer());
-    logo = `data:image/png;base64,${Buffer.from(buf).toString("base64")}`;
-  } catch (e) {
-    logo = null;
-  }
-
+export default function Image() {
   return new ImageResponse(
     (
       <div
         style={{
           width: "100%",
           height: "100%",
+          position: "relative",
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           padding: "56px 64px",
-          background: "linear-gradient(135deg, #1c1500 0%, #0b0b0b 70%)",
+          background: "#103522",
           color: "white",
         }}
       >
+        <CanchaFondo />
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%", flex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", fontSize: 40, fontWeight: 800 }}>
-            {logo ? <img src={logo} width={76} height={76} style={{ borderRadius: 18, marginRight: 18 }} /> : null}
             <span>Min</span>
             <span style={{ color: "#D4AF37" }}>90</span>
             <span style={{ marginLeft: 10 }}>Bolivia</span>
