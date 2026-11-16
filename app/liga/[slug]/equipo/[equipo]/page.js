@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { conSocial } from "@/lib/ogLiga";
 import Navbar from "@/components/Navbar";
 import CtaRecarga from "@/components/CtaRecarga";
 import EscudoLiga from "@/components/EscudoLiga";
@@ -28,10 +29,10 @@ export async function generateMetadata({ params }) {
   const l = ligaPorSlug(slug);
   const e = l && equipoPorSlug(slug, equipo);
   if (!e) return {};
-  return {
+  return conSocial({
     title: `${e.nombre}: partidos y estadísticas ${l.nombre} ${l.temporada} | Min90 Bolivia`,
     description: `Resultados, forma y próximos partidos de ${e.nombre} en ${l.nombre} ${l.temporada}, con hora de Bolivia.`,
-  };
+  });
 }
 
 function Fila({ m, slug, id }) {

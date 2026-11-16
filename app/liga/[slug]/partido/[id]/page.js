@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { conSocial } from "@/lib/ogLiga";
 import Navbar from "@/components/Navbar";
 import CtaRecarga from "@/components/CtaRecarga";
 import EscudoLiga from "@/components/EscudoLiga";
@@ -27,10 +28,10 @@ export async function generateMetadata({ params }) {
   const l = ligaPorSlug(slug);
   const m = l && partidoPorId(slug, id);
   if (!m) return {};
-  return {
+  return conSocial({
     title: `${m.local.nombre} vs ${m.visitante.nombre}: ${l.nombre} | Min90 Bolivia`,
     description: `${m.local.nombre} vs ${m.visitante.nombre} (${fmt(m.fecha)}${m.hora ? ` · ${m.hora}` : ""}, hora de Bolivia). Forma y estadísticas de ambos equipos.`,
-  };
+  });
 }
 
 export default async function PartidoLiga({ params }) {

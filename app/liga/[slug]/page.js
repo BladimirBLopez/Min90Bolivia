@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { conSocial } from "@/lib/ogLiga";
 import Navbar from "@/components/Navbar";
 import PartidosLista from "@/components/PartidosLista";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -17,10 +18,10 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const l = ligaPorSlug(slug);
   if (!l) return {};
-  return {
+  return conSocial({
     title: `${l.nombre} ${l.temporada}: partidos${l.tabla ? " y tabla" : ""} | Min90 Bolivia`,
     description: `Partidos${l.tabla ? " y tabla" : ""} de ${l.nombre} ${l.temporada}, con hora de Bolivia.`,
-  };
+  });
 }
 
 export default async function LigaPage({ params }) {
