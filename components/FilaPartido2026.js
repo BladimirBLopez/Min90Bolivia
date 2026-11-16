@@ -43,7 +43,7 @@ export function ListaPartidos2026({ lista, id, visibles = 5 }) {
   const primeros = lista.slice(0, visibles);
   const resto = lista.slice(visibles);
   return (
-    <div className="rounded-2xl bg-white px-4 ring-1 ring-slate-200">
+    <div className="rounded-2xl bg-white px-4 shadow-md shadow-slate-200/70 ring-1 ring-slate-300">
       {primeros.map((m) => (
         <FilaPartido2026 key={m.id} m={m} id={id} />
       ))}
