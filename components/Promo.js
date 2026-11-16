@@ -1,6 +1,5 @@
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { CANAL, promos } from "@/app/data/promo";
-import { EJEMPLO } from "@/app/data/pronosticos";
 
 export default function Promo() {
   return (
@@ -18,7 +17,6 @@ export default function Promo() {
             </div>
           ))}
         </div>
-        {EJEMPLO && <p className="mt-3 text-xs text-yellow-700">Textos de ejemplo.</p>}
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <WhatsAppButton>Quiero cargar</WhatsAppButton>
           {CANAL && (
