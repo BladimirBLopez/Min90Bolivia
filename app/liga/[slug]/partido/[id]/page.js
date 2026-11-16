@@ -5,7 +5,9 @@ import Navbar from "@/components/Navbar";
 import CtaRecarga from "@/components/CtaRecarga";
 import EscudoLiga from "@/components/EscudoLiga";
 import FormaLiga from "@/components/FormaLiga";
-import { ligaPorSlug, partidoPorId, datosEquipo, h2hLiga, slugEquipo, jugado } from "@/lib/ligas";
+import { ligaPorSlug, partidoPorId, datosEquipo, h2hLiga, slugEquipo, jugado, cargarLiga } from "@/lib/ligas";
+import { aPartidos, ajustar, predecir } from "@/lib/modelo";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export const revalidate = 3600;
 export const dynamicParams = true;
@@ -86,6 +88,47 @@ export default async function PartidoLiga({ params }) {
             <FormaLiga lista={sb.forma} />
           </div>
         </div>
+
+        {!fin && (() => {
+          try {
+            const p = predecir(ajustar(aPartidos(cargarLiga(slug))), m.local.id, m.visitante.id);
+            if (!p) return null;
+            const r = (x) => Math.round(x * 100);
+            const amb = sa.pj && sb.pj ? Math.round((pct(sa.btts, sa.pj) + pct(sb.btts, sb.pj)) / 2) : null;
+            const dc = p.x1 >= p.x2 ? { t: `${m.local.nombre} o empate`, v: p.x1 } : { t: `${m.visitante.nombre} o empate`, v: p.x2 };
+            const gl = p.o25 >= 0.5 ? { t: "Más de 2.5 goles", v: p.o25 } : { t: "Menos de 2.5 goles", v: 1 - p.o25 };
+            const lista = [["Resultado", dc], ["Goles", gl]];
+            if (amb !== null) lista.push(["Ambos marcan", amb >= 50 ? { t: "Sí", v: amb / 100 } : { t: "No", v: (100 - amb) / 100 }]);
+            const texto = `Hola, quiero jugar ${m.local.nombre} vs ${m.visitante.nombre} (${liga.nombre}). Vi las tendencias Min90 en la web y quiero consultar la cuota. Soy mayor de 18 años.`;
+            return (
+              <div className="mt-8 rounded-2xl border-2 border-oro-500 bg-white p-5 shadow-sm">
+                <div className="flex items-center justify-between gap-2">
+                  <h2 className="text-xl font-extrabold">Tendencias Min90</h2>
+                  <span className="rounded-full bg-slate-900 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-oro-200">Confianza baja</span>
+                </div>
+                <p className="mt-1 text-xs text-slate-600">En esta liga el modelo aún no supera a la tendencia general: úsalo como referencia, no como pick seguro.</p>
+                <div className="mt-4 space-y-3">
+                  {lista.map(([k, f]) => (
+                    <div key={k}>
+                      <div className="flex items-baseline justify-between gap-3">
+                        <p className="text-sm"><span className="mr-2 text-xs uppercase text-slate-500">{k}</span><b className={f.v >= 0.55 ? "text-slate-900" : "text-slate-500"}>{f.t}</b></p>
+                        <p className={`text-lg font-black ${f.v >= 0.55 ? "text-oro-700" : "text-slate-400"}`}>{r(f.v)}%</p>
+                      </div>
+                      <div className="mt-1 h-2 overflow-hidden rounded-full bg-slate-200"><div className={f.v >= 0.55 ? "h-full bg-oro-500" : "h-full bg-slate-400"} style={{ width: `${r(f.v)}%` }} /></div>
+                      {f.v < 0.55 ? <p className="mt-0.5 text-[11px] text-slate-500">Sin ventaja clara</p> : null}
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-5 flex flex-wrap items-center gap-3">
+                  <WhatsAppButton texto={texto}>Consultar cuota</WhatsAppButton>
+                </div>
+                <p className="mt-3 text-[11px] text-slate-500">Estimación estadística de confianza baja, no una garantía de resultado. Solo +18. Juega con responsabilidad.</p>
+              </div>
+            );
+          } catch (e) {
+            return null;
+          }
+        })()}
 
         <h2 className="mb-3 mt-8 text-xl font-extrabold">Comparación</h2>
         <div className={`${box} divide-y divide-slate-100 px-4`}>
