@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-crema text-slate-900">
       <Navbar />
-      {EJEMPLO && <div className="bg-yellow-500 p-2 text-center text-xs font-bold text-black">DATOS DE EJEMPLO: solo para ver el diseño</div>}
+      
 
       <section id="inicio" className="bg-gradient-to-b from-[#1c1500] to-[#0b0b0b] text-white">
       <div className="mx-auto max-w-5xl px-5 pb-12 pt-14 text-center">
