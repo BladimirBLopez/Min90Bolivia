@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import { Escudo } from "@/components/LigaUI";
+import { proximosTodos2026, equipos2026 } from "@/lib/liga2026";
 
 const TITULO = "Recarga ahora en Metabet con atención directa por WhatsApp | Min90 Bolivia";
 const DESC = "Te creamos tu cuenta, pagas por QR y cargamos tu saldo. Además recibes picks gratis en nuestro grupo de WhatsApp.";
@@ -14,8 +16,19 @@ export const metadata = {
   twitter: { card: "summary_large_image", title: TITULO, description: DESC },
 };
 
+const DIAS = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
+const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+const fmt = (f) => {
+  const [y, mo, d] = String(f).slice(0, 10).split("-").map(Number);
+  const dt = new Date(Date.UTC(y, mo - 1, d));
+  return `${DIAS[dt.getUTCDay()]} ${d} ${MESES[mo - 1]}`;
+};
+const slugDe = (id) => equipos2026.find((x) => x.id === id)?.slug;
+
+const chips = ["Cuenta lista", "Pago por QR", "Picks gratis"];
+
 const beneficios = [
-  { t: "Te creamos la cuenta", d: "Sin trámites: nosotros abrimos tu cuenta en Metabet y te la enviamos por WhatsApp." },
+  { t: "Te creamos la cuenta", d: "Sin trámites: abrimos tu cuenta en Metabet y te la enviamos por WhatsApp." },
   { t: "Pagas por QR", d: "Escaneas el QR desde la app de tu banco, sin complicarte." },
   { t: "Atención directa", d: "Hablas con una persona por WhatsApp, no con un formulario." },
   { t: "Picks gratis en el grupo", d: "Publicamos pronósticos gratis en nuestro grupo de WhatsApp." },
@@ -38,17 +51,26 @@ function Check() {
   );
 }
 
-export default function Jugar() {
+export default function RecargaAhora() {
+  const m = proximosTodos2026(1)[0] || null;
+  const sl = m ? slugDe(m.local.id) : null;
+  const sv = m ? slugDe(m.visitante.id) : null;
+  const href = sl && sv ? `/partido/${sl}-vs-${sv}` : null;
+  const msgPartido = m
+    ? `Hola, quiero recargar ahora para jugar ${m.local.nombre} vs ${m.visitante.nombre}. Soy mayor de 18 años.`
+    : MSG;
+
   return (
-    <main className="min-h-screen bg-white text-slate-900">
+    <main className="min-h-screen bg-white pb-24 text-slate-900 sm:pb-0">
       <Navbar />
 
-      <section className="bg-gradient-to-b from-oro-50 to-white px-5 pb-10 pt-10">
+      <section className="bg-gradient-to-br from-[#1c1500] to-[#0b0b0b] px-5 pb-12 pt-10 text-white">
         <div className="mx-auto max-w-3xl">
           <h1 className="text-4xl font-extrabold leading-tight sm:text-5xl">
-            Recarga ahora y juega en Metabet con atención directa
+            Recarga ahora y juega en Metabet
+            <span className="block text-oro-400">con atención directa</span>
           </h1>
-          <p className="mt-4 text-lg text-slate-700">
+          <p className="mt-4 text-lg text-slate-200">
             Te creamos tu cuenta, pagas por QR y cargamos tu saldo. Además recibes picks gratis en nuestro grupo.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -57,18 +79,67 @@ export default function Jugar() {
               href={GRUPO}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full border border-oro-500 px-6 py-3 font-bold text-oro-700 hover:bg-oro-50"
+              className="inline-flex items-center justify-center rounded-full border border-oro-400 px-6 py-3 font-bold text-oro-300 hover:bg-white/10"
             >
               Unirme al grupo de picks
             </a>
           </div>
-          <p className="mt-3 text-xs text-slate-500">Solo mayores de 18 años.</p>
+          <div className="mt-6 flex flex-wrap gap-2">
+            {chips.map((c) => (
+              <span key={c} className="rounded-full border border-oro-500/60 px-4 py-1.5 text-sm font-semibold text-oro-200">{c}</span>
+            ))}
+          </div>
+          <p className="mt-4 text-xs text-slate-400">Solo mayores de 18 años.</p>
         </div>
       </section>
 
+      {m ? (
+        <section className="mx-auto max-w-3xl px-5 pt-8">
+          <div className="overflow-hidden rounded-3xl border border-oro-300">
+            <div className="flex items-center justify-between bg-oro-50 px-5 py-3 text-sm font-semibold text-oro-800">
+              <span>Próximo partido</span>
+              <span>{fmt(m.fecha)}{m.hora ? `, ${m.hora}` : ""}</span>
+            </div>
+            <div className="flex items-center justify-between gap-3 px-5 py-6">
+              <div className="flex flex-1 flex-col items-center text-center">
+                <Escudo e={m.local} size={64} />
+                <p className="mt-2 font-bold">{m.local.nombre}</p>
+              </div>
+              <p className="text-2xl font-extrabold text-slate-400">vs</p>
+              <div className="flex flex-1 flex-col items-center text-center">
+                <Escudo e={m.visitante} size={64} />
+                <p className="mt-2 font-bold">{m.visitante.nombre}</p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-3 border-t border-oro-200 p-4 sm:flex-row">
+              <WhatsAppButton texto={msgPartido} className="flex-1">Recarga y juega este partido</WhatsAppButton>
+              {href ? (
+                <Link href={href} className="inline-flex flex-1 items-center justify-center rounded-full border border-oro-500 px-6 py-3 font-bold text-oro-700 hover:bg-oro-50">
+                  Ver estadísticas gratis
+                </Link>
+              ) : null}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       <section className="mx-auto max-w-3xl px-5 py-8">
-        <h2 className="titulo-oro text-2xl font-extrabold">Por qué jugar con nosotros</h2>
-        <ul className="mt-5 space-y-4">
+        <h2 className="titulo-oro text-2xl font-extrabold">Así empieza tu recarga</h2>
+        <div className="mt-5 space-y-2 rounded-3xl bg-[#ECE5DD] p-4">
+          <div className="ml-auto max-w-[85%] rounded-2xl rounded-tr-sm bg-[#DCF8C6] px-4 py-2 text-sm text-slate-800">{MSG}</div>
+          <div className="max-w-[85%] rounded-2xl rounded-tl-sm bg-white px-4 py-2 text-sm text-slate-800">
+            Hola, te creamos tu cuenta en Metabet y te enviamos el QR para pagar.
+          </div>
+          <div className="max-w-[85%] rounded-2xl rounded-tl-sm bg-white px-4 py-2 text-sm text-slate-800">
+            Cuando recibimos tu comprobante, cargamos tu saldo y te avisamos.
+          </div>
+        </div>
+        <p className="mt-2 text-xs text-slate-500">Ejemplo de cómo es el chat: un mensaje y nosotros hacemos el resto.</p>
+      </section>
+
+      <section className="mx-auto max-w-3xl px-5 py-4">
+        <h2 className="titulo-oro text-2xl font-extrabold">Por qué recargar con nosotros</h2>
+        <ul className="mt-5 grid gap-3 sm:grid-cols-2">
           {beneficios.map((b) => (
             <li key={b.t} className="flex gap-3 rounded-2xl border border-oro-200 bg-white p-4">
               <Check />
@@ -98,7 +169,7 @@ export default function Jugar() {
       </section>
 
       <section className="mx-auto max-w-3xl px-5 py-8">
-        <div className="rounded-3xl bg-slate-900 p-6 text-center text-white">
+        <div className="rounded-3xl bg-gradient-to-br from-[#1c1500] to-[#0b0b0b] p-6 text-center text-white">
           <h2 className="text-2xl font-extrabold">¿Listo para recargar?</h2>
           <p className="mt-2 text-sm text-slate-300">Escríbenos y te atendemos directo por WhatsApp.</p>
           <div className="mt-5 flex justify-center">
@@ -110,10 +181,14 @@ export default function Jugar() {
         </div>
       </section>
 
-      <footer className="mx-auto max-w-3xl px-5 pb-16 pt-4 text-center text-xs text-slate-500">
+      <footer className="mx-auto max-w-3xl px-5 pb-10 pt-4 text-center text-xs text-slate-500">
         <p>Solo +18. Juega con responsabilidad.</p>
         <p className="mt-1">Los pronósticos son opiniones y no garantizan resultados ni ganancias. Apostar implica riesgo de perder dinero.</p>
       </footer>
+
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-oro-200 bg-white/95 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur sm:hidden">
+        <WhatsAppButton texto={MSG} className="w-full">Recarga ahora</WhatsAppButton>
+      </div>
     </main>
   );
 }
