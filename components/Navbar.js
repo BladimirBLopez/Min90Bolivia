@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import Link from "next/link";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
@@ -13,10 +15,28 @@ const links = [
 ];
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
   return (
     <header className="sticky top-0 z-40 border-b border-oro-500/40 bg-[#14100a]/95 text-white backdrop-blur">
-      <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
-        <Link href="/#inicio" className="flex items-center gap-2 text-2xl font-black tracking-tight">
+      <div className="mx-auto grid max-w-5xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-3 sm:flex sm:justify-between">
+        <button
+          type="button"
+          onClick={() => setOpen(!open)}
+          aria-label={open ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={open}
+          aria-controls="menu-movil"
+          className="flex h-10 w-10 items-center justify-center justify-self-start rounded-xl border border-white/15 text-oro-100 active:bg-white/10 sm:hidden"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+            {open ? (
+              <path d="M6 6l12 12M18 6L6 18" />
+            ) : (
+              <path d="M4 7h16M4 12h16M4 17h16" />
+            )}
+          </svg>
+        </button>
+        <Link href="/#inicio" onClick={close} className="flex items-center justify-center gap-2 text-xl font-black tracking-tight sm:justify-start sm:text-2xl">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo-min90.png" alt="Min90 Bolivia" width={40} height={40} className="h-10 w-10 rounded-xl" />
           <span>Min<span className="text-oro-400">90</span></span>
@@ -26,13 +46,24 @@ export default function Navbar() {
             <a key={h} href={h} className="hover:text-oro-300">{t}</a>
           ))}
         </nav>
-        <WhatsAppButton className="!px-4 !py-2 text-sm">WhatsApp</WhatsAppButton>
+        <div className="flex justify-end">
+          <WhatsAppButton className="!px-3 !py-2 text-sm sm:!px-4">WhatsApp</WhatsAppButton>
+        </div>
       </div>
-      <nav className="flex gap-5 overflow-x-auto border-t border-white/10 px-4 py-2 text-sm text-oro-100 sm:hidden">
-        {links.map(([t, h]) => (
-          <a key={h} href={h} className="whitespace-nowrap">{t}</a>
-        ))}
-      </nav>
+      {open && (
+        <nav id="menu-movil" className="border-t border-white/10 bg-[#14100a] px-4 pb-3 pt-1 sm:hidden">
+          {links.map(([t, h]) => (
+            <a
+              key={h}
+              href={h}
+              onClick={close}
+              className={"block border-b border-white/10 py-3 text-base last:border-b-0 " + (h === "/recarga-ahora" ? "font-bold text-oro-300" : "text-oro-100")}
+            >
+              {t}
+            </a>
+          ))}
+        </nav>
+      )}
     </header>
   );
 }
