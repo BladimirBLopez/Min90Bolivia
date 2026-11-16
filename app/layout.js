@@ -31,8 +31,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es" className="scroll-smooth">
-      <body className={`${publicSans.variable} ${barlow.variable}`}>
+    <html lang="es" className={`scroll-smooth ${publicSans.variable} ${barlow.variable}`}>
+      <body>
         {children}
       </body>
     </html>
