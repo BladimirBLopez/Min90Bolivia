@@ -3,7 +3,8 @@ import { EJEMPLO, estrella, pronosticos } from "@/app/data/pronosticos";
 import PickCard from "@/components/PickCard";
 import PartidosLista from "@/components/PartidosLista";
 import { listasLiga } from "@/lib/ligas";
-import { fechaActualBolivia } from "@/lib/fechaPartidos";
+import { ligaESPN, partidosESPN } from "@/lib/ligasESPN";
+import { fechaActualBolivia, esPartidoFuturo } from "@/lib/fechaPartidos";
 
 const pct = (x, n) => (n ? Math.round((100 * x) / n) : 0);
 const jugado = (m) => m.estado === "FT" && m.goles.local !== null && m.goles.visitante !== null;
@@ -29,7 +30,7 @@ const seguro = (slug) => {
   }
 };
 
-export default function Partidos() {
+export default async function Partidos() {
   const cache = {};
   const stats = (id) => cache[id] || (cache[id] = statsEquipo2026(id));
   const picks = {};
@@ -72,10 +73,93 @@ export default function Partidos() {
   const ce = !EJEMPLO && estrella ? cruce(estrella.partido) : null;
   const brasil = seguro("brasil-2026");
   const nations = seguro("nations-league-2026");
+  // Incorporar los amistosos de ESPN a las pestañas generales.
+  const ligaAmistosos = ligaESPN("amistosos-internacionales");
+  let partidosAmistosos = [];
+
+  if (ligaAmistosos) {
+    try {
+      const respuesta = await partidosESPN(ligaAmistosos);
+      partidosAmistosos = respuesta.partidos;
+    } catch (error) {
+      console.error(
+        "[inicio amistosos ESPN]",
+        error?.message || String(error)
+      );
+    }
+  }
+
+  const ahora = Date.now();
+
+  const amistosos = partidosAmistosos
+    .map((p) => {
+      const inicio = Date.parse(p.fecha);
+      if (!Number.isFinite(inicio)) return null;
+
+      const fechaHora = new Date(
+        inicio - 4 * 3600000
+      ).toISOString();
+
+      const golesLocal = Number.isFinite(p.local.goles)
+        ? p.local.goles : null;
+
+      const golesVisitante = Number.isFinite(p.visitante.goles)
+        ? p.visitante.goles : null;
+
+      return {
+        id: p.id,
+        fecha: fechaHora.slice(0, 10),
+        hora: fechaHora.slice(11, 16),
+        ronda: "Amistoso",
+        estadio: p.estadio || "",
+        goles: {
+          local: golesLocal,
+          visitante: golesVisitante,
+        },
+        local: {
+          nombre: p.local.nombre,
+          logo: p.local.logo,
+        },
+        visitante: {
+          nombre: p.visitante.nombre,
+          logo: p.visitante.logo,
+        },
+        href: `/mas-ligas/amistosos-internacionales/partido/${p.id}`,
+        ambos: null,
+        o25: null,
+        pick: null,
+        enVivo: p.fase === "in",
+        terminado:
+          p.fase === "post" &&
+          golesLocal !== null &&
+          golesVisitante !== null,
+        minutoVivo: p.minuto || "",
+        estadoVivo: p.estado || "",
+      };
+    })
+    .filter(Boolean);
+
+  const amistososPendientes = amistosos.filter(
+    (m) =>
+      m.enVivo ||
+      (!m.terminado && esPartidoFuturo(m, ahora))
+  );
+
+  const amistososTerminados = amistosos
+    .filter((m) => m.terminado)
+    .slice(-10)
+    .reverse();
+
   const ligas = [
     { k: "bolivia", nombre: "Bolivia", pendientes: ordenar(pendientes), terminados },
     { k: "brasil", nombre: "Brasil", pendientes: ordenar(brasil.pendientes.filter((m) => m.fecha >= hoyBolivia)), terminados: brasil.terminados },
     { k: "nations", nombre: "Nations League", pendientes: ordenar(nations.pendientes.filter((m) => m.fecha >= hoyBolivia)), terminados: nations.terminados },
+    {
+      k: "amistosos",
+      nombre: "Amistosos Internacionales",
+      pendientes: ordenar(amistososPendientes),
+      terminados: amistososTerminados,
+    },
   ].filter((x) => x.pendientes.length || x.terminados.length);
   const etiquetar = (lista, nombre) => lista.map((m) => ({ ...m, liga: nombre }));
   const clave = (m) => `${m.fecha || ""} ${m.hora || ""}`;

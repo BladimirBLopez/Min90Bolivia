@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ActualizadorESPN from "@/components/ActualizadorESPN";
 import {
   ligaESPN,
   partidosESPN,
@@ -217,6 +218,11 @@ export default async function AmistososInicio() {
       id="amistosos"
       className="mx-auto max-w-5xl px-5 pb-10 pt-3"
     >
+      <ActualizadorESPN
+        fechas={partidos.map((p) => p.fecha).filter(Boolean).join("|")}
+        intervalo={60000}
+      />
+
       <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2 className="text-2xl font-extrabold titulo-oro">

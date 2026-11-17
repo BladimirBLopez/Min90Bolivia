@@ -81,6 +81,10 @@ function Tarjeta({ m }) {
           <p className="text-xs text-yellow-700">{"★".repeat(c)}{"☆".repeat(3 - c)}</p>
           {m.pick.analisis ? <p className="mt-1 text-sm text-slate-700">{m.pick.analisis}</p> : null}
         </div>
+      ) : m.ambos == null || m.o25 == null ? (
+        <p className="mt-3 text-center text-xs text-slate-500">
+          Estadísticas sujetas a disponibilidad de ESPN.
+        </p>
       ) : (
         <div className="mt-3 flex flex-wrap justify-center gap-2">
           <Chip tono="verde">Ambos marcan {m.ambos}%</Chip>
@@ -99,7 +103,9 @@ function Tarjeta({ m }) {
 }
 
 export default function PartidosLista({ pendientes = [], terminados = [], ligas }) {
-  const [tab, setTab] = useState("proximos");
+  const [tab, setTab] = useState(() =>
+    pendientes.some((m) => m.enVivo) ? "vivo" : "proximos"
+  );
   const [n, setN] = useState(8);
   const opciones = ligas && ligas.length ? ligas : [{ k: "unica", nombre: "", pendientes, terminados }];
   const [lk, setLk] = useState(opciones[0].k);
@@ -178,7 +184,13 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
       ? datosEnVivo[String(m.id)]
       : null;
 
-    if (!p) return { ...m, terminado, enVivo: false };
+    if (!p) {
+      return {
+        ...m,
+        terminado: terminado || m.terminado === true,
+        enVivo: m.enVivo === true,
+      };
+    }
 
     const golesValidos =
       Number.isFinite(p.goles?.local) &&
@@ -241,7 +253,10 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
         </div>
       ) : null}
       <div className="mb-4 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {tabs.filter(([k]) => k !== "vivo" || todos.some(esNations)).map(([k, t]) => (
+        {tabs.filter(([k]) =>
+          k !== "vivo" ||
+          todos.some((m) => m.enVivo || esNations(m))
+        ).map(([k, t]) => (
           <button key={k} onClick={() => cambiar(k)}
             className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold ${tab === k ? "border border-oro-500 bg-oro-400 text-slate-900 shadow-sm" : "border border-slate-300 bg-white text-slate-700 hover:border-oro-500"}`}>
             {k === "vivo" && vivos.length ? `${t} (${vivos.length})` : t}

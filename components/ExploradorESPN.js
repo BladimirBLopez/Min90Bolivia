@@ -124,8 +124,14 @@ function Tarjeta({ partido, slug }) {
 }
 
 export default function ExploradorESPN({ partidos, slug }) {
-  const inicial = partidos.some((p) => p.fase === "pre")
-    ? "proximos" : "resultados";
+  const inicial = partidos.some((p) => p.fase === "in")
+    ? "vivo"
+    : partidos.some((p) =>
+        p.fase === "pre" &&
+        Date.parse(p.fecha) > Date.now()
+      )
+      ? "proximos"
+      : "resultados";
 
   const [tab, setTab] = useState(inicial);
   const [mesElegido, setMesElegido] = useState("");
@@ -156,7 +162,9 @@ export default function ExploradorESPN({ partidos, slug }) {
     );
   } else if (tab === "proximos") {
     lista = partidos.filter(
-      (p) => p.fase === "pre"
+      (p) =>
+        p.fase === "pre" &&
+        Date.parse(p.fecha) > Date.now()
     );
   } else {
     lista = resultados.filter(
