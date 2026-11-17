@@ -63,7 +63,7 @@ export async function GET(request) {
     }
 
     const equipoStats = (nombre) => (detalle?.boxscore?.teams || []).find(
-      (t) => normalizar(t.team?.displayName) === normalizar(nombre)
+      (t) => claveSeleccion(t.team?.displayName) === claveSeleccion(nombre)
     );
     const a = equipoStats(m.local.nombre);
     const b = equipoStats(m.visitante.nombre);
