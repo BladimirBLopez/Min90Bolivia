@@ -137,7 +137,7 @@ export default function Home() {
         <p className="mt-3">© Min90 Bolivia</p>
       </footer>
 
-      <WhatsAppButton className="fixed bottom-5 right-4 z-50 !px-4 !py-2.5 text-sm shadow-lg shadow-slate-400/50">WhatsApp</WhatsAppButton>
+
     </main>
   );
 }

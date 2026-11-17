@@ -1,5 +1,6 @@
 import { Barlow_Condensed, Public_Sans } from "next/font/google";
 import "./globals.css";
+import WhatsAppFlotante from "@/components/WhatsAppFlotante";
 
 const publicSans = Public_Sans({
   variable: "--font-public",
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
     <html lang="es" className={`scroll-smooth ${publicSans.variable} ${barlow.variable}`}>
       <body>
         {children}
+        <WhatsAppFlotante />
       </body>
     </html>
   );
