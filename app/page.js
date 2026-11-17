@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Suspense } from "react";
+import AmistososInicio from "@/components/AmistososInicio";
 import Navbar from "@/components/Navbar";
 import Calculadora from "@/components/Calculadora";
 import Promo from "@/components/Promo";
@@ -59,6 +61,14 @@ export default function Home() {
       </section>
 
       <Partidos />
+
+      <Suspense fallback={
+        <section className="mx-auto max-w-5xl px-5 py-6 text-sm text-slate-500">
+          Cargando amistosos internacionales...
+        </section>
+      }>
+        <AmistososInicio />
+      </Suspense>
 
       <section className="mx-auto max-w-5xl px-5 pb-4">
         <div className="rounded-2xl bg-gradient-to-r from-green-700 to-green-500 p-5 text-center text-white shadow-md">

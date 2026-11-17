@@ -3,8 +3,8 @@ import Navbar from "@/components/Navbar";
 import { LIGAS_ESPN } from "@/lib/ligasESPN";
 
 export const metadata = {
-  title: "Más ligas: Libertadores, Sudamericana y Champions | Min90 Bolivia",
-  description: "Calendarios, resultados y detalles de Libertadores, Sudamericana y Champions League con horario de Bolivia.",
+  title: "Más ligas: Libertadores, Sudamericana, Champions y Amistosos | Min90 Bolivia",
+  description: "Calendarios, resultados y detalles de Libertadores, Sudamericana, Champions League y Amistosos Internacionales con horario de Bolivia.",
 };
 
 export default function MasLigas() {
