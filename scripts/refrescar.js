@@ -22,9 +22,128 @@ const iso = (d) => d.toISOString().slice(0, 10);
 const manana = iso(new Date(Date.now() + 86400000));
 const hace14 = iso(new Date(Date.now() - 14 * 86400000));
 const dormir = (ms) => new Promise((r) => setTimeout(r, ms));
-const leer = (f) => { try { return JSON.parse(fs.readFileSync(f, "utf8")).events || []; } catch { return []; } };
+const leer = (f) => {
+  if (!fs.existsSync(f)) return [];
+  const datos = JSON.parse(fs.readFileSync(f, "utf8"));
+  if (!Array.isArray(datos.events)) {
+    throw new Error("Archivo JSON invalido: " + f);
+  }
+  return datos.events;
+};
 const clave = (e) => `${e.strStatus}|${e.intHomeScore}|${e.intAwayScore}|${e.strTimestamp}`;
 const pendiente = (ev) => ev.some((e) => e.dateEvent && e.dateEvent <= manana && e.dateEvent >= hace14 && !FIN.has(e.strStatus));
+
+const FIN_CON_GOLES = new Set(["FT", "AET", "PEN", "AOT", "Match Finished"]);
+
+function validarEventos(nuevos, anteriores, idLiga, temporada, ronda) {
+  if (!Array.isArray(nuevos) || !nuevos.length) {
+    throw new Error("Ronda " + ronda + ": respuesta invalida");
+  }
+
+  const ids = new Set();
+  const marcadorValido = (v) =>
+    v !== null && v !== undefined && v !== "" &&
+    Number.isFinite(Number(v));
+
+  for (const e of nuevos) {
+    const id = String(e?.idEvent || "");
+
+    if (!id || ids.has(id)) {
+      throw new Error("Ronda " + ronda + ": ID ausente o duplicado");
+    }
+
+    ids.add(id);
+
+    const campos = [
+      "idLeague",
+      "strSeason",
+      "strStatus",
+      "dateEvent",
+      "strTimestamp",
+      "idHomeTeam",
+      "idAwayTeam",
+      "strHomeTeam",
+      "strAwayTeam",
+    ];
+
+    for (const campo of campos) {
+      if (String(e[campo] ?? "").trim() === "") {
+        throw new Error(
+          "Ronda " + ronda + ": falta campo " + campo +
+          ", ID " + id
+        );
+      }
+    }
+
+    if (String(e.idLeague) !== String(idLiga)) {
+      throw new Error("Ronda " + ronda + ": liga incorrecta");
+    }
+
+    if (String(e.strSeason) !== String(temporada)) {
+      throw new Error("Ronda " + ronda + ": temporada incorrecta");
+    }
+
+    if (String(e.idHomeTeam) === String(e.idAwayTeam)) {
+      throw new Error(
+        "Ronda " + ronda + ": equipos duplicados, ID " + id
+      );
+    }
+
+    if (FIN_CON_GOLES.has(e.strStatus) &&
+        (!marcadorValido(e.intHomeScore) ||
+         !marcadorValido(e.intAwayScore))) {
+      throw new Error("Ronda " + ronda + ": resultado final incompleto");
+    }
+  }
+
+  const anterioresPorId = new Map(
+    anteriores.map((e) => [String(e.idEvent), e])
+  );
+
+  for (const [id, previo] of anterioresPorId) {
+    if (!ids.has(id)) {
+      throw new Error(
+        "Ronda " + ronda + ": falta partido existente " + id
+      );
+    }
+
+    const nuevo = nuevos.find((e) => String(e.idEvent) === id);
+
+    if (
+      String(previo.idHomeTeam) !== String(nuevo.idHomeTeam) ||
+      String(previo.idAwayTeam) !== String(nuevo.idAwayTeam)
+    ) {
+      throw new Error(
+        "Ronda " + ronda +
+        ": cambiaron los equipos del partido " + id
+      );
+    }
+
+    if (FIN.has(previo.strStatus) && !FIN.has(nuevo.strStatus)) {
+      throw new Error(
+        "Ronda " + ronda + ": estado final retrocede, ID " + id
+      );
+    }
+  }
+}
+
+function guardarSeguro(archivo, eventos) {
+  const temporal = archivo + ".tmp-" + process.pid;
+
+  try {
+    fs.writeFileSync(
+      temporal,
+      JSON.stringify({ events: eventos }),
+      { flag: "wx" }
+    );
+
+    fs.renameSync(temporal, archivo);
+  } finally {
+    if (fs.existsSync(temporal)) {
+      fs.unlinkSync(temporal);
+    }
+  }
+}
 
 async function pedir(ID, SEASON, r) {
   const u = `https://www.thesportsdb.com/api/v1/json/123/eventsround.php?id=${ID}&r=${r}&s=${SEASON}`;
@@ -39,6 +158,7 @@ async function pedir(ID, SEASON, r) {
 
 (async () => {
   let cambiosTotal = 0;
+  const escrituras = [];
   for (const c of lista) {
     const dir = path.join(__dirname, "..", "data", LIGAS[c]);
     if (!fs.existsSync(dir)) { console.log("==", c, ": no existe", dir); continue; }
@@ -54,12 +174,28 @@ async function pedir(ID, SEASON, r) {
     if (solover) continue;
 
     for (const r of aRef) {
+      const anteriores = leer(file(r));
       const viejos = {};
-      leer(file(r)).forEach((e) => { viejos[e.idEvent] = clave(e); });
+      anteriores.forEach((e) => { viejos[e.idEvent] = clave(e); });
+
       const ev = await pedir(ID, SEASON, r);
-      if (!ev.length) { console.log("ronda", r, "vino vacia, no toco el archivo"); await dormir(5000); continue; }
-      const cambios = ev.filter((e) => viejos[e.idEvent] !== clave(e)).length;
-      fs.writeFileSync(file(r), JSON.stringify({ events: ev }));
+
+      if (Array.isArray(ev) && !ev.length) {
+        console.log("ronda", r, "vino vacia, no toco el archivo");
+        await dormir(5000);
+        continue;
+      }
+
+      validarEventos(ev, anteriores, ID, SEASON, r);
+
+      const cambios = ev.filter(
+        (e) => viejos[e.idEvent] !== clave(e)
+      ).length;
+
+      if (JSON.stringify(ev) !== JSON.stringify(anteriores)) {
+        escrituras.push({ archivo: file(r), eventos: ev });
+      }
+
       cambiosTotal += cambios;
       console.log("ronda", r, ":", ev.length, "partidos,", cambios, "cambiaron");
       await dormir(5000);
@@ -67,10 +203,26 @@ async function pedir(ID, SEASON, r) {
     let r = nums[nums.length - 1] + 1, vacias = 0;
     while (vacias < 2 && r <= nums[nums.length - 1] + 6) {
       const ev = await pedir(ID, SEASON, r);
-      if (ev.length) { fs.writeFileSync(file(r), JSON.stringify({ events: ev })); cambiosTotal += ev.length; console.log("ronda NUEVA", r, ":", ev.length, "partidos"); vacias = 0; } else vacias++;
+      if (Array.isArray(ev) && ev.length === 0) {
+        vacias++;
+      } else {
+        validarEventos(ev, [], ID, SEASON, r);
+        escrituras.push({ archivo: file(r), eventos: ev });
+        cambiosTotal += ev.length;
+        console.log("ronda NUEVA", r, ":", ev.length, "partidos");
+        vacias = 0;
+      }
       r++;
       await dormir(5000);
     }
   }
+  if (!solover) {
+    console.log("=== GUARDANDO RONDAS VALIDADAS ===");
+    for (const pendiente of escrituras) {
+      guardarSeguro(pendiente.archivo, pendiente.eventos);
+    }
+    console.log("Archivos escritos:", escrituras.length);
+  }
+
   console.log(solover ? "SOLO VER, no se pidio nada." : `LISTO. Partidos que cambiaron o son nuevos: ${cambiosTotal}`);
 })().catch((e) => { console.error("ERROR:", e.message); process.exit(1); });
