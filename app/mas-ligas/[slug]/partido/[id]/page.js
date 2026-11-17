@@ -158,6 +158,25 @@ export default async function PartidoExtra({ params }) {
                           </li>
                         ))}
                       </ul>
+
+                      {e.suplentes?.length > 0 && (
+                        <>
+                          <h4 className="mb-3 mt-5 text-sm font-bold text-slate-700">
+                            Suplentes y otros jugadores registrados
+                          </h4>
+                          <ul className="space-y-2 text-sm">
+                            {e.suplentes.map((p, i) => (
+                              <li
+                                key={`${p.nombre}-suplente-${i}`}
+                                className="border-b border-slate-100 pb-1"
+                              >
+                                {p.dorsal ? `${p.dorsal}. ` : ""}{p.nombre}
+                              </li>
+                            ))}
+                          </ul>
+                        </>
+                      )}
+
                     </div>
                   ))}
                 </div>
