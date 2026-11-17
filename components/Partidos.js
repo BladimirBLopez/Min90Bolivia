@@ -290,7 +290,7 @@ export default async function Partidos() {
           <PickCard p={{ ...estrella, href: ce ? `/partido/${ce[0].slug}-vs-${ce[1].slug}` : null }} grande />
         </div>
       ) : null}
-      <PartidosLista pendientes={proximos} terminados={recientes} />
+      <PartidosLista pendientes={proximos} terminados={recientes} habilitarVivoESPN />
     </section>
   );
 }

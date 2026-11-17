@@ -112,7 +112,7 @@ function Tarjeta({ m }) {
   );
 }
 
-export default function PartidosLista({ pendientes = [], terminados = [], ligas }) {
+export default function PartidosLista({ pendientes = [], terminados = [], ligas, habilitarVivoESPN = false }) {
   const [tab, setTab] = useState(() =>
     pendientes.some((m) => m.enVivo) ? "vivo" : "proximos"
   );
@@ -122,6 +122,8 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
   const [ref, setRef] = useState(null);
   const [datosEnVivo, setDatosEnVivo] = useState({});
   const [errorEnVivo, setErrorEnVivo] = useState(false);
+  const [datosVivoESPN, setDatosVivoESPN] = useState(null);
+  const [errorVivoESPN, setErrorVivoESPN] = useState(false);
   const [ahora, setAhora] = useState(() => Date.now());
 
   useEffect(() => {
@@ -132,6 +134,69 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
     return () => clearInterval(reloj);
   }, []);
   useEffect(() => { setRef({ h: hoy(), m: manana() }); }, []);
+
+  // Actualizar partidos activos de todas las competiciones
+  // ESPN sin depender de la caché HTML de la portada.
+  useEffect(() => {
+    // Solo la portada consulta todas las competiciones.
+    if (!habilitarVivoESPN) return;
+
+    let activo = true;
+
+    const actualizarESPN = async () => {
+      if (document.hidden) return;
+
+      try {
+        const respuesta = await fetch("/api/en-vivo-espn", {
+          cache: "no-store",
+        });
+
+        if (!respuesta.ok) {
+          throw new Error("ESPN HTTP " + respuesta.status);
+        }
+
+        const datos = await respuesta.json();
+
+        if (
+          !Array.isArray(datos.partidos) ||
+          !Array.isArray(datos.consultadas)
+        ) {
+          throw new Error("Respuesta ESPN inválida");
+        }
+
+        if (activo) {
+          setDatosVivoESPN(datos);
+          setErrorVivoESPN(
+            Array.isArray(datos.fallidas) &&
+            datos.fallidas.length > 0
+          );
+        }
+      } catch {
+        if (activo) {
+          setErrorVivoESPN(true);
+        }
+      }
+    };
+
+    actualizarESPN();
+
+    const reloj = setInterval(actualizarESPN, 60000);
+
+    const alVolver = () => {
+      if (!document.hidden) actualizarESPN();
+    };
+
+    document.addEventListener("visibilitychange", alVolver);
+
+    return () => {
+      activo = false;
+      clearInterval(reloj);
+      document.removeEventListener(
+        "visibilitychange",
+        alVolver
+      );
+    };
+  }, [habilitarVivoESPN]);
 
   const hayNationsHoy = opciones.some((o) =>
     [...o.pendientes, ...o.terminados].some(
@@ -231,7 +296,31 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
     esPartidoFuturo(m, ahora)
   );
   const term = todos.filter((m) => m.terminado);
-  const vivos = todos.filter((m) => m.enVivo);
+  // La API actualiza exclusivamente la pestaña En vivo.
+  // Conservamos los datos originales de las otras pestañas.
+  const fuentesActualizadas = new Set(
+    datosVivoESPN?.consultadas || []
+  );
+
+  const slugFuente = (m) =>
+    typeof m.href === "string"
+      ? m.href.match(
+          /^\/mas-ligas\/([^/]+)\/partido\//
+        )?.[1] || null
+      : null;
+
+  const vivos = [
+    ...todos.filter((m) => {
+      if (!m.enVivo) return false;
+
+      const slug = slugFuente(m);
+
+      // Cuando ESPN responde correctamente, sus datos
+      // nuevos sustituyen el estado antiguo del servidor.
+      return !slug || !fuentesActualizadas.has(slug);
+    }),
+    ...(datosVivoESPN?.partidos || []),
+  ];
   let lista;
   if (tab === "vivo") {
     lista = [...vivos].sort((a, b) =>
@@ -284,6 +373,8 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
       <div className="mb-4 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {tabs.filter(([k]) =>
           k !== "vivo" ||
+          habilitarVivoESPN ||
+          vivos.length > 0 ||
           todos.some((m) => m.enVivo || esNations(m))
         ).map(([k, t]) => (
           <button key={k} onClick={() => cambiar(k)}
@@ -292,6 +383,12 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
           </button>
         ))}
       </div>
+      {tab === "vivo" && errorVivoESPN ? (
+        <p className="mb-3 rounded-xl bg-amber-50 p-3 text-sm text-amber-900">
+          No se pudieron actualizar todas las competiciones
+          en vivo. Algunos datos podrían estar desactualizados.
+        </p>
+      ) : null}
       <div>
         {grupos.map((g) => (
           <div key={g.f} className="mb-4">
@@ -313,7 +410,11 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
       </div>
       {lista.length === 0 && (
         <div className="rounded-xl bg-white p-4 text-center text-sm text-slate-600">
-          {tab === "vivo" && errorEnVivo ? "No se pudieron actualizar los partidos en vivo." : "No hay partidos en esta categoría."}
+          {tab === "vivo"
+            ? errorEnVivo || errorVivoESPN
+              ? "No se pudieron confirmar todos los partidos en vivo."
+              : "No hay partidos en vivo en este momento."
+            : "No hay partidos en esta categoría."}
           <button onClick={() => cambiar("proximos")} className="ml-2 font-semibold text-oro-700 underline">Ver próximos</button>
         </div>
       )}
