@@ -1,4 +1,3 @@
-import CtaRecarga from "@/components/CtaRecarga";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { Escudo, Forma } from "@/components/LigaUI";
@@ -317,7 +316,6 @@ export default async function Equipo({ params }) {
         );
       })()}
 
-      <CtaRecarga texto={`Hola, quiero jugar en Metabet y cargar saldo. Vi la página de ${e.nombre} en Min90 Bolivia. Soy mayor de 18 años.`} />
 
       <footer className="mx-auto max-w-3xl px-5 pb-16 pt-8 text-center text-xs text-slate-500">
         <p>Solo +18. Juega con responsabilidad.</p>

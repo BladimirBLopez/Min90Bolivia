@@ -2,7 +2,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { conSocial } from "@/lib/ogLiga";
 import Navbar from "@/components/Navbar";
-import CtaRecarga from "@/components/CtaRecarga";
 import EscudoLiga from "@/components/EscudoLiga";
 import FormaLiga from "@/components/FormaLiga";
 import { ligaPorSlug, partidoPorId, datosEquipo, h2hLiga, slugEquipo, jugado, cargarLiga, resultadoPara } from "@/lib/ligas";
@@ -253,7 +252,6 @@ export default async function PartidoLiga({ params }) {
         <p className="text-xs text-slate-500">Solo resultados de esta temporada. Córners, tarjetas y xG no están disponibles en nuestros datos.</p>
       </section>
 
-      <CtaRecarga texto={`Hola, quiero cargar y jugar ${m.local.nombre} vs ${m.visitante.nombre}. Vi el partido en Min90 Bolivia. Soy mayor de 18 años.`} />
       <footer className="mx-auto max-w-3xl px-5 pb-16 pt-8 text-center text-xs text-slate-500">
         <p>Solo +18. Juega con responsabilidad.</p>
       </footer>

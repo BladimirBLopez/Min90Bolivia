@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import CtaRecarga from "@/components/CtaRecarga";
 import { guias } from "@/app/guias/data";
 
 export function generateStaticParams() {
@@ -57,7 +56,6 @@ export default async function Guia({ params }) {
           </ul>
         </div>
       </article>
-      <CtaRecarga />
       <footer className="mx-auto max-w-3xl px-5 pb-16 pt-8 text-center text-xs text-slate-500">
         <p>Solo +18. Juega con responsabilidad.</p>
         <p className="mt-1">Esta guía es informativa y no garantiza resultados ni ganancias.</p>

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import CtaRecarga from "@/components/CtaRecarga";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { ajustar, predecir, aPartidos } from "@/lib/modelo";
 import ShareButton from "@/components/ShareButton";
@@ -334,7 +333,6 @@ export default async function Partido({ params }) {
         )}
       </section>
 
-      <CtaRecarga texto={`Hola, quiero jugar en Metabet y cargar saldo. Vi el partido ${a.nombre} vs ${b.nombre} en Min90 Bolivia. Soy mayor de 18 años.`} />
 
       <footer className="mx-auto max-w-3xl px-5 pb-16 pt-8 text-center text-xs text-slate-500">
         <p>Solo +18. Juega con responsabilidad.</p>
