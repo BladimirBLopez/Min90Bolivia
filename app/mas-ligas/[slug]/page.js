@@ -86,7 +86,7 @@ export default async function LigaExtra({ params }) {
           fechas={partidos.map((p) => p.fecha).filter(Boolean).join("|")}
           intervalo={120000}
         />
-        <Link href="/mas-ligas" className="text-sm font-semibold text-oro-700">← Más ligas</Link>
+        <Link href="/ligas" className="text-sm font-semibold text-oro-700">← Todas las ligas</Link>
         <h1 className="mt-3 text-3xl font-extrabold titulo-oro">{liga.nombre}</h1>
         <p className="mt-2 text-sm text-slate-600">Resultados y próximos encuentros · hora de Bolivia</p>
 
