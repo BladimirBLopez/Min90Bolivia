@@ -7,6 +7,8 @@ import TablaInicio from "@/components/TablaInicio";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { EJEMPLO, historial, faq } from "@/app/data/pronosticos";
 
+export const revalidate = 60;
+
 const pasos = [
   { n: "1", t: "Escríbenos por WhatsApp", d: "Dinos cuánto quieres cargar." },
   { n: "2", t: "Paga por QR", d: "Te mandamos el QR. Pagas y nos envías el comprobante." },

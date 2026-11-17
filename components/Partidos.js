@@ -3,6 +3,7 @@ import { EJEMPLO, estrella, pronosticos } from "@/app/data/pronosticos";
 import PickCard from "@/components/PickCard";
 import PartidosLista from "@/components/PartidosLista";
 import { listasLiga } from "@/lib/ligas";
+import { fechaActualBolivia } from "@/lib/fechaPartidos";
 
 const pct = (x, n) => (n ? Math.round((100 * x) / n) : 0);
 const jugado = (m) => m.estado === "FT" && m.goles.local !== null && m.goles.visitante !== null;
@@ -63,15 +64,18 @@ export default function Partidos() {
       pick,
     };
   };
-  const pendientes = partidos2026.filter((m) => !jugado(m)).map(ligero);
+  const hoyBolivia = fechaActualBolivia();
+  const pendientes = partidos2026
+    .filter((m) => !jugado(m) && m.fecha >= hoyBolivia)
+    .map(ligero);
   const terminados = partidos2026.filter(jugado).slice(-10).reverse().map(ligero);
   const ce = !EJEMPLO && estrella ? cruce(estrella.partido) : null;
   const brasil = seguro("brasil-2026");
   const nations = seguro("nations-league-2026");
   const ligas = [
     { k: "bolivia", nombre: "Bolivia", pendientes: ordenar(pendientes), terminados },
-    { k: "brasil", nombre: "Brasil", pendientes: ordenar(brasil.pendientes), terminados: brasil.terminados },
-    { k: "nations", nombre: "Nations League", pendientes: ordenar(nations.pendientes), terminados: nations.terminados },
+    { k: "brasil", nombre: "Brasil", pendientes: ordenar(brasil.pendientes.filter((m) => m.fecha >= hoyBolivia)), terminados: brasil.terminados },
+    { k: "nations", nombre: "Nations League", pendientes: ordenar(nations.pendientes.filter((m) => m.fecha >= hoyBolivia)), terminados: nations.terminados },
   ].filter((x) => x.pendientes.length || x.terminados.length);
   const etiquetar = (lista, nombre) => lista.map((m) => ({ ...m, liga: nombre }));
   const clave = (m) => `${m.fecha || ""} ${m.hora || ""}`;

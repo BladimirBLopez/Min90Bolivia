@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Chip } from "@/components/Ui";
 import { waLinkDe } from "@/components/WhatsAppButton";
+import { esPartidoFuturo } from "@/lib/fechaPartidos";
 
 const DIAS = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
 const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
@@ -86,7 +87,9 @@ function Tarjeta({ m }) {
           <Chip tono="amarillo">Más de 2.5 goles {m.o25}%</Chip>
         </div>
       )}
-      {m.terminado ? null : (
+      {m.terminado || (!m.enVivo && !esPartidoFuturo(m))
+        ? null
+        : (
         <div className="mt-4 flex justify-center">
           <a href={waLinkDe(texto)} target="_blank" rel="noopener noreferrer" className="relative z-10 rounded-full bg-green-500 px-6 py-2.5 text-sm font-bold text-black shadow-sm hover:bg-green-400">Jugar este partido</a>
         </div>
@@ -103,6 +106,15 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
   const [ref, setRef] = useState(null);
   const [datosEnVivo, setDatosEnVivo] = useState({});
   const [errorEnVivo, setErrorEnVivo] = useState(false);
+  const [ahora, setAhora] = useState(() => Date.now());
+
+  useEffect(() => {
+    const reloj = setInterval(() => {
+      setAhora(Date.now());
+    }, 30000);
+
+    return () => clearInterval(reloj);
+  }, []);
   useEffect(() => { setRef({ h: hoy(), m: manana() }); }, []);
 
   const hayNationsHoy = opciones.some((o) =>
@@ -192,7 +204,9 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
   ];
 
   const pend = todos.filter((m) =>
-    !m.terminado && !m.enVivo
+    !m.terminado &&
+    !m.enVivo &&
+    esPartidoFuturo(m, ahora)
   );
   const term = todos.filter((m) => m.terminado);
   const vivos = todos.filter((m) => m.enVivo);
