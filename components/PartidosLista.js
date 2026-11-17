@@ -12,6 +12,16 @@ const fmt = (f) => {
   return `${DIAS[dt.getUTCDay()]} ${d} ${MESES[m - 1]}`;
 };
 const tabs = [["vivo", "🔴 En vivo"], ["proximos", "Próximos"], ["hoy", "Hoy"], ["manana", "Mañana"], ["terminados", "Terminados"]];
+const ICONOS_VIVO = {
+  "Amistosos Internacionales": "🌎",
+  "Copa Libertadores": "🏆",
+  "Copa Sudamericana": "🏆",
+  "UEFA Champions League": "🏆",
+  "Nations League": "🌍",
+  "Bolivia": "🇧🇴",
+  "Brasil": "🇧🇷",
+};
+
 const hoy = () => new Date(Date.now() - 4 * 3600 * 1000).toISOString().slice(0, 10);
 const manana = () => new Date(Date.now() + 20 * 3600 * 1000).toISOString().slice(0, 10);
 
@@ -61,7 +71,7 @@ function Tarjeta({ m }) {
         </div>
       ) : null}
       <p className="text-xs text-slate-600">
-        {m.liga ? <span className="block font-bold text-oro-700">{m.liga}</span> : null}{fmt(m.fecha)}{m.hora ? ` · ${m.hora}` : ""} · Ronda {m.ronda}
+        {m.liga ? <span className="block font-bold text-oro-700">{m.liga}</span> : null}{fmt(m.fecha)}{m.hora ? ` · ${m.hora}` : ""}{m.ronda ? ` · ${m.ronda === "Amistoso" ? "Amistoso" : `Ronda ${m.ronda}`}` : ""}
         {m.estadio ? <span className="block text-slate-400">{m.estadio}</span> : null}
       </p>
       <div className="mt-3 flex items-center justify-between gap-2 text-center">
@@ -223,7 +233,14 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
   const term = todos.filter((m) => m.terminado);
   const vivos = todos.filter((m) => m.enVivo);
   let lista;
-  if (tab === "vivo") lista = [...vivos].sort((a, b) => (a.hora || "").localeCompare(b.hora || ""));
+  if (tab === "vivo") {
+    lista = [...vivos].sort((a, b) =>
+      (a.liga || "").localeCompare(b.liga || "", "es") ||
+      `${a.fecha || ""} ${a.hora || ""}`.localeCompare(
+        `${b.fecha || ""} ${b.hora || ""}`
+      )
+    );
+  }
   else if (tab === "proximos") lista = [...pend].sort((x, y) => `${x.fecha || ""} ${x.hora || ""}`.localeCompare(`${y.fecha || ""} ${y.hora || ""}`));
   else if (tab === "terminados") lista = term;
   else {
@@ -234,10 +251,22 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
   const cambiarLiga = (k) => { setLk(k); setTab("proximos"); setN(8); };
   const etiqueta = (f) => (ref && f === ref.h ? "Hoy" : ref && f === ref.m ? "Mañana" : fmt(f));
   const grupos = [];
-  lista.slice(0, n).forEach((m) => {
+  const visibles = tab === "vivo"
+    ? lista
+    : lista.slice(0, n);
+
+  visibles.forEach((m) => {
+    const claveGrupo = tab === "vivo"
+      ? m.liga || "Otros partidos"
+      : m.fecha;
+
     const g = grupos[grupos.length - 1];
-    if (g && g.f === m.fecha) g.items.push(m);
-    else grupos.push({ f: m.fecha, items: [m] });
+
+    if (g && g.f === claveGrupo) {
+      g.items.push(m);
+    } else {
+      grupos.push({ f: claveGrupo, items: [m] });
+    }
   });
 
   return (
@@ -266,7 +295,14 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
       <div>
         {grupos.map((g) => (
           <div key={g.f} className="mb-4">
-            {tab === "hoy" || tab === "manana" ? null : (
+            {tab === "vivo" ? (
+              <h3 className="mb-2 flex flex-wrap items-center justify-between gap-2 text-sm font-extrabold text-oro-700">
+                <span>{ICONOS_VIVO[g.f] || "⚽"} {g.f}</span>
+                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700">
+                  {g.items.length} {g.items.length === 1 ? "partido" : "partidos"}
+                </span>
+              </h3>
+            ) : tab === "hoy" || tab === "manana" ? null : (
               <h3 className="mb-2 text-sm font-extrabold uppercase tracking-wide text-oro-700">{etiqueta(g.f)}</h3>
             )}
             <div className="grid gap-3 sm:grid-cols-2">
@@ -281,7 +317,7 @@ export default function PartidosLista({ pendientes = [], terminados = [], ligas 
           <button onClick={() => cambiar("proximos")} className="ml-2 font-semibold text-oro-700 underline">Ver próximos</button>
         </div>
       )}
-      {lista.length > n && (
+      {tab !== "vivo" && lista.length > n && (
         <div className="mt-4 text-center">
           <button onClick={() => setN(n + 8)} className="rounded-full border border-oro-500 px-5 py-2 text-sm font-bold text-oro-700 hover:bg-oro-500/10">Ver más partidos</button>
         </div>

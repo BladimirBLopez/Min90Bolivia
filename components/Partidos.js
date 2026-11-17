@@ -3,7 +3,13 @@ import { EJEMPLO, estrella, pronosticos } from "@/app/data/pronosticos";
 import PickCard from "@/components/PickCard";
 import PartidosLista from "@/components/PartidosLista";
 import { listasLiga } from "@/lib/ligas";
-import { ligaESPN, partidosESPN } from "@/lib/ligasESPN";
+import {
+  LIGAS_ESPN,
+  ligaESPN,
+  partidosESPN,
+  partidosDiaESPN,
+} from "@/lib/ligasESPN";
+import ActualizadorESPN from "@/components/ActualizadorESPN";
 import { fechaActualBolivia, esPartidoFuturo } from "@/lib/fechaPartidos";
 
 const pct = (x, n) => (n ? Math.round((100 * x) / n) : 0);
@@ -150,6 +156,87 @@ export default async function Partidos() {
     .slice(-10)
     .reverse();
 
+  // Solo partidos activos de las otras competiciones ESPN.
+  // Sus calendarios y resultados permanecen en sus paginas.
+  const otrasLigas = LIGAS_ESPN.filter(
+    (liga) => liga.slug !== "amistosos-internacionales"
+  );
+
+  const otrasRespuestas = await Promise.all(
+    otrasLigas.map(async (liga) => {
+      try {
+        const respuesta = await partidosDiaESPN(liga);
+
+        const vivos = respuesta.partidos
+          .filter((p) => p.fase === "in")
+          .map((p) => {
+            const inicio = Date.parse(p.fecha);
+
+            if (!Number.isFinite(inicio)) return null;
+
+            const fechaHora = new Date(
+              inicio - 4 * 3600000
+            ).toISOString();
+
+            return {
+              id: p.id,
+              fecha: fechaHora.slice(0, 10),
+              hora: fechaHora.slice(11, 16),
+              ronda: null,
+              estadio: p.estadio || null,
+              goles: {
+                local: Number.isFinite(p.local.goles)
+                  ? p.local.goles : null,
+                visitante: Number.isFinite(p.visitante.goles)
+                  ? p.visitante.goles : null,
+              },
+              local: {
+                nombre: p.local.nombre,
+                logo: p.local.logo,
+              },
+              visitante: {
+                nombre: p.visitante.nombre,
+                logo: p.visitante.logo,
+              },
+              href: `/mas-ligas/${liga.slug}/partido/${p.id}`,
+              ambos: null,
+              o25: null,
+              pick: null,
+              enVivo: true,
+              terminado: false,
+              minutoVivo: p.minuto || "",
+              estadoVivo: p.estado || "",
+            };
+          })
+          .filter(Boolean);
+
+        return {
+          liga,
+          partidos: vivos,
+          fechas: respuesta.partidos.map((p) => p.fecha),
+          error: respuesta.error,
+        };
+      } catch (error) {
+        console.error(
+          "[ESPN portada]",
+          liga.slug,
+          error?.message || String(error)
+        );
+
+        return {
+          liga,
+          partidos: [],
+          fechas: [],
+          error: true,
+        };
+      }
+    })
+  );
+
+  const errorOtrasLigas = otrasRespuestas.some(
+    (r) => r.error
+  );
+
   const ligas = [
     { k: "bolivia", nombre: "Bolivia", pendientes: ordenar(pendientes), terminados },
     { k: "brasil", nombre: "Brasil", pendientes: ordenar(brasil.pendientes.filter((m) => m.fecha >= hoyBolivia)), terminados: brasil.terminados },
@@ -160,16 +247,44 @@ export default async function Partidos() {
       pendientes: ordenar(amistososPendientes),
       terminados: amistososTerminados,
     },
+    ...otrasRespuestas.map((r) => ({
+      k: r.liga.slug,
+      nombre: r.liga.nombre,
+      pendientes: ordenar(r.partidos),
+      terminados: [],
+    })),
   ].filter((x) => x.pendientes.length || x.terminados.length);
   const etiquetar = (lista, nombre) => lista.map((m) => ({ ...m, liga: nombre }));
   const clave = (m) => `${m.fecha || ""} ${m.hora || ""}`;
-  const proximos = ligas.flatMap((x) => etiquetar(x.pendientes, x.nombre)).sort((p, q) => clave(p).localeCompare(clave(q))).slice(0, 80);
+  const candidatos = ligas
+    .flatMap((x) => etiquetar(x.pendientes, x.nombre))
+    .sort((p, q) => clave(p).localeCompare(clave(q)));
+
+  // Los encuentros en vivo no deben perderse por
+  // el limite de 80 partidos de la portada.
+  const proximos = [
+    ...candidatos.filter((m) => m.enVivo),
+    ...candidatos.filter((m) => !m.enVivo),
+  ].slice(0, 80);
   const recientes = ligas.flatMap((x) => etiquetar(x.terminados, x.nombre)).sort((p, q) => clave(q).localeCompare(clave(p))).slice(0, 16);
 
   return (
     <section id="pronosticos" className="mx-auto max-w-5xl px-5 py-10">
+      <ActualizadorESPN
+        fechas={otrasRespuestas
+          .flatMap((r) => r.fechas)
+          .filter(Boolean)
+          .join("|")}
+        intervalo={90000}
+      />
       <h2 className="mb-1 text-2xl font-extrabold tracking-tight titulo-oro">Partidos y pronósticos</h2>
       <p className="mb-4 text-sm text-slate-600">Próximos partidos de Bolivia, Brasil y Nations League · hora de Bolivia. Los pronósticos Min90 aparecen en el partido que corresponde.</p>
+      {errorOtrasLigas ? (
+        <p className="mb-4 rounded-xl bg-amber-50 p-3 text-sm text-amber-900">
+          Algunas competiciones de ESPN no pudieron actualizarse.
+          Los partidos en vivo podrían estar incompletos.
+        </p>
+      ) : null}
       {!EJEMPLO && estrella ? (
         <div className="mb-6">
           <PickCard p={{ ...estrella, href: ce ? `/partido/${ce[0].slug}-vs-${ce[1].slug}` : null }} grande />
