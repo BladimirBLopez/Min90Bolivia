@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import { GRUPOS_LIGAS } from "@/lib/navegacionLigas";
 
 const links = [
@@ -112,7 +111,7 @@ export default function Navbar() {
           className="flex items-center justify-center gap-2 text-xl font-black tracking-tight lg:justify-start lg:text-2xl"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-min90.png" alt="Min90 Bolivia" width={40} height={40} className="h-10 w-10 rounded-xl" />
+          <img src="/logo-min90.png" alt="Min90 Bolivia" width={40} height={40} className="h-10 w-10 object-contain" />
           <span>Min<span className="text-oro-600">90</span></span>
         </Link>
 
@@ -153,12 +152,6 @@ export default function Navbar() {
             </Link>
           ))}
         </nav>
-
-        <div className="flex justify-end">
-          <WhatsAppButton className="!px-3 !py-2 text-sm lg:!px-4 [&>svg]:hidden lg:[&>svg]:block">
-            WhatsApp
-          </WhatsAppButton>
-        </div>
       </div>
 
       {open && (
