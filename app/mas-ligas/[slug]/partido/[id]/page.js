@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import ActualizadorESPN from "@/components/ActualizadorESPN";
 import { ligaESPN, detalleESPN, horaBolivia } from "@/lib/ligasESPN";
 
 export const revalidate = 60;
@@ -41,6 +42,10 @@ export default async function PartidoExtra({ params }) {
     <main className="min-h-screen bg-crema text-slate-900">
       <Navbar />
       <section className="mx-auto max-w-3xl px-5 py-8">
+        <ActualizadorESPN
+          fechas={detalle?.partido?.fecha || ""}
+          intervalo={90000}
+        />
         <Link href={`/mas-ligas/${slug}`} className="text-sm font-semibold text-oro-700">← {liga.nombre}</Link>
 
         {!detalle ? (

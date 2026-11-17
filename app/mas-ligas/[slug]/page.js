@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import ActualizadorESPN from "@/components/ActualizadorESPN";
 import { ligaESPN, partidosESPN, horaBolivia } from "@/lib/ligasESPN";
 
 export const revalidate = 90;
@@ -81,6 +82,10 @@ export default async function LigaExtra({ params }) {
     <main className="min-h-screen bg-crema text-slate-900">
       <Navbar />
       <section className="mx-auto max-w-5xl px-5 py-8">
+        <ActualizadorESPN
+          fechas={partidos.map((p) => p.fecha).filter(Boolean).join("|")}
+          intervalo={120000}
+        />
         <Link href="/mas-ligas" className="text-sm font-semibold text-oro-700">← Más ligas</Link>
         <h1 className="mt-3 text-3xl font-extrabold titulo-oro">{liga.nombre}</h1>
         <p className="mt-2 text-sm text-slate-600">Resultados y próximos encuentros · hora de Bolivia</p>
