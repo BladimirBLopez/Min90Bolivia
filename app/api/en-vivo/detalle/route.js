@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server";
 import { partidoPorId } from "@/lib/ligas";
+import { claveSeleccion } from "@/lib/nombresSelecciones";
 
 export const dynamic = "auto";
 
-const normalizar = (s) => String(s || "")
-  .toLowerCase().normalize("NFD")
-  .replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
 
 const instante = (s) => {
   if (!s || !s.includes("T")) return NaN;
@@ -43,8 +41,8 @@ export async function GET(request) {
       const equipos = e.competitions?.[0]?.competitors || [];
       const local = equipos.find((x) => x.homeAway === "home");
       const visita = equipos.find((x) => x.homeAway === "away");
-      return normalizar(local?.team?.displayName) === normalizar(m.local.nombre) &&
-        normalizar(visita?.team?.displayName) === normalizar(m.visitante.nombre) &&
+      return claveSeleccion(local?.team?.displayName) === claveSeleccion(m.local.nombre) &&
+        claveSeleccion(visita?.team?.displayName) === claveSeleccion(m.visitante.nombre) &&
         Math.abs(instante(e.date) - instante(m.ts)) <= 900000;
     });
 

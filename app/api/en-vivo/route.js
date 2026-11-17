@@ -1,14 +1,9 @@
 import { NextResponse } from "next/server";
 import { cargarLiga } from "@/lib/ligas";
+import { claveSeleccion } from "@/lib/nombresSelecciones";
 
 export const dynamic = "auto";
 
-const normalizar = (s) =>
-  String(s || "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]/g, "");
 
 const tiempo = (s) => {
   if (!s || !s.includes("T")) return NaN;
@@ -64,10 +59,10 @@ export async function GET(request) {
       const away = equipos.find(x => x.homeAway === "away");
 
       const local = locales.find(m =>
-        normalizar(m.local.nombre) ===
-          normalizar(home?.team?.displayName) &&
-        normalizar(m.visitante.nombre) ===
-          normalizar(away?.team?.displayName) &&
+        claveSeleccion(m.local.nombre) ===
+          claveSeleccion(home?.team?.displayName) &&
+        claveSeleccion(m.visitante.nombre) ===
+          claveSeleccion(away?.team?.displayName) &&
         Number.isFinite(tiempo(m.ts)) &&
         Math.abs(tiempo(m.ts) - tiempo(e.date)) <= 900000
       );
