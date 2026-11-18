@@ -194,17 +194,15 @@ export default async function AmistososInicio() {
 
       if (!Number.isFinite(inicio)) return false;
 
-      const enVivoReciente =
+      const enVivo =
         partido.fase === "in" &&
         Math.abs(ahora - inicio) < 48 * 3600000;
-
-      const esHoy = diaBolivia(partido.fecha) === hoy;
 
       const futuro =
         partido.fase === "pre" &&
         inicio > ahora;
 
-      return enVivoReciente || esHoy || futuro;
+      return enVivo || futuro;
     })
     .sort(
       (a, b) =>
